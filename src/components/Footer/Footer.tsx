@@ -180,6 +180,22 @@ function Footer() {
           {/*  */}
           <div>
             <p className='font-bold mb-7'>TẢI ỨNG DỤNG SHOPEE</p>
+            <div className='inline-flex'>
+              <div className='mx-2'>
+                <img src='https://down-vn.img.susercontent.com/file/a5e589e8e118e937dc660f224b9a1472' alt='' />
+              </div>
+              <div className='flex flex-col'>
+                <div className='inline-flex items-center justify-center bg-white border border-gray-300 shadow-md px-2 py-2 mb-2'>
+                  <img src='https://down-vn.img.susercontent.com/file/ad01628e90ddf248076685f73497c163' alt='' />
+                </div>
+                <div className='inline-flex items-center justify-center bg-white border border-gray-300 shadow-md px-2 py-2 mb-2'>
+                  <img src='https://down-vn.img.susercontent.com/file/ae7dced05f7243d0f3171f786e123def' alt='' />
+                </div>
+                <div className='inline-flex items-center justify-center bg-white border border-gray-300 shadow-md px-2 py-2 mb-2'>
+                  <img src='https://down-vn.img.susercontent.com/file/35352374f39bdd03b25e7b83542b2cb0' alt='' />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div className='text-center text-sm mt-10'>
