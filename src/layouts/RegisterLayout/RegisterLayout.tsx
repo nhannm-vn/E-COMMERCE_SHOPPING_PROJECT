@@ -1,5 +1,5 @@
-import React from 'react'
-
-export default function RegisterLayout() {
+function RegisterLayout() {
   return <div>RegisterLayout</div>
 }
+
+export default RegisterLayout
