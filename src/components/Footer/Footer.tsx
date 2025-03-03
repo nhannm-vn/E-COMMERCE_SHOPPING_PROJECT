@@ -5,6 +5,7 @@ function Footer() {
     <footer className='py-16 bg-neutral-100'>
       <div className='max-w-7xl mx-auto px-4'>
         <div className='flex justify-around'>
+          {/*  */}
           <div>
             <p className='font-bold mb-7'>THEO DÕI SHOPEE</p>
             <Link to=''>
@@ -32,6 +33,7 @@ function Footer() {
               </div>
             </Link>
           </div>
+          {/*  */}
           <div>
             <div>
               <p className='font-bold mb-7'>THANH TOÁN</p>
@@ -101,50 +103,27 @@ function Footer() {
               </div>
             </div>
             <div>
-              <p className='font-bold my-7'>THANH TOÁN</p>
+              <p className='font-bold my-7'>ĐƠN VỊ VẬN CHUYỂN</p>
               <div>
                 <div className='mb-2'>
                   <div className='inline-flex items-center justify-center bg-white border border-gray-300 rounded-lg shadow-md px-4 py-2 mr-2'>
                     <img
                       className='h-5'
-                      src='https://down-vn.img.susercontent.com/file/d4bbea4570b93bfd5fc652ca82a262a8'
+                      src='https://down-vn.img.susercontent.com/file/vn-11134258-7ras8-m20rc1wk8926cf'
                       alt=''
                     />
                   </div>
                   <div className='inline-flex items-center justify-center bg-white border border-gray-300 rounded-lg shadow-md px-4 py-2 mr-2'>
                     <img
                       className='h-5'
-                      src='https://down-vn.img.susercontent.com/file/a0a9062ebe19b45c1ae0506f16af5c16'
+                      src='https://down-vn.img.susercontent.com/file/vn-50009109-64f0b242486a67a3d29fd4bcf024a8c6'
                       alt=''
                     />
                   </div>
                   <div className='inline-flex items-center justify-center bg-white border border-gray-300 rounded-lg shadow-md px-4 py-2 mr-2'>
                     <img
                       className='h-5'
-                      src='https://down-vn.img.susercontent.com/file/38fd98e55806c3b2e4535c4e4a6c4c08'
-                      alt=''
-                    />
-                  </div>
-                </div>
-                <div className='mb-2'>
-                  <div className='inline-flex items-center justify-center bg-white border border-gray-300 rounded-lg shadow-md px-4 py-2 mr-2'>
-                    <img
-                      className='h-5'
-                      src='https://down-vn.img.susercontent.com/file/bc2a874caeee705449c164be385b796c'
-                      alt=''
-                    />
-                  </div>
-                  <div className='inline-flex items-center justify-center bg-white border border-gray-300 rounded-lg shadow-md px-4 py-2 mr-2'>
-                    <img
-                      className='h-5'
-                      src='https://down-vn.img.susercontent.com/file/2c46b83d84111ddc32cfd3b5995d9281'
-                      alt=''
-                    />
-                  </div>
-                  <div className='inline-flex items-center justify-center bg-white border border-gray-300 rounded-lg shadow-md px-4 py-2 mr-2'>
-                    <img
-                      className='h-5'
-                      src='https://down-vn.img.susercontent.com/file/5e3f0bee86058637ff23cfdf2e14ca09'
+                      src='https://down-vn.img.susercontent.com/file/59270fb2f3fbb7cbc92fca3877edde3f'
                       alt=''
                     />
                   </div>
@@ -153,14 +132,44 @@ function Footer() {
                   <div className='inline-flex items-center justify-center bg-white border border-gray-300 rounded-lg shadow-md px-4 py-2 mr-2'>
                     <img
                       className='h-5'
-                      src='https://down-vn.img.susercontent.com/file/9263fa8c83628f5deff55e2a90758b06'
+                      src='https://down-vn.img.susercontent.com/file/957f4eec32b963115f952835c779cd2c'
                       alt=''
                     />
                   </div>
                   <div className='inline-flex items-center justify-center bg-white border border-gray-300 rounded-lg shadow-md px-4 py-2 mr-2'>
                     <img
                       className='h-5'
-                      src='https://down-vn.img.susercontent.com/file/0217f1d345587aa0a300e69e2195c492'
+                      src='https://down-vn.img.susercontent.com/file/0d349e22ca8d4337d11c9b134cf9fe63'
+                      alt=''
+                    />
+                  </div>
+                  <div className='inline-flex items-center justify-center bg-white border border-gray-300 rounded-lg shadow-md px-4 py-2 mr-2'>
+                    <img
+                      className='h-5'
+                      src='https://down-vn.img.susercontent.com/file/3900aefbf52b1c180ba66e5ec91190e5'
+                      alt=''
+                    />
+                  </div>
+                </div>
+                <div className='mb-2'>
+                  <div className='inline-flex items-center justify-center bg-white border border-gray-300 rounded-lg shadow-md px-4 py-2 mr-2'>
+                    <img
+                      className='h-5'
+                      src='https://down-vn.img.susercontent.com/file/6e3be504f08f88a15a28a9a447d94d3d'
+                      alt=''
+                    />
+                  </div>
+                  <div className='inline-flex items-center justify-center bg-white border border-gray-300 rounded-lg shadow-md px-4 py-2 mr-2'>
+                    <img
+                      className='h-5'
+                      src='https://down-vn.img.susercontent.com/file/0b3014da32de48c03340a4e4154328f6'
+                      alt=''
+                    />
+                  </div>
+                  <div className='inline-flex items-center justify-center bg-white border border-gray-300 rounded-lg shadow-md px-4 py-2 mr-2'>
+                    <img
+                      className='h-5'
+                      src='https://down-vn.img.susercontent.com/file/vn-50009109-ec3ae587db6309b791b78eb8af6793fd'
                       alt=''
                     />
                   </div>
@@ -168,6 +177,7 @@ function Footer() {
               </div>
             </div>
           </div>
+          {/*  */}
           <div>
             <p className='font-bold mb-7'>TẢI ỨNG DỤNG SHOPEE</p>
           </div>
