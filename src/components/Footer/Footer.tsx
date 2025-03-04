@@ -13,7 +13,7 @@ function Footer() {
         <div className='flex justify-around'>
           {/* DỊCH VỤ KHÁCH HÀNG */}
           <div>
-            <p className='font-bold mb-7'>DỊCH VỤ KHÁCH HÀNG</p>
+            <p className='font-bold text-sm mb-7'>DỊCH VỤ KHÁCH HÀNG</p>
             <Link to=''>
               <div className='my-2 flex'>
                 <div className='mr-2'>
@@ -65,7 +65,7 @@ function Footer() {
           </div>
           {/* THEO DÕI SHOPEE */}
           <div>
-            <p className='font-bold mb-7'>THEO DÕI SHOPEE</p>
+            <p className='font-bold mb-7 text-sm'>THEO DÕI SHOPEE</p>
             <Link to=''>
               <div className='my-2 flex'>
                 <div className='mr-2'>
@@ -94,7 +94,7 @@ function Footer() {
           {/* THANH TOÁN | ĐƠN VỊ VẬN CHUYỂN*/}
           <div>
             <div>
-              <p className='font-bold mb-7'>THANH TOÁN</p>
+              <p className='font-bold mb-7 text-sm'>THANH TOÁN</p>
               <div>
                 <div className='mb-2'>
                   <div className='inline-flex items-center justify-center bg-white border border-gray-300 rounded-lg shadow-md px-4 py-2 mr-2'>
@@ -161,7 +161,7 @@ function Footer() {
               </div>
             </div>
             <div>
-              <p className='font-bold my-7'>ĐƠN VỊ VẬN CHUYỂN</p>
+              <p className='font-bold my-7 text-sm'>ĐƠN VỊ VẬN CHUYỂN</p>
               <div>
                 <div className='mb-2'>
                   <div className='inline-flex items-center justify-center bg-white border border-gray-300 rounded-lg shadow-md px-4 py-2 mr-2'>
@@ -237,7 +237,7 @@ function Footer() {
           </div>
           {/* TẢI ỨNG DỤNG SHOPEE */}
           <div>
-            <p className='font-bold mb-7'>TẢI ỨNG DỤNG SHOPEE</p>
+            <p className='font-bold mb-7 text-sm'>TẢI ỨNG DỤNG SHOPEE</p>
             <div className='inline-flex'>
               <div className='mx-2'>
                 <img src='https://down-vn.img.susercontent.com/file/a5e589e8e118e937dc660f224b9a1472' alt='' />
