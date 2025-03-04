@@ -1,10 +1,68 @@
 import { Link } from 'react-router-dom'
+import SupportAgentIcon from '@mui/icons-material/SupportAgent'
+import BookIcon from '@mui/icons-material/Book'
+import LocationCityIcon from '@mui/icons-material/LocationCity'
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
+import PaidIcon from '@mui/icons-material/Paid'
+import SecurityIcon from '@mui/icons-material/Security'
 
 function Footer() {
   return (
     <footer className='py-16 bg-neutral-100'>
       <div className='max-w-7xl mx-auto px-4'>
         <div className='flex justify-around'>
+          {/* DỊCH VỤ KHÁCH HÀNG */}
+          <div>
+            <p className='font-bold mb-7'>DỊCH VỤ KHÁCH HÀNG</p>
+            <Link to=''>
+              <div className='my-2 flex'>
+                <div className='mr-2'>
+                  <SupportAgentIcon />
+                </div>
+                <p>Trung Tâm Trợ Giúp Shopee</p>
+              </div>
+            </Link>
+            <Link to=''>
+              <div className='my-2 flex'>
+                <div className='mr-2'>
+                  <BookIcon />
+                </div>
+                <p>Shopee Blog</p>
+              </div>
+            </Link>
+            <Link to=''>
+              <div className='my-2 flex'>
+                <div className='mr-2'>
+                  <LocationCityIcon />
+                </div>
+                <p>Shopee Mall</p>
+              </div>
+            </Link>
+            <Link to=''>
+              <div className='my-2 flex'>
+                <div className='mr-2'>
+                  <ShoppingBasketIcon />
+                </div>
+                <p>Hướng Dẫn Mua Hàng/Đặt Hàng</p>
+              </div>
+            </Link>
+            <Link to=''>
+              <div className='my-2 flex'>
+                <div className='mr-2'>
+                  <PaidIcon />
+                </div>
+                <p>Shopee Xu</p>
+              </div>
+            </Link>
+            <Link to=''>
+              <div className='my-2 flex'>
+                <div className='mr-2'>
+                  <SecurityIcon />
+                </div>
+                <p>Chính Sách Bảo Hành</p>
+              </div>
+            </Link>
+          </div>
           {/* THEO DÕI SHOPEE */}
           <div>
             <p className='font-bold mb-7'>THEO DÕI SHOPEE</p>
