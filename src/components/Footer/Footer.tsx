@@ -5,7 +5,7 @@ function Footer() {
     <footer className='py-16 bg-neutral-100'>
       <div className='max-w-7xl mx-auto px-4'>
         <div className='flex justify-around'>
-          {/*  */}
+          {/* THEO DÕI SHOPEE */}
           <div>
             <p className='font-bold mb-7'>THEO DÕI SHOPEE</p>
             <Link to=''>
@@ -33,7 +33,7 @@ function Footer() {
               </div>
             </Link>
           </div>
-          {/*  */}
+          {/* THANH TOÁN | ĐƠN VỊ VẬN CHUYỂN*/}
           <div>
             <div>
               <p className='font-bold mb-7'>THANH TOÁN</p>
@@ -177,7 +177,7 @@ function Footer() {
               </div>
             </div>
           </div>
-          {/*  */}
+          {/* TẢI ỨNG DỤNG SHOPEE */}
           <div>
             <p className='font-bold mb-7'>TẢI ỨNG DỤNG SHOPEE</p>
             <div className='inline-flex'>
