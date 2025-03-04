@@ -28,6 +28,12 @@ function Login() {
                 {/* min-h-[1rem]: giúp luôn có chiều cao kể cả không có lỗi */}
                 <div className='mt-1 text-red-600 min-h-[1rem] text-sm'></div>
               </div>
+              {/* button */}
+              <div className='mt-3'>
+                <button className='w-full text-center py-4 px-2 uppercase bg-red-500 text-white text-sm hover:bg-red-600'>
+                  Đăng Nhập
+                </button>
+              </div>
             </form>
           </div>
         </div>
