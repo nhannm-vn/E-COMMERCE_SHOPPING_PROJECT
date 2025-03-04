@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 function Register() {
   return (
     <div className='bg-orange'>
@@ -43,6 +45,13 @@ function Register() {
                 <button className='w-full text-center py-4 px-2 uppercase bg-red-500 text-white text-sm hover:bg-red-600'>
                   Đăng Ký
                 </button>
+              </div>
+              {/*  */}
+              <div className='flex justify-center mt-8'>
+                <span className='text-gray-400'>Bạn đã có tài khoản?</span>
+                <Link className='text-red-400 ml-2 hover:text-red-600' to='/login'>
+                  Đăng nhập
+                </Link>
               </div>
             </form>
           </div>
