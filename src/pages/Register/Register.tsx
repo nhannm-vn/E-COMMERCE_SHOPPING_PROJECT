@@ -6,6 +6,11 @@ function Register() {
       <div className='max-w-7xl mx-auto px-4'>
         <div className='grid grid-cols-1 py-12 lg:grid-cols-5 lg:pr-10 lg:py-32'>
           {/* màn hình lớn thì chiếm 2 cột, bắt đầu từ cột thứ 4.*/}
+          {/* image */}
+          <div
+            className='bg-[url("D:\PIEDTEAM_MERN\F2\Shopee\Shopee-Clone\src\assets\background.png")] 
+          bg-no-repeat w-full lg:col-span-3 lg:col-start-1 bg-contain bg-center ml-10'
+          ></div>
           {/* form */}
           <div className='lg:col-span-2 lg:col-start-4'>
             <form className='p-10 rounded bg-white shadow-sm'>
