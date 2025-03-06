@@ -47,7 +47,7 @@ function Register() {
               </div>
               {/* button */}
               <div className='mt-3'>
-                <button className='w-full text-center py-4 px-2 uppercase bg-red-500 text-white text-sm hover:bg-red-600'>
+                <button className='w-full text-center py-4 px-2 uppercase bg-red-400 text-white text-sm hover:bg-red-500'>
                   Đăng Ký
                 </button>
               </div>

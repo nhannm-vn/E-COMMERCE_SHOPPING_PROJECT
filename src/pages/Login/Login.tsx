@@ -38,9 +38,18 @@ function Login() {
               </div>
               {/* button */}
               <div className='mt-3'>
-                <button className='w-full text-center py-4 px-2 uppercase bg-red-500 text-white text-sm hover:bg-red-600'>
+                <button className='w-full text-center py-4 px-2 uppercase bg-red-400 text-white text-sm hover:bg-red-500'>
                   Đăng Nhập
                 </button>
+              </div>
+              {/* forget and sms */}
+              <div className='mt-2 flex justify-between'>
+                <Link className='text-blue-900' to=''>
+                  <span className='text-sm'>Quên mật khẩu</span>
+                </Link>
+                <Link className='text-blue-900' to=''>
+                  <span className='text-sm'>Đăng nhập với SMS</span>
+                </Link>
               </div>
               {/* facebook and google */}
               <div className='mt-8 flex'>
