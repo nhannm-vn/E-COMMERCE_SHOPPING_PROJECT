@@ -51,6 +51,12 @@ function Login() {
                   <span className='text-sm'>Đăng nhập với SMS</span>
                 </Link>
               </div>
+              {/* --HOẶC-- */}
+              <div className='flex items-center mt-3'>
+                <div className='flex-1 border-t border-gray-300'></div>
+                <span className='px-3 text-gray-300 text-sm uppercase'>hoặc</span>
+                <div className='flex-1 border-t border-gray-300'></div>
+              </div>
               {/* facebook and google */}
               <div className='mt-8 flex'>
                 {/* facebook */}
