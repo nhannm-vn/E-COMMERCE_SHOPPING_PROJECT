@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
+import { rules } from '../../utils/rules'
 
 //interface này giúp cho nó hiểu lỗi có gì bên trong
 interface FormData {
@@ -46,25 +47,12 @@ function Register() {
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
                   placeholder='Email'
                   //Có thằng này thì xóa cái name đi bởi vì thằng register sẽ trả về cho một thuộc tính name
-                  {...register(
-                    'email', //
-                    {
-                      required: {
-                        value: true,
-                        message: 'Email là bắt buộc'
-                      },
-                      pattern: {
-                        value:
-                          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                        message: 'Email không đúng định dạng'
-                      }
-                    }
-                  )}
+                  {...register('email', rules.email)}
                 />
                 {/* min-h-[1rem]: giúp luôn có chiều cao kể cả không có lỗi */}
                 <div className='mt-1 text-red-600 min-h-[1.3rem] text-sm'>{errors.email?.message}</div>
               </div>
-              <div className='mt-3'>
+              <div className='mt-2'>
                 <input
                   type='password'
                   // name='password'
@@ -75,7 +63,7 @@ function Register() {
                 {/* min-h-[1rem]: giúp luôn có chiều cao kể cả không có lỗi */}
                 <div className='mt-1 text-red-600 min-h-[1.3rem] text-sm'></div>
               </div>
-              <div className='mt-3'>
+              <div className='mt-2'>
                 <input
                   type='password'
                   // name='confirm_password'
@@ -87,7 +75,7 @@ function Register() {
                 <div className='mt-1 text-red-600 min-h-[1.3rem] text-sm'></div>
               </div>
               {/* button */}
-              <div className='mt-3'>
+              <div className='mt-2'>
                 <button
                   type='submit'
                   className='w-full text-center py-4 px-2 uppercase bg-red-400 text-white text-sm hover:bg-red-500'
