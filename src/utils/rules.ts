@@ -1,10 +1,11 @@
 // File này chứa các rules validate cho form
 
-// import type { RegisterOptions } from 'react-hook-form'
+import type { RegisterOptions, UseFormGetValues } from 'react-hook-form'
 
 //tách ra để cho dễ đọc và có thể tái sử dụng
-// type Rules = { [key in 'email' | 'password' | 'confirm_password']?: RegisterOptions }
-export const rules = {
+type Rules = { [key in 'email' | 'password' | 'confirm_password']?: RegisterOptions }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   email: {
     required: {
       value: true,
@@ -31,11 +32,11 @@ export const rules = {
     },
     maxLength: {
       value: 160,
-      message: 'Độ dài từ 5 - 160 ký tự'
+      message: 'Độ dài từ 6 - 160 ký tự'
     },
     minLength: {
       value: 6,
-      message: 'Độ dài từ 5 - 160 ký tự'
+      message: 'Độ dài từ 6 - 160 ký tự'
     }
   },
   confirm_password: {
@@ -45,11 +46,15 @@ export const rules = {
     },
     maxLength: {
       value: 160,
-      message: 'Độ dài từ 5 - 160 ký tự'
+      message: 'Độ dài từ 6 - 160 ký tự'
     },
     minLength: {
       value: 6,
-      message: 'Độ dài từ 5 - 160 ký tự'
-    }
+      message: 'Độ dài từ 6 - 160 ký tự'
+    },
+    validate:
+      typeof getValues === 'function' //
+        ? (value: string) => value === getValues('password') || 'Nhập lại password không khớp'
+        : undefined
   }
-}
+})

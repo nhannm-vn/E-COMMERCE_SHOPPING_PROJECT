@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
-import { rules } from '../../utils/rules'
+import { getRules } from '../../utils/rules'
+import type { RegisterOptions } from 'react-hook-form'
 
 //interface này giúp cho nó hiểu lỗi có gì bên trong
 interface FormData {
@@ -16,15 +17,21 @@ function Register() {
     // thằng này hỗ trợ việc submit thay vì phải viết hàm
     handleSubmit,
     // error này sẽ có khi form có lỗi
-    formState: { errors }
+    formState: { errors },
+    // khi input bất cứ thằng nào đi nữa thì cái form của mình cũng bị re-render
+    // watch,
+    // lấy value mà không làm component re-render như watch
+    getValues
   } = useForm<FormData>()
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data)
-  })
+  const rules = getRules(getValues)
 
-  //
-  console.log('error', errors)
+  const onSubmit = handleSubmit(
+    // chạy khi cái form đúng
+    (data) => {
+      console.log(data)
+    }
+  )
 
   return (
     <div className='bg-orange'>
@@ -47,7 +54,7 @@ function Register() {
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
                   placeholder='Email'
                   //Có thằng này thì xóa cái name đi bởi vì thằng register sẽ trả về cho một thuộc tính name
-                  {...register('email', rules.email)}
+                  {...register('email', rules.email as RegisterOptions<FormData, 'email'>)}
                 />
                 {/* min-h-[1rem]: giúp luôn có chiều cao kể cả không có lỗi */}
                 <div className='mt-1 text-red-600 min-h-[1.3rem] text-sm'>{errors.email?.message}</div>
@@ -58,7 +65,8 @@ function Register() {
                   // name='password'
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
                   placeholder='Password'
-                  {...register('password', rules.password)}
+                  autoComplete='on'
+                  {...register('password', rules.password as RegisterOptions<FormData, 'password'>)}
                 />
                 {/* min-h-[1rem]: giúp luôn có chiều cao kể cả không có lỗi */}
                 <div className='mt-1 text-red-600 min-h-[1.3rem] text-sm'>{errors.password?.message}</div>
@@ -66,10 +74,14 @@ function Register() {
               <div className='mt-2'>
                 <input
                   type='password'
+                  autoComplete='on'
                   // name='confirm_password'
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
                   placeholder='Confirm Password'
-                  {...register('confirm_password', rules.confirm_password)}
+                  {...register(
+                    'confirm_password',
+                    rules.confirm_password as RegisterOptions<FormData, 'confirm_password'>
+                  )}
                 />
                 {/* min-h-[1rem]: giúp luôn có chiều cao kể cả không có lỗi */}
                 <div className='mt-1 text-red-600 min-h-[1.3rem] text-sm'>{errors.confirm_password?.message}</div>
