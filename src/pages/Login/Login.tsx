@@ -1,6 +1,17 @@
 import { Link } from 'react-router-dom'
 
 function Login() {
+  //react-form
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors }
+  // } = useForm()
+
+  // const onSubmit = handleSubmit((data) => {
+  //   console.log(data)
+  // })
+
   return (
     <div className='bg-orange '>
       <div className='max-w-7xl mx-auto px-4'>
@@ -38,7 +49,10 @@ function Login() {
               </div>
               {/* button */}
               <div className='mt-3'>
-                <button className='w-full text-center py-4 px-2 uppercase bg-red-400 text-white text-sm hover:bg-red-500'>
+                <button
+                  type='submit'
+                  className='w-full text-center py-4 px-2 uppercase bg-red-400 text-white text-sm hover:bg-red-500'
+                >
                   Đăng Nhập
                 </button>
               </div>

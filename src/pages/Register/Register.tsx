@@ -1,6 +1,17 @@
+import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
 function Register() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm()
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data)
+  })
+
   return (
     <div className='bg-orange'>
       <div className='max-w-7xl mx-auto px-4'>
@@ -13,14 +24,15 @@ function Register() {
           ></div>
           {/* form */}
           <div className='lg:col-span-2 lg:col-start-4'>
-            <form className='p-10 rounded bg-white shadow-sm'>
+            <form className='p-10 rounded bg-white shadow-sm' onSubmit={onSubmit} noValidate>
               <div className='text-2xl'>Đăng Ký</div>
               <div className='mt-8'>
                 <input
                   type='email'
-                  name='email'
+                  // name='email'
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
                   placeholder='Email'
+                  {...register('email')}
                 />
                 {/* min-h-[1rem]: giúp luôn có chiều cao kể cả không có lỗi */}
                 <div className='mt-1 text-red-600 min-h-[1rem] text-sm'></div>
@@ -28,9 +40,10 @@ function Register() {
               <div className='mt-3'>
                 <input
                   type='password'
-                  name='password'
+                  // name='password'
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
                   placeholder='Password'
+                  {...register('password')}
                 />
                 {/* min-h-[1rem]: giúp luôn có chiều cao kể cả không có lỗi */}
                 <div className='mt-1 text-red-600 min-h-[1rem] text-sm'></div>
@@ -38,16 +51,20 @@ function Register() {
               <div className='mt-3'>
                 <input
                   type='password'
-                  name='confirm_password'
+                  // name='confirm_password'
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
                   placeholder='Confirm Password'
+                  {...register('confirm_password')}
                 />
                 {/* min-h-[1rem]: giúp luôn có chiều cao kể cả không có lỗi */}
                 <div className='mt-1 text-red-600 min-h-[1rem] text-sm'></div>
               </div>
               {/* button */}
               <div className='mt-3'>
-                <button className='w-full text-center py-4 px-2 uppercase bg-red-400 text-white text-sm hover:bg-red-500'>
+                <button
+                  type='submit'
+                  className='w-full text-center py-4 px-2 uppercase bg-red-400 text-white text-sm hover:bg-red-500'
+                >
                   Đăng Ký
                 </button>
               </div>
