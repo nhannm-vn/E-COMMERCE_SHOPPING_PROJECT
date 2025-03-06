@@ -51,6 +51,19 @@ function Register() {
                   Đăng Ký
                 </button>
               </div>
+              {/* Thêm các chính sách */}
+              <div className='m-8'>
+                <p className='text-sm text-center'>Bằng việc đăng kí, bạn đã đồng ý với Shopee về</p>
+                <div className='flex justify-center'>
+                  <Link className='text-red-500 mr-2' to=''>
+                    <span className='text-sm'>Điều khoản dịch vụ</span>
+                  </Link>
+                  <span>&</span>
+                  <Link className='text-red-500 ml-2' to=''>
+                    <span className='text-sm'>Chính sách bảo mật</span>
+                  </Link>
+                </div>
+              </div>
               {/*  */}
               <div className='flex justify-center mt-8'>
                 <span className='text-gray-400'>Bạn đã có tài khoản?</span>
