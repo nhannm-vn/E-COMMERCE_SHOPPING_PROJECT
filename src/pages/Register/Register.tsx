@@ -58,10 +58,10 @@ function Register() {
                   // name='password'
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
                   placeholder='Password'
-                  {...register('password')}
+                  {...register('password', rules.password)}
                 />
                 {/* min-h-[1rem]: giúp luôn có chiều cao kể cả không có lỗi */}
-                <div className='mt-1 text-red-600 min-h-[1.3rem] text-sm'></div>
+                <div className='mt-1 text-red-600 min-h-[1.3rem] text-sm'>{errors.password?.message}</div>
               </div>
               <div className='mt-2'>
                 <input
@@ -69,10 +69,10 @@ function Register() {
                   // name='confirm_password'
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
                   placeholder='Confirm Password'
-                  {...register('confirm_password')}
+                  {...register('confirm_password', rules.confirm_password)}
                 />
                 {/* min-h-[1rem]: giúp luôn có chiều cao kể cả không có lỗi */}
-                <div className='mt-1 text-red-600 min-h-[1.3rem] text-sm'></div>
+                <div className='mt-1 text-red-600 min-h-[1.3rem] text-sm'>{errors.confirm_password?.message}</div>
               </div>
               {/* button */}
               <div className='mt-2'>
