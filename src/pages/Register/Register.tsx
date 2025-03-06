@@ -8,7 +8,7 @@ function Register() {
           {/* màn hình lớn thì chiếm 2 cột, bắt đầu từ cột thứ 4.*/}
           {/* image */}
           <div
-            className='bg-[url("D:\PIEDTEAM_MERN\F2\Shopee\Shopee-Clone\src\assets\background.png")] 
+            className='bg-[url("D:\PIEDTEAM_MERN\F2\Shopee\Shopee-Clone\src\assets\img-register.png")] 
           bg-no-repeat w-full lg:col-span-3 lg:col-start-1 bg-contain bg-center ml-10'
           ></div>
           {/* form */}
