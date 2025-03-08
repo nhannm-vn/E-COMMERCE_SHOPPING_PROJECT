@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { getRules } from '../../utils/rules'
 import type { RegisterOptions } from 'react-hook-form'
 
-//interface này giúp cho nó hiểu lỗi có gì bên trong
+//interface này giúp cho nó hiểu
+//Form có gì và khi có lỗi thì sẽ dạng lỗi gì
 interface FormData {
   email: string
   password: string
@@ -14,7 +15,7 @@ function Register() {
   const {
     // hỗ trợ lấy giá trị và validate cho các ô input
     register,
-    // thằng này hỗ trợ việc submit thay vì phải viết hàm
+    // thằng này hỗ trợ việc submit thay vì phải viết hàm và tạo state
     handleSubmit,
     // error này sẽ có khi form có lỗi
     formState: { errors },
