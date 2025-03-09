@@ -54,7 +54,14 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
     },
     validate:
       typeof getValues === 'function' //
-        ? (value: string) => value === getValues('password') || 'Nhập lại password không khớp'
+        ? // value ở đây khi validate thì nó sẽ lấy của chính ô luôn. Nghĩa là nếu callback return về boolean thì là chạy. Còn nếu sai điều kiện thì nó sẽ trả về câu chửi
+          (value: string) => {
+            if (value === getValues('password')) {
+              return true
+            } else {
+              return 'Nhập lại password không khớp'
+            }
+          }
         : undefined
   }
 })

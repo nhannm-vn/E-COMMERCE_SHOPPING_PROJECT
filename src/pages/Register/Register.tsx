@@ -19,12 +19,17 @@ function Register() {
     handleSubmit,
     // error này sẽ có khi form có lỗi
     formState: { errors },
-    // khi input bất cứ thằng nào đi nữa thì cái form của mình cũng bị re-render
+    // _func giúp khi mà mình input bất cứ một thằng nào đó thì
+    // nó sẽ cho ra một obj có các prop lưu các thông tin mà mình đã nhập vào
+    // và đồng thời cái component cũng sẽ re-render. Còn nếu truyền riêng email
+    // thì mỗi lần input đúng ô nào thì nó mới re-render
     // watch,
-    // lấy value mà không làm component re-render như watch
+    // Cách khác giúp lấy value mà không làm re-render như watch
+    // đó là sẽ dùng getValues. Thằng này sẽ dùng dựa vào một cái sự kiện nào đó
     getValues
   } = useForm<FormData>()
 
+  // Này truyền vào getValues nghĩa là đem hàm này qua bên kia để sử dụng
   const rules = getRules(getValues)
 
   const onSubmit = handleSubmit(
