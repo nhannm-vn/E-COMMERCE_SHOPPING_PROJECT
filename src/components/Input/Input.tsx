@@ -1,7 +1,6 @@
+import type { RegisterOptions, UseFormRegister } from 'react-hook-form'
+
 // Khai báo interface cho prop
-
-import { UseFormRegister } from 'react-hook-form'
-
 interface Props {
   type: React.HTMLInputTypeAttribute
   errrorMessage?: string
@@ -10,7 +9,9 @@ interface Props {
   className?: string
   // className rieng cua tung thang
   name: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register: UseFormRegister<any>
+  rules?: RegisterOptions
 }
 
 export default function Input({}: Props) {
