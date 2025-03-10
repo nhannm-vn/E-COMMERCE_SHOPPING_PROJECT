@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { getRules } from '../../utils/rules'
-import type { RegisterOptions } from 'react-hook-form'
 import Input from '../../components/Input'
 
 //interface này giúp cho nó hiểu
@@ -63,20 +62,26 @@ function Register() {
                 errrorMessage={errors.email?.message}
                 rules={rules.email}
               />
+              <Input
+                name='password' //
+                register={register}
+                type='password'
+                placeholder='Password'
+                className='mt-2'
+                errrorMessage={errors.password?.message}
+                rules={rules.password}
+              />
+              <Input
+                name='confirm_password' //
+                register={register}
+                type='password'
+                placeholder='Confirm Password'
+                className='mt-2'
+                errrorMessage={errors.confirm_password?.message}
+                rules={rules.confirm_password}
+              />
 
-              <div className='mt-2'>
-                <input
-                  type='password'
-                  // name='password'
-                  className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
-                  placeholder='Password'
-                  autoComplete='on'
-                  {...register('password', rules.password as RegisterOptions<FormData, 'password'>)}
-                />
-                {/* min-h-[1rem]: giúp luôn có chiều cao kể cả không có lỗi */}
-                <div className='mt-1 text-red-600 min-h-[1.3rem] text-sm'>{errors.password?.message}</div>
-              </div>
-              <div className='mt-2'>
+              {/* <div className='mt-2'>
                 <input
                   type='password'
                   autoComplete='on'
@@ -88,9 +93,10 @@ function Register() {
                     rules.confirm_password as RegisterOptions<FormData, 'confirm_password'>
                   )}
                 />
-                {/* min-h-[1rem]: giúp luôn có chiều cao kể cả không có lỗi */}
                 <div className='mt-1 text-red-600 min-h-[1.3rem] text-sm'>{errors.confirm_password?.message}</div>
               </div>
+              */}
+
               {/* button */}
               <div className='mt-2'>
                 <button
