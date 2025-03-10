@@ -1,8 +1,9 @@
 import { useRoutes } from 'react-router-dom'
 import ProductList from './pages/ProductList'
 import Login from './pages/Login'
-import Register from './pages/Register'
+
 import RegisterLayout from './layouts/RegisterLayout'
+import Register from './pages/Register'
 
 // custom một cái hook chuyên dùng để chia route
 // có hai cách chia phổ biến là routes và dùng hook này
