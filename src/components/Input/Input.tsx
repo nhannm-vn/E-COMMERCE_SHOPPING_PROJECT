@@ -1,6 +1,19 @@
 // Khai báo interface cho prop
 
-export default function Input() {
+import { UseFormRegister } from 'react-hook-form'
+
+interface Props {
+  type: React.HTMLInputTypeAttribute
+  errrorMessage?: string
+  placeholder: string
+  // mt-8
+  className?: string
+  // className rieng cua tung thang
+  name: string
+  register: UseFormRegister<any>
+}
+
+export default function Input({}: Props) {
   return (
     <div className='mt-8'>
       <input
