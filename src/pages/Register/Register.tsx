@@ -70,6 +70,7 @@ function Register() {
                 className='mt-2'
                 errrorMessage={errors.password?.message}
                 rules={rules.password}
+                autoComplete='on'
               />
               <Input
                 name='confirm_password' //
@@ -79,6 +80,7 @@ function Register() {
                 className='mt-2'
                 errrorMessage={errors.confirm_password?.message}
                 rules={rules.confirm_password}
+                autoComplete='on'
               />
 
               {/* <div className='mt-2'>

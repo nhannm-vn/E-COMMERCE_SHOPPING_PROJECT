@@ -12,9 +12,19 @@ interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register: UseFormRegister<any>
   rules?: RegisterOptions
+  autoComplete?: string
 }
 
-export default function Input({ type, errrorMessage, placeholder, className, name, register, rules }: Props) {
+export default function Input({
+  type,
+  errrorMessage,
+  placeholder,
+  className,
+  autoComplete,
+  name,
+  register,
+  rules
+}: Props) {
   return (
     <div className={className}>
       <input
@@ -22,6 +32,7 @@ export default function Input({ type, errrorMessage, placeholder, className, nam
         // name='email'
         className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
         placeholder={placeholder}
+        autoComplete={autoComplete}
         //Có thằng này thì xóa cái name đi bởi vì thằng register sẽ trả về cho một thuộc tính name
         {...register(name, rules)}
       />
