@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { getRules } from '../../utils/rules'
 import type { RegisterOptions } from 'react-hook-form'
+import Input from '../../components/Input'
 
 //interface này giúp cho nó hiểu
 //Form có gì và khi có lỗi thì sẽ dạng lỗi gì
@@ -53,18 +54,16 @@ function Register() {
           <div className='lg:col-span-2 lg:col-start-4'>
             <form className='p-10 rounded bg-white shadow-sm' onSubmit={onSubmit} noValidate>
               <div className='text-2xl'>Đăng Ký</div>
-              <div className='mt-8'>
-                <input
-                  type='email'
-                  // name='email'
-                  className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
-                  placeholder='Email'
-                  //Có thằng này thì xóa cái name đi bởi vì thằng register sẽ trả về cho một thuộc tính name
-                  {...register('email', rules.email as RegisterOptions<FormData, 'email'>)}
-                />
-                {/* min-h-[1rem]: giúp luôn có chiều cao kể cả không có lỗi */}
-                <div className='mt-1 text-red-600 min-h-[1.3rem] text-sm'>{errors.email?.message}</div>
-              </div>
+              <Input
+                name='email' //
+                register={register}
+                type='email'
+                placeholder='Email'
+                className='mt-8'
+                errrorMessage={errors.email?.message}
+                rules={rules.email}
+              />
+
               <div className='mt-2'>
                 <input
                   type='password'
