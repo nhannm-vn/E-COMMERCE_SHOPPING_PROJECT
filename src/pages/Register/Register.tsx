@@ -10,7 +10,8 @@ interface FormData {
   password: string
   confirm_password: string
 }
-//try
+
+// keep effor
 function Register() {
   const {
     // hỗ trợ lấy giá trị và validate cho các ô input
