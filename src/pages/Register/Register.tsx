@@ -83,8 +83,7 @@ function Register() {
                 rules={rules.confirm_password}
                 autoComplete='on'
               />
-
-              {/* <div className='mt-2'>
+              <div className='mt-2'>
                 <input
                   type='password'
                   autoComplete='on'
@@ -98,7 +97,6 @@ function Register() {
                 />
                 <div className='mt-1 text-red-600 min-h-[1.3rem] text-sm'>{errors.confirm_password?.message}</div>
               </div>
-              */}
 
               {/* button */}
               <div className='mt-2'>
