@@ -1,7 +1,8 @@
 import { RegisterOptions, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
-import { getRules } from '../../utils/rules'
+import { schema, Schema } from '../../utils/rules'
 import Input from '../../components/Input'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 //interface này giúp cho nó hiểu
 //Form có gì và khi có lỗi thì sẽ dạng lỗi gì
@@ -19,7 +20,7 @@ function Register() {
     // thằng này hỗ trợ việc submit thay vì phải viết hàm và tạo state
     handleSubmit,
     // error này sẽ có khi form có lỗi
-    formState: { errors },
+    formState: { errors }
     // _func giúp khi mà mình input bất cứ một thằng nào đó thì
     // nó sẽ cho ra một obj có các prop lưu các thông tin mà mình đã nhập vào
     // và đồng thời cái component cũng sẽ re-render. Còn nếu truyền riêng email
@@ -27,11 +28,13 @@ function Register() {
     // watch,
     // Cách khác giúp lấy value mà không làm re-render như watch
     // đó là sẽ dùng getValues. Thằng này sẽ dùng dựa vào một cái sự kiện nào đó
-    getValues
-  } = useForm<FormData>()
+    // getValues
+  } = useForm<FormData>({
+    resolver: yupResolver(schema)
+  })
 
-  // Này truyền vào getValues nghĩa là đem hàm này qua bên kia để sử dụng
-  const rules = getRules(getValues)
+  // // Này truyền vào getValues nghĩa là đem hàm này qua bên kia để sử dụng
+  // const rules = getRules(getValues)
 
   const onSubmit = handleSubmit(
     // chạy khi cái form đúng
