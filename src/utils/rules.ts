@@ -1,6 +1,7 @@
 // File này chứa các rules validate cho form
 
 import type { RegisterOptions, UseFormGetValues } from 'react-hook-form'
+import * as yup from 'yup'
 
 //tách ra để cho dễ đọc và có thể tái sử dụng
 type Rules = { [key in 'email' | 'password' | 'confirm_password']?: RegisterOptions }
@@ -65,3 +66,10 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
         : undefined
   }
 })
+
+const schema = yup
+  .object({
+    firstName: yup.string().required(),
+    age: yup.number().positive().integer().required()
+  })
+  .required()
