@@ -67,9 +67,14 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   }
 })
 
+// yup sẽ validate các schema cho form hay cho register viết thuần hay hơn nhiều
 const schema = yup
   .object({
-    firstName: yup.string().required(),
-    age: yup.number().positive().integer().required()
+    email: yup
+      .string()
+      .required('Email là bắt buộc') //
+      .email('Email không đúng định dạng')
+      .max(160, 'Độ dài từ 5 - 160 ký tự')
+      .min(5, 'Độ dài từ 5 - 160 ký tự')
   })
   .required()
