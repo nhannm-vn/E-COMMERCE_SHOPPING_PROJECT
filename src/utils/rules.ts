@@ -69,6 +69,7 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
 
 // yup sẽ validate các schema cho form hay cho register viết thuần hay hơn nhiều
 //có thằng này thì bỏ luôn thằng trên
+//
 export const schema = yup.object({
   email: yup
     .string()
