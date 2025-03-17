@@ -89,13 +89,15 @@ export const schema = yup.object({
     .required('Nhập lại password là bắt buộc')
     .max(160, 'Độ dài từ 6 - 160 ký tự')
     .min(6, 'Độ dài từ 6 - 160 ký tự')
-    // Một cái giá trị mà nó matches với một giá trị nào đó: xài oneOf
-    //cái array nghĩa là một trong những cái giá trị này
     .oneOf([yup.ref('password')], 'Nhập lại password không khớp')
+  // Một cái giá trị mà nó matches với một giá trị nào đó: xài oneOf
+  //cái array nghĩa là một trong những cái giá trị này
 })
 
 // Trường hợp muốn tái sử dụng schema ở trên mà bỏ bớt thằng nào đó
 const loginShema = schema.omit(['confirm_password'])
+
+export type LoginSchema = yup.InferType<typeof loginShema>
 
 // Thằng này sẽ thay thế cho không cần định nghĩa form bên kia như thử công
 export type Schema = yup.InferType<typeof schema>
