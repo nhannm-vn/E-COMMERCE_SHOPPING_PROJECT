@@ -67,6 +67,7 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   }
 })
 
+//-----------------------------------------------------------------------------
 // yup sẽ validate các schema cho form hay cho register viết thuần hay hơn nhiều
 //có thằng này thì bỏ luôn thằng trên
 //
@@ -92,6 +93,9 @@ export const schema = yup.object({
     //cái array nghĩa là một trong những cái giá trị này
     .oneOf([yup.ref('password')], 'Nhập lại password không khớp')
 })
+
+// Trường hợp muốn tái sử dụng schema ở trên mà bỏ bớt thằng nào đó
+const loginShema = schema.omit(['confirm_password'])
 
 // Thằng này sẽ thay thế cho không cần định nghĩa form bên kia như thử công
 export type Schema = yup.InferType<typeof schema>

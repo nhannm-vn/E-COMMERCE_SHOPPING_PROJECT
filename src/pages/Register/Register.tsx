@@ -1,4 +1,4 @@
-import { RegisterOptions, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { schema, Schema } from '../../utils/rules'
 import Input from '../../components/Input'
