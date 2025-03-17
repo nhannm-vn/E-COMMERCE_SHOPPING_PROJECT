@@ -6,11 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 //interface này giúp cho nó hiểu
 //Form có gì và khi có lỗi thì sẽ dạng lỗi gì
-interface FormData {
-  email: string
-  password: string
-  confirm_password: string
-}
+type FormData = Schema
 
 // keep effor
 function Register() {
@@ -64,7 +60,6 @@ function Register() {
                 placeholder='Email'
                 className='mt-8'
                 errrorMessage={errors.email?.message}
-                rules={rules.email}
               />
               <Input
                 name='password' //
@@ -73,7 +68,6 @@ function Register() {
                 placeholder='Password'
                 className='mt-2'
                 errrorMessage={errors.password?.message}
-                rules={rules.password}
                 autoComplete='on'
               />
               <Input
@@ -83,23 +77,8 @@ function Register() {
                 placeholder='Confirm Password'
                 className='mt-2'
                 errrorMessage={errors.confirm_password?.message}
-                rules={rules.confirm_password}
                 autoComplete='on'
               />
-              <div className='mt-2'>
-                <input
-                  type='password'
-                  autoComplete='on'
-                  // name='confirm_password'
-                  className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
-                  placeholder='Confirm Password'
-                  {...register(
-                    'confirm_password',
-                    rules.confirm_password as RegisterOptions<FormData, 'confirm_password'>
-                  )}
-                />
-                <div className='mt-1 text-red-600 min-h-[1.3rem] text-sm'>{errors.confirm_password?.message}</div>
-              </div>
 
               {/* button */}
               <div className='mt-2'>
