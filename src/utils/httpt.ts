@@ -5,8 +5,8 @@ class Http {
   instance: AxiosInstance
   constructor() {
     this.instance = axios.create({
-      baseURL: 'https://api-ecom.com/',
-      timeout: 10000,
+      baseURL: 'https://api-ecom.duthanhduoc.com/',
+      timeout: 1000,
       headers: {
         'Content-Type': 'application/json'
       }
@@ -15,4 +15,5 @@ class Http {
 }
 
 const http = new Http().instance
+
 export default http
