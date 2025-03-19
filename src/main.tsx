@@ -8,7 +8,13 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 //BrowserRouter: bọc app vào để chia route
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false
+    }
+  }
+})
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
