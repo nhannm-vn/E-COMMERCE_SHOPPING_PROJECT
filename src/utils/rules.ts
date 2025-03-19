@@ -95,9 +95,9 @@ export const schema = yup.object({
 })
 
 // Trường hợp muốn tái sử dụng schema ở trên mà bỏ bớt thằng nào đó
-const loginShema = schema.omit(['confirm_password'])
+//const loginShema = schema.omit(['confirm_password'])
 
-export type LoginSchema = yup.InferType<typeof loginShema>
+//export type LoginSchema = yup.InferType<typeof loginShema>
 
 // Thằng này sẽ thay thế cho không cần định nghĩa form bên kia như thử công
 export type Schema = yup.InferType<typeof schema>
