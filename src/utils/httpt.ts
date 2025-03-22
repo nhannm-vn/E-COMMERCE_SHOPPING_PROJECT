@@ -1,6 +1,7 @@
 // file chuyên dùng để config axios
 import axios, { AxiosInstance } from 'axios'
-// Keep trying
+
+//keeptrying
 class Http {
   instance: AxiosInstance
   constructor() {
