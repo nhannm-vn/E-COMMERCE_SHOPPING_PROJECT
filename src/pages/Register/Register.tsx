@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { schema, Schema } from '../../utils/rules'
 import Input from '../../components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useMutation } from '@tanstack/react-query'
+import { registerAccount } from '../../apis/auth.api'
 
 //interface này giúp cho nó hiểu
 //Form có gì và khi có lỗi thì sẽ dạng lỗi gì
@@ -29,14 +31,13 @@ function Register() {
     resolver: yupResolver(schema)
   })
 
-  // // Này truyền vào getValues nghĩa là đem hàm này qua bên kia để sử dụng
-  // const rules = getRules(getValues)
+  const registerAccountMutation = useMutation({
+    mutationFn: (body: Omit<FormData, 'confirm_password'>) => registerAccount(body)
+  })
 
   const onSubmit = handleSubmit(
     // chạy khi cái form đúng
-    (data) => {
-      console.log(data)
-    }
+    (data) => {}
   )
 
   return (
