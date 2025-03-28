@@ -10,7 +10,6 @@ import { registerAccount } from '../../apis/auth.api'
 //Form có gì và khi có lỗi thì sẽ dạng lỗi gì
 type FormData = Schema
 
-// keep effor
 function Register() {
   const {
     // hỗ trợ lấy giá trị và validate cho các ô input
