@@ -10,6 +10,7 @@ import { registerAccount } from '../../apis/auth.api'
 //Form có gì và khi có lỗi thì sẽ dạng lỗi gì
 //keep trying
 //keep trying
+//keep trying
 type FormData = Schema
 
 function Register() {
