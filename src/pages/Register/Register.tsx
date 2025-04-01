@@ -14,6 +14,8 @@ import { registerAccount } from '../../apis/auth.api'
 //keep trying
 //
 //keep trying
+const x = 9
+
 type FormData = Schema
 
 function Register() {
