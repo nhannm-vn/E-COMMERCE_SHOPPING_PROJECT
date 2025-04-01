@@ -12,13 +12,6 @@ import { registerAccount } from '../../apis/auth.api'
 //keep trying
 //keep trying
 //keep trying
-//
-//keep trying
-const x = 9
-const a = 10
-const b = 11
-const c = 12
-//
 
 type FormData = Schema
 
