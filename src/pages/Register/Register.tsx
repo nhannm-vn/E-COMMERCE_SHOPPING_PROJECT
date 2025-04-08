@@ -41,9 +41,13 @@ function Register() {
     // handleSubmit của react-hook-form sẽ lấy tất cả những gì có trong form
     // tuy nhiên mình sẽ gởi đúng thôi chứ không gửi dư làm gì
     const body = omit(data, ['confirm_password'])
+    console.log('🚀 Payload gửi lên:', body)
     registerAccountMutation.mutate(body, {
       onSuccess: (data) => {
-        console.log(data)
+        console.log('✅ Register thành công:', data)
+      },
+      onError: (error) => {
+        console.log('❌ Lỗi:', error)
       }
     })
   })
