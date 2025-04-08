@@ -5,6 +5,7 @@ import Input from '../../components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 import { registerAccount } from '../../apis/auth.api'
+import { omit } from 'lodash'
 
 //interface này giúp cho nó hiểu
 //Form có gì và khi có lỗi thì sẽ dạng lỗi gì
@@ -39,6 +40,12 @@ function Register() {
   const onSubmit = handleSubmit((data) => {
     // handleSubmit của react-hook-form sẽ lấy tất cả những gì có trong form
     // tuy nhiên mình sẽ gởi đúng thôi chứ không gửi dư làm gì
+    const body = omit(data, ['confirm_password'])
+    registerAccountMutation.mutate(body, {
+      onSuccess: (data) => {
+        console.log(data)
+      }
+    })
   })
 
   return (
