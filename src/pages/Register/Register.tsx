@@ -8,12 +8,6 @@ import { registerAccount } from '../../apis/auth.api'
 
 //interface này giúp cho nó hiểu
 //Form có gì và khi có lỗi thì sẽ dạng lỗi gì
-//keep trying
-//keep trying
-//keep trying
-//keep trying
-//keep trying
-//keep trying
 
 type FormData = Schema
 
@@ -37,14 +31,15 @@ function Register() {
     resolver: yupResolver(schema)
   })
 
+  // registerAccountMutation sử dụng react-query dùng để fetch api đăng ký tài khoảng
   const registerAccountMutation = useMutation({
     mutationFn: (body: Omit<FormData, 'confirm_password'>) => registerAccount(body)
   })
 
-  const onSubmit = handleSubmit(
-    // chạy khi cái form đúng
-    (data) => {}
-  )
+  const onSubmit = handleSubmit((data) => {
+    // handleSubmit của react-hook-form sẽ lấy tất cả những gì có trong form
+    // tuy nhiên mình sẽ gởi đúng thôi chứ không gửi dư làm gì
+  })
 
   return (
     <div className='bg-orange'>

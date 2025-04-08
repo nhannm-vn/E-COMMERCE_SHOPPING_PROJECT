@@ -1,3 +1,5 @@
+// File này sẽ dùng để chứa interface định nghĩa cho User
+
 type Role = 'User' | 'Admin'
 export interface User {
   _id: string
