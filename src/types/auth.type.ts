@@ -9,7 +9,3 @@ export type AuthResponse = ResponseApi<{
   expires: string
   user: User
 }>
-
-//keep trying
-//keep trying
-//keep trying
