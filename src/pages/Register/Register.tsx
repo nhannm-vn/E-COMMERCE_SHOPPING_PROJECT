@@ -53,6 +53,12 @@ function Register() {
               type: 'Server'
             })
           }
+          if (formError?.password) {
+            setError('password', {
+              message: formError.password,
+              type: 'Server'
+            })
+          }
         }
       }
     })
