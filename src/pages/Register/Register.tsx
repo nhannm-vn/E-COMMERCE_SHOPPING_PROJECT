@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 import { registerAccount } from '../../apis/auth.api'
 import { omit } from 'lodash'
+import { isAxiosUnprocessableEntity } from '../../utils/utils'
 
 //interface này giúp cho nó hiểu
 //Form có gì và khi có lỗi thì sẽ dạng lỗi gì
@@ -43,7 +44,9 @@ function Register() {
         console.log('Register thành công:', data)
       },
       onError: (error) => {
-        console.log('Lỗi:', error)
+        if (isAxiosUnprocessableEntity(error)) {
+          console.log(error)
+        }
       }
     })
   })

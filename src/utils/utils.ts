@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-
+import HttpStatusCode from '../constants/httpStatusCode.enum'
 // Type Predicate
 // utils này sẽ giúp check xem có phải lỗi của axios hay không
 // mình còn muốn sau khi chạy func này thì error của mình nó sẽ chuyển thành type nhất định
@@ -11,5 +11,5 @@ export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
 // còn function này sẽ check xem có phải là lỗi 422 không
 export function isAxiosUnprocessableEntity(error: unknown) {
   // EntityError phải thỏa là AxiosError và có status là 422
-  return isAxiosError(error) && error.response?.status == 422
+  return isAxiosError(error) && error.response?.status == HttpStatusCode.UnprocessableEntity
 }
