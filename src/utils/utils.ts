@@ -9,7 +9,8 @@ export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
 }
 
 // còn function này sẽ check xem có phải là lỗi 422 không
+// EntityError phải thỏa là AxiosError và có status là 422
+
 export function isAxiosUnprocessableEntity<FormError>(error: unknown): error is AxiosError<FormError> {
-  // EntityError phải thỏa là AxiosError và có status là 422
   return isAxiosError(error) && error.response?.status == HttpStatusCode.UnprocessableEntity
 }
