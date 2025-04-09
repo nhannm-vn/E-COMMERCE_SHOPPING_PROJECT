@@ -19,15 +19,11 @@ function Register() {
     // thằng này hỗ trợ việc submit thay vì phải viết hàm và tạo state
     handleSubmit,
     // error này sẽ có khi form có lỗi
-    formState: { errors }
-    // _func giúp khi mà mình input bất cứ một thằng nào đó thì
-    // nó sẽ cho ra một obj có các prop lưu các thông tin mà mình đã nhập vào
-    // và đồng thời cái component cũng sẽ re-render. Còn nếu truyền riêng email
-    // thì mỗi lần input đúng ô nào thì nó mới re-render
-    // watch,
-    // Cách khác giúp lấy value mà không làm re-render như watch
-    // đó là sẽ dùng getValues. Thằng này sẽ dùng dựa vào một cái sự kiện nào đó
-    // getValues
+    formState: { errors },
+    setError
+    // setError từ react-hook-form khi chúng ta có được cái lỗi chúng ta sẽ set error vào react-hook-form
+    // và react-hook-form sẽ show lên cho chúng ta
+    // Lưu ý lỗi 422 thì hiển thị lên form còn lỗi khác thì sẽ toach lên
   } = useForm<FormData>({
     resolver: yupResolver(schema)
   })
