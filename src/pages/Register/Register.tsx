@@ -45,6 +45,7 @@ function Register() {
         console.log('Register thành công:', data)
       },
       onError: (error) => {
+        console.log(error)
         if (isAxiosUnprocessableEntity<ResponseApi<Omit<FormData, 'confirm_password'>>>(error)) {
           const formError = error.response?.data.data
           if (formError) {

@@ -14,3 +14,6 @@ export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
 export function isAxiosUnprocessableEntity<FormError>(error: unknown): error is AxiosError<FormError> {
   return isAxiosError(error) && error.response?.status == HttpStatusCode.UnprocessableEntity
 }
+
+// Khi bạn viết AxiosError<FormError>, thì FormError chính là generic
+// type dùng để định nghĩa kiểu dữ liệu của error.response.data trong lỗi mà Axios trả về.
