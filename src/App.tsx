@@ -1,5 +1,5 @@
 import useRouteElements from './useRouteElements'
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 
 function App() {
   const routeElements = useRouteElements()
