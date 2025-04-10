@@ -1,16 +1,69 @@
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
+import { Schema, schema } from '../../utils/rules'
+import { useMutation } from '@tanstack/react-query'
+import { login } from '../../apis/auth.api'
+import { omit } from 'lodash'
+import { isAxiosUnprocessableEntity } from '../../utils/utils'
+import { ResponseApi } from '../../types/utils.type'
+
+type FormData = Omit<Schema, 'confirm_password'>
 
 function Login() {
   //react-form
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors }
-  // } = useForm()
+  const {
+    register,
+    setError,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<FormData>({
+    resolver: yupResolver(schema)
+  })
 
-  // const onSubmit = handleSubmit((data) => {
-  //   console.log(data)
-  // })
+  const onSubmit = handleSubmit((data) => {
+    console.log(data)
+  })
+
+  // registerAccountMutation sử dụng react-query dùng để fetch api đăng ký tài khoảng
+  const registerAccountMutation = useMutation({
+    mutationFn: (body: Omit<FormData, 'confirm_password'>) => login(body)
+  })
+
+  const onSubmit = handleSubmit((data) => {
+    console.log('Payload gửi lên:', data)
+    registerAccountMutation.mutate(data, {
+      onSuccess: (data) => {
+        console.log('Login thành công:', data)
+      },
+      onError: (error) => {
+        console.log(error)
+        if (isAxiosUnprocessableEntity<ResponseApi<FormData>>(error)) {
+          const formError = error.response?.data.data
+          if (formError) {
+            Object.keys(formError).forEach((key) => {
+              setError(key as keyof FormData, {
+                message: formError[key as keyof FormData],
+                type: 'Server'
+              })
+            })
+          }
+          // if (formError?.email) {
+          //   setError('email', {
+          //     message: formError.email,
+          //     type: 'Server'
+          //   })
+          // }
+          // if (formError?.password) {
+          //   setError('password', {
+          //     message: formError.password,
+          //     type: 'Server'
+          //   })
+          // }
+        }
+      }
+    })
+  })
 
   return (
     <div className='bg-orange '>
