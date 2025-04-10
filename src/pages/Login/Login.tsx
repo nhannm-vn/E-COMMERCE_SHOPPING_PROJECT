@@ -4,11 +4,14 @@ import { Link } from 'react-router-dom'
 import { Schema, schema } from '../../utils/rules'
 import { useMutation } from '@tanstack/react-query'
 import { login } from '../../apis/auth.api'
-import { omit } from 'lodash'
 import { isAxiosUnprocessableEntity } from '../../utils/utils'
 import { ResponseApi } from '../../types/utils.type'
+import Input from '../../components/Input'
 
+// Mình sẽ lợi dụng Schema để định nghĩa thay cho type thuần luôn
 type FormData = Omit<Schema, 'confirm_password'>
+
+const loginSchema = schema.omit(['confirm_password'])
 
 function Login() {
   //react-form
@@ -18,21 +21,17 @@ function Login() {
     handleSubmit,
     formState: { errors }
   } = useForm<FormData>({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(loginSchema)
   })
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data)
-  })
-
-  // registerAccountMutation sử dụng react-query dùng để fetch api đăng ký tài khoảng
-  const registerAccountMutation = useMutation({
-    mutationFn: (body: Omit<FormData, 'confirm_password'>) => login(body)
+  // loginMutation sử dụng react-query dùng để fetch api đăng ký tài khoảng
+  const loginMutation = useMutation({
+    mutationFn: (body: FormData) => login(body)
   })
 
   const onSubmit = handleSubmit((data) => {
     console.log('Payload gửi lên:', data)
-    registerAccountMutation.mutate(data, {
+    loginMutation.mutate(data, {
       onSuccess: (data) => {
         console.log('Login thành công:', data)
       },
@@ -48,18 +47,6 @@ function Login() {
               })
             })
           }
-          // if (formError?.email) {
-          //   setError('email', {
-          //     message: formError.email,
-          //     type: 'Server'
-          //   })
-          // }
-          // if (formError?.password) {
-          //   setError('password', {
-          //     message: formError.password,
-          //     type: 'Server'
-          //   })
-          // }
         }
       }
     })
@@ -78,29 +65,25 @@ function Login() {
           {/* màn hình lớn thì chiếm 2 cột, bắt đầu từ cột thứ 4.*/}
           {/* form */}
           <div className='lg:col-span-2 lg:col-start-4'>
-            <form className='p-10 rounded bg-white shadow-sm'>
+            <form className='p-10 rounded bg-white shadow-sm' onSubmit={onSubmit} noValidate>
               <div className='text-2xl'>Đăng Nhập</div>
-              <div className='mt-8'>
-                <input
-                  type='email'
-                  name='email'
-                  className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
-                  placeholder='Email'
-                />
-                {/* min-h-[1rem]: giúp luôn có chiều cao kể cả không có lỗi */}
-                <div className='mt-1 text-red-600 min-h-[1rem] text-sm'></div>
-              </div>
-              <div className='mt-3'>
-                <input
-                  type='password'
-                  autoComplete='on'
-                  name='password'
-                  className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
-                  placeholder='Password'
-                />
-                {/* min-h-[1rem]: giúp luôn có chiều cao kể cả không có lỗi */}
-                <div className='mt-1 text-red-600 min-h-[1rem] text-sm'></div>
-              </div>
+              <Input
+                name='email' //
+                register={register}
+                type='email'
+                placeholder='Email'
+                className='mt-8'
+                errrorMessage={errors.email?.message}
+              />
+              <Input
+                name='password' //
+                register={register}
+                type='password'
+                placeholder='Password'
+                className='mt-2'
+                errrorMessage={errors.password?.message}
+                autoComplete='on'
+              />
               {/* button */}
               <div className='mt-3'>
                 <button

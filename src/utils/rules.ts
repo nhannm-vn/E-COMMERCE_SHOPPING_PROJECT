@@ -99,5 +99,5 @@ export const schema = yup.object({
 
 //export type LoginSchema = yup.InferType<typeof loginShema>
 
-// Thằng này sẽ thay thế cho không cần định nghĩa form bên kia như thử công
+// Thằng này sẽ thay thế cho không cần định nghĩa form bên kia như thủ công
 export type Schema = yup.InferType<typeof schema>
