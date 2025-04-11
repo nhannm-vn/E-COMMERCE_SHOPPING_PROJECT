@@ -9,8 +9,10 @@ import { ResponseApi } from '../../types/utils.type'
 import Input from '../../components/Input'
 
 // Mình sẽ lợi dụng Schema để định nghĩa thay cho type thuần luôn
+// Bên login form sẽ không có confirm_password nên mình sẽ Omit đi
 type FormData = Omit<Schema, 'confirm_password'>
 
+// schema của login cũng khác nên cần độ chế lại miếng
 const loginSchema = schema.omit(['confirm_password'])
 
 function Login() {
