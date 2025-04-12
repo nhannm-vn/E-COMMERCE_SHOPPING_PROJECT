@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom'
-import { FloatingPortal, useFloating } from '@floating-ui/react'
-import { useState } from 'react'
+import { FloatingPortal, useFloating, arrow } from '@floating-ui/react'
+import { useRef, useState } from 'react'
 
 function Header() {
   const [open, setOpen] = useState(false)
-  const { x, y, refs, floatingStyles, strategy } = useFloating()
+  const arrowRef = useRef<HTMLElement>(null)
+  const { refs, floatingStyles, middlewareData } = useFloating({
+    middleware: [arrow({ element: arrowRef })]
+  })
   const showPopover = () => {
     setOpen(true)
   }
@@ -51,7 +54,15 @@ function Header() {
           </div>
           <FloatingPortal>
             {open && (
-              <div ref={refs.setFloating} style={floatingStyles}>
+              <div ref={refs.setFloating} style={{ ...floatingStyles }}>
+                <span
+                  ref={arrowRef}
+                  className='absolute z-10 translate-y-[-95%] border-[11px] border-x-transparent border-t-transparent border-b-white'
+                  style={{
+                    left: middlewareData.arrow?.x,
+                    top: middlewareData.arrow?.y
+                  }}
+                />
                 <div className='bg-white shadow-md rounded-sm border border-gray-200'>
                   <div className='flex flex-col py-2 px-3'>
                     <button className='py-2 px-3 hover:text-orange'>Tiếng Việt</button>
