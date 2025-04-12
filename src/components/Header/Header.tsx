@@ -1,30 +1,22 @@
 import { Link } from 'react-router-dom'
-import { FloatingPortal, useFloating, arrow } from '@floating-ui/react'
-import { useRef, useState } from 'react'
+import Popover from '../Popover'
 
 function Header() {
-  const [open, setOpen] = useState(false)
-  const arrowRef = useRef<HTMLElement>(null)
-  const { refs, floatingStyles, middlewareData } = useFloating({
-    middleware: [arrow({ element: arrowRef })]
-  })
-  const showPopover = () => {
-    setOpen(true)
-  }
-  const hidePopover = () => {
-    setOpen(false)
-  }
-
   return (
     <div className='bg-[linear-gradient(-180deg,#f53d2d,#f63)] pb-5 pt-2 text-white'>
       <div className='container'>
         <div className='flex justify-end'>
           {/* Mình muốn khi hover vào thì nó sẽ có hiệu ứng chuẩn behavior nên sẽ cần floating UI*/}
-          <div
+          <Popover
             className='flex items-center py-1 hover:text-gray-300 cursor-pointer'
-            ref={refs.setReference}
-            onMouseEnter={showPopover}
-            onMouseLeave={hidePopover}
+            renderPopover={
+              <div className='bg-white shadow-md rounded-sm border border-gray-200'>
+                <div className='flex flex-col py-2 px-3'>
+                  <button className='py-2 px-3 hover:text-orange'>Tiếng Việt</button>
+                  <button className='py-2 px-3 mt-2 hover:text-orange'>Tiếng Anh</button>
+                </div>
+              </div>
+            }
           >
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -51,27 +43,8 @@ function Header() {
             >
               <path strokeLinecap='round' strokeLinejoin='round' d='m19.5 8.25-7.5 7.5-7.5-7.5' />
             </svg>
-          </div>
-          <FloatingPortal>
-            {open && (
-              <div ref={refs.setFloating} style={{ ...floatingStyles }}>
-                <span
-                  ref={arrowRef}
-                  className='absolute z-10 translate-y-[-95%] border-[11px] border-x-transparent border-t-transparent border-b-white'
-                  style={{
-                    left: middlewareData.arrow?.x,
-                    top: middlewareData.arrow?.y
-                  }}
-                />
-                <div className='bg-white shadow-md rounded-sm border border-gray-200'>
-                  <div className='flex flex-col py-2 px-3'>
-                    <button className='py-2 px-3 hover:text-orange'>Tiếng Việt</button>
-                    <button className='py-2 px-3 mt-2 hover:text-orange'>Tiếng Anh</button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </FloatingPortal>
+          </Popover>
+
           <div className='flex items-center py-1 hover:text-gray-300 cursor-pointer ml-6'>
             <div className='w-6 h-6 mr-2 flex-shrink-0'>
               <img
