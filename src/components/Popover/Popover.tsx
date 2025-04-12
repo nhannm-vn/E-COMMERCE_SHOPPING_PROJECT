@@ -18,6 +18,8 @@ import {
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface Props {
+  // Mặc định thì children và renderPopover chắc chắn phải có
+  // còn mấy cái khác chỉ tăng tính flexible
   children: React.ReactNode
   renderPopover: React.ReactNode
   className?: string
