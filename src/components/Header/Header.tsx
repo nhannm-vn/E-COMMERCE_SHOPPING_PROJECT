@@ -4,16 +4,20 @@ import { useState } from 'react'
 
 function Header() {
   const [open, setOpen] = useState(true)
-  const { x, y, refs, floatingStyles, strategy } = useFloating({
-    open,
-    onOpenChange: setOpen
-  })
+  const { x, y, refs, floatingStyles, strategy } = useFloating()
+  const showPopover = () => {
+    setOpen(true)
+  }
+  const hidePopover = () => {
+    setOpen(false)
+  }
 
   return (
     <div className='bg-[linear-gradient(-180deg,#f53d2d,#f63)] pb-5 pt-2 text-white'>
       <div className='container'>
         <div className='flex justify-end'>
-          <div className='flex items-center py-1 hover:text-gray-300 cursor-pointer'>
+          {/* Mình muốn khi hover vào thì nó sẽ có hiệu ứng chuẩn behavior nên sẽ cần floating UI*/}
+          <div className='flex items-center py-1 hover:text-gray-300 cursor-pointer' ref={refs.setReference}>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -40,6 +44,11 @@ function Header() {
               <path strokeLinecap='round' strokeLinejoin='round' d='m19.5 8.25-7.5 7.5-7.5-7.5' />
             </svg>
           </div>
+          {open && (
+            <div ref={refs.setFloating} style={floatingStyles}>
+              Tooltip
+            </div>
+          )}
           <div className='flex items-center py-1 hover:text-gray-300 cursor-pointer ml-6'>
             <div className='w-6 h-6 mr-2 flex-shrink-0'>
               <img
