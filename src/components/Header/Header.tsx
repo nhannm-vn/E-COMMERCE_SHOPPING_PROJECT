@@ -52,7 +52,12 @@ function Header() {
           <FloatingPortal>
             {open && (
               <div ref={refs.setFloating} style={floatingStyles}>
-                Tooltip
+                <div className='bg-white shadow-md rounded-sm border border-gray-200'>
+                  <div className='flex flex-col py-2 px-3'>
+                    <button className='py-2 px-3 hover:text-orange'>Tiếng Việt</button>
+                    <button className='py-2 px-3 mt-2 hover:text-orange'>Tiếng Anh</button>
+                  </div>
+                </div>
               </div>
             )}
           </FloatingPortal>
