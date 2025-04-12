@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useFloating } from '@floating-ui/react'
+import { FloatingPortal, useFloating } from '@floating-ui/react'
 import { useState } from 'react'
 
 function Header() {
@@ -49,11 +49,13 @@ function Header() {
               <path strokeLinecap='round' strokeLinejoin='round' d='m19.5 8.25-7.5 7.5-7.5-7.5' />
             </svg>
           </div>
-          {open && (
-            <div ref={refs.setFloating} style={floatingStyles}>
-              Tooltip
-            </div>
-          )}
+          <FloatingPortal>
+            {open && (
+              <div ref={refs.setFloating} style={floatingStyles}>
+                Tooltip
+              </div>
+            )}
+          </FloatingPortal>
           <div className='flex items-center py-1 hover:text-gray-300 cursor-pointer ml-6'>
             <div className='w-6 h-6 mr-2 flex-shrink-0'>
               <img
