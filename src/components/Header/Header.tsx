@@ -7,6 +7,7 @@ function Header() {
       <div className='container'>
         <div className='flex justify-end'>
           {/* Mình muốn khi hover vào thì nó sẽ có hiệu ứng chuẩn behavior nên sẽ cần floating UI*/}
+          {/* Languague */}
           <Popover
             className='flex items-center py-1 hover:text-gray-300 cursor-pointer'
             renderPopover={
@@ -44,8 +45,29 @@ function Header() {
               <path strokeLinecap='round' strokeLinejoin='round' d='m19.5 8.25-7.5 7.5-7.5-7.5' />
             </svg>
           </Popover>
-
-          <div className='flex items-center py-1 hover:text-gray-300 cursor-pointer ml-6'>
+          {/* Account */}
+          <Popover
+            className='flex items-center py-1 hover:text-gray-300 cursor-pointer ml-6'
+            renderPopover={
+              <div>
+                <Link
+                  to='/'
+                  className='block py-2 px-3 hover:bg-slate-100 bg-white hover:text-cyan-500 w-full text-left'
+                >
+                  Tài Khoản Của Tôi
+                </Link>
+                <Link
+                  to='/'
+                  className='block py-2 px-3 hover:bg-slate-100 bg-white hover:text-cyan-500 w-full text-left'
+                >
+                  Đơn Mua
+                </Link>
+                <button className='block py-2 px-3 hover:bg-slate-100 bg-white hover:text-cyan-500 w-full text-left'>
+                  Đăng Xuất
+                </button>
+              </div>
+            }
+          >
             <div className='w-6 h-6 mr-2 flex-shrink-0'>
               <img
                 src='https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295392_1280.png'
@@ -54,7 +76,7 @@ function Header() {
               />
             </div>
             <div>NguyenNhan</div>
-          </div>
+          </Popover>
         </div>
         <div className='grid grid-cols-12 gap-4 mt-4 items-end'>
           <Link to='/' className='col-span-2'>
