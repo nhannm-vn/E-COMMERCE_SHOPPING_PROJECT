@@ -3,7 +3,7 @@ import { useFloating } from '@floating-ui/react'
 import { useState } from 'react'
 
 function Header() {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const { x, y, refs, floatingStyles, strategy } = useFloating()
   const showPopover = () => {
     setOpen(true)
@@ -17,7 +17,12 @@ function Header() {
       <div className='container'>
         <div className='flex justify-end'>
           {/* Mình muốn khi hover vào thì nó sẽ có hiệu ứng chuẩn behavior nên sẽ cần floating UI*/}
-          <div className='flex items-center py-1 hover:text-gray-300 cursor-pointer' ref={refs.setReference}>
+          <div
+            className='flex items-center py-1 hover:text-gray-300 cursor-pointer'
+            ref={refs.setReference}
+            onMouseEnter={showPopover}
+            onMouseLeave={hidePopover}
+          >
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
