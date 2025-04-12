@@ -11,8 +11,8 @@ function Header() {
           <Popover
             className='flex items-center py-1 hover:text-gray-300 cursor-pointer'
             renderPopover={
-              <div className='bg-white shadow-md rounded-sm border border-gray-200'>
-                <div className='flex flex-col py-2 px-3'>
+              <div className='bg-white relative shadow-md rounded-sm border border-gray-200'>
+                <div className='flex flex-col py-2 pr-28 pl-3'>
                   <button className='py-2 px-3 hover:text-orange'>Tiếng Việt</button>
                   <button className='py-2 px-3 mt-2 hover:text-orange'>Tiếng Anh</button>
                 </div>
@@ -49,20 +49,20 @@ function Header() {
           <Popover
             className='flex items-center py-1 hover:text-gray-300 cursor-pointer ml-6'
             renderPopover={
-              <div>
+              <div className='bg-white relative shadow-md rounded-sm border border-gray-200'>
                 <Link
                   to='/'
-                  className='block py-2 px-3 hover:bg-slate-100 bg-white hover:text-cyan-500 w-full text-left'
+                  className='block py-3 px-4 hover:bg-slate-100 bg-white hover:text-cyan-500 w-full text-left'
                 >
                   Tài Khoản Của Tôi
                 </Link>
                 <Link
                   to='/'
-                  className='block py-2 px-3 hover:bg-slate-100 bg-white hover:text-cyan-500 w-full text-left'
+                  className='block py-3 px-4 hover:bg-slate-100 bg-white hover:text-cyan-500 w-full text-left'
                 >
                   Đơn Mua
                 </Link>
-                <button className='block py-2 px-3 hover:bg-slate-100 bg-white hover:text-cyan-500 w-full text-left'>
+                <button className='block py-3 px-4 hover:bg-slate-100 bg-white hover:text-cyan-500 w-full text-left'>
                   Đăng Xuất
                 </button>
               </div>
@@ -70,7 +70,7 @@ function Header() {
           >
             <div className='w-6 h-6 mr-2 flex-shrink-0'>
               <img
-                src='https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295392_1280.png'
+                src='https://media.istockphoto.com/id/858209386/vi/vec-to/bi%E1%BB%83u-t%C6%B0%E1%BB%A3ng-n.jpg?s=612x612&w=0&k=20&c=e8ZqeVFR2u7K2dymtBDfUlQIkpSZIghASpj642dFWQg='
                 alt='avatar'
                 className='w-full h-full object-cover rounded-full'
               />
