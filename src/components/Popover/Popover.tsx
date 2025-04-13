@@ -17,6 +17,9 @@ import {
 } from '@floating-ui/react'
 import { motion, AnimatePresence } from 'framer-motion'
 
+// Muốn hiệu ứng zoom ra vào thì dùng framer
+// Muốn thiết kế theo đúng behavior thì dùng floating
+
 interface Props {
   // Mặc định thì children và renderPopover chắc chắn phải có
   // còn mấy cái khác chỉ tăng tính flexible
