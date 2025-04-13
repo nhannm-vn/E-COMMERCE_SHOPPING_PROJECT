@@ -126,7 +126,17 @@ function Header() {
                           <img
                             src='https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m601u9bom7h314@resize_w80_nl.webp'
                             alt='anh'
+                            className='w-11 h-11 object-cover'
                           />
+                        </div>
+                        <div className='flex-grow ml-2 overflow-hidden'>
+                          <div className='truncate'>
+                            Áo phông MLB KOREA nam nữ cao cấp, 100% cotton co giãn 2 chiều , định lượng 250gms,NY VIỀN
+                            TRẮNG
+                          </div>
+                        </div>
+                        <div className='ml-2 flex-shrink-0'>
+                          <span className='text-orange'>₫210.000</span>
                         </div>
                       </div>
                     </div>
