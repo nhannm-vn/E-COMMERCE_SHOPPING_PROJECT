@@ -120,6 +120,16 @@ function Header() {
                 <div className='bg-white relative shadow-md rounded-sm border border-gray-200 max-w-[400px] text-sm'>
                   <div className='p-2'>
                     <div className='text-gray-400 capitalize'>Sản phẩm mới thêm</div>
+                    <div className='mt-5'>
+                      <div className='mt-4 flex'>
+                        <div className='flex-shrink-0'>
+                          <img
+                            src='https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m601u9bom7h314@resize_w80_nl.webp'
+                            alt='anh'
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               }
