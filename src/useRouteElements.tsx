@@ -13,7 +13,16 @@ import MainLayout from './layouts/MainLayout'
 // còn chưa thì bắt nó về lại trang login
 function ProtectedRoute() {
   const isAuthenticated = true
+  // Nghĩa là login rồi thì cho vào
   return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
+}
+
+// Ngược lại với thằng ở trên. Nghĩa là khi người dùng vào lại trang login rồi thì
+// không cho quay về trang login hoac register nữa
+function RejectedRoute() {
+  const isAuthenticated = false
+  // Nghĩa là chưa login thì cho đi vào page login. Nếu login rồi thì phải quay lại list sp
+  return !isAuthenticated ? <Outlet /> : <Navigate to='/' />
 }
 
 function useRouteElements() {
