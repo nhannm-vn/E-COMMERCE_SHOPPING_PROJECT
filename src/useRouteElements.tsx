@@ -10,6 +10,7 @@ import Profile from './pages/Profile'
 // custom một cái hook chuyên dùng để chia route
 // có hai cách chia phổ biến là routes và dùng hook này
 
+// Keep trying
 const isAuthenticated = true
 
 // Route dùng handle. Func này giúp thằng user nào đã login thì cho nó vào tiếp
