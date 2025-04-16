@@ -32,6 +32,7 @@ function useRouteElements() {
       // Mặc định sẽ có thể coi được trang sản phẩm
       // xác thực hay chưa đều có thể đứng ở đây
       path: '/',
+      // Thằng này giúp ưu tiên lúc nào vào cũng là nó
       index: true,
       element: (
         <MainLayout>
