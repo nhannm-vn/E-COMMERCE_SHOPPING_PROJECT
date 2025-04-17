@@ -1,4 +1,4 @@
-import { createContext } from 'react'
+import { createContext, useState } from 'react'
 import { getAccessTokenFromLS } from '../utils/auth'
 
 interface AppContextInterface {
@@ -13,3 +13,7 @@ const initialAppContext: AppContextInterface = {
 }
 
 export const AppContext = createContext<AppContextInterface>()
+
+export const AppProvider = ({children}: {children: React.ReactNode}) => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(initialAppContext.isAuthenticated)
+}
