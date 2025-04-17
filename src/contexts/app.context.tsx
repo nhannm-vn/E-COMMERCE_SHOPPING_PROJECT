@@ -1,7 +1,7 @@
 import { createContext, useState } from 'react'
 import { getAccessTokenFromLS } from '../utils/auth'
 
-// Định nghĩa context lưu dữ liệu kiểu gì
+// Định nghĩa context lưu dữ liệu kiểu gì hoặc nói cách khác là định nghĩa cho initialState
 interface AppContextInterface {
   isAuthenticated: boolean
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
@@ -34,3 +34,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     </AppContext.Provider>
   )
 }
+
+/*
+****Các bước sử dụng Context và Provider để trở thành global state
+1	Tạo Context
+2	Tạo Provider để cung cấp dữ liệu
+3	Bọc Provider quanh App hoặc phần cần dùng
+4	Dùng useContext để lấy dữ liệu trong component con
+*/
