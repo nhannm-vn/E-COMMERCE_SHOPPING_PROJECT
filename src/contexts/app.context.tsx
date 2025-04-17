@@ -1,8 +1,15 @@
-import { createContext } from "react"
+import { createContext } from 'react'
+import { getAccessTokenFromLS } from '../utils/auth'
 
 interface AppContextInterface {
-  isAuthenticated: boolean,
+  isAuthenticated: boolean
   setIsAuthenticated: () => void
 }
 
-export const AppContext = createContext<AppContextInterface>
+const initialAppContext: AppContextInterface = {
+  // Nếu lấy ra được access_token thì sẽ là true, còn là '' thì ép kiểu về false
+  isAuthenticated: Boolean(getAccessTokenFromLS()),
+  setIsAuthenticated: () => void
+}
+
+export const AppContext = createContext<AppContextInterface>()
