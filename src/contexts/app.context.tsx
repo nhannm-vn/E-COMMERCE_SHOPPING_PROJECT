@@ -37,7 +37,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
 /*
 ****Các bước sử dụng Context và Provider để trở thành global state
-1	Tạo Context
+1	Tạo Context bằng createContext
 2	Tạo Provider để cung cấp dữ liệu
 3	Bọc Provider quanh App hoặc phần cần dùng
 4	Dùng useContext để lấy dữ liệu trong component con
