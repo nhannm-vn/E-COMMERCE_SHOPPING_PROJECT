@@ -6,6 +6,8 @@ import { toast } from 'react-toastify'
 //keeptrying
 class Http {
   instance: AxiosInstance
+  // Dùng để lưu token khi login thành công phục vụ cho các route cần authentication
+  private accessToken: string
   constructor() {
     this.instance = axios.create({
       baseURL: 'https://api-ecom.duthanhduoc.com/',
@@ -16,7 +18,12 @@ class Http {
     })
     // Add a response interceptor
     this.instance.interceptors.response.use(
-      function (response) {
+      (response) => {
+        const { url } = response.config
+        if (url === '/login' || url === '/register' || url === 'login' || url === 'register') {
+          // Lưu ý phải đổi thành arrow thì mới thấy this
+          this.accessToken = response.data.data.access_token
+        }
         return response
       },
       function (error: AxiosError) {
