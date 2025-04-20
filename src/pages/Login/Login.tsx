@@ -5,7 +5,7 @@ import { Schema, schema } from '../../utils/rules'
 import { useMutation } from '@tanstack/react-query'
 import { login } from '../../apis/auth.api'
 import { isAxiosUnprocessableEntity } from '../../utils/utils'
-import { ResponseApi } from '../../types/utils.type'
+import { ErrorResponse } from '../../types/utils.type'
 import Input from '../../components/Input'
 
 // Mình sẽ lợi dụng Schema để định nghĩa thay cho type thuần luôn
@@ -39,7 +39,7 @@ function Login() {
       },
       onError: (error) => {
         console.log(error)
-        if (isAxiosUnprocessableEntity<ResponseApi<FormData>>(error)) {
+        if (isAxiosUnprocessableEntity<ErrorResponse<FormData>>(error)) {
           const formError = error.response?.data.data
           if (formError) {
             Object.keys(formError).forEach((key) => {

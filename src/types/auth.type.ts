@@ -2,11 +2,11 @@
 // nghĩa là liên quan đến phần authentication
 
 import { User } from './user.type'
-import { ResponseApi } from './utils.type'
+import { SuccessResponse } from './utils.type'
 
 // ResponseApi là interface bao đóng cho tổng thể sẽ có 2 thằng chính là message và data
 // AuthResponse là kiểu dữ liệu mà server  trả về cụ thể cho register/login luôn
-export type AuthResponse = ResponseApi<{
+export type AuthResponse = SuccessResponse<{
   access_token: string
   expires: string
   user: User
