@@ -11,7 +11,7 @@ import Profile from './pages/Profile'
 // có hai cách chia phổ biến là routes và dùng hook này
 
 // Keep trying
-const isAuthenticated = true
+const isAuthenticated = false
 
 // Route dùng handle. Func này giúp thằng user nào đã login thì cho nó vào tiếp
 // còn chưa thì bắt nó về lại trang login
@@ -49,6 +49,8 @@ function useRouteElements() {
       children: [
         {
           // Match đường dẫn mới render ra element ở dưới
+          // Nghĩa là nếu mà thỏa element trên và có muốn vào tiếp nữa mà đường dẫn matches path thì
+          // sẽ đi render ra được Profile luôn. Còn không thì phải về lại login
           path: '/profile',
           element: (
             <MainLayout>
