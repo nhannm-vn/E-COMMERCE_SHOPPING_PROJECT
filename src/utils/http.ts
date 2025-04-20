@@ -3,6 +3,7 @@ import axios, { AxiosError, AxiosInstance } from 'axios'
 import HttpStatusCode from '../constants/httpStatusCode.enum'
 import { toast } from 'react-toastify'
 import { AuthResponse } from '../types/auth.type'
+import { clearAccessTokenFromLS, saveAccessTokenToLS } from './auth'
 
 //keeptrying
 class Http {
@@ -21,9 +22,15 @@ class Http {
     this.instance.interceptors.response.use(
       (response) => {
         const { url } = response.config
+        // Khi login hoac register thanh cong thi luu token vao LS
         if (url === '/login' || url === '/register' || url === 'login' || url === 'register') {
           // Lưu ý phải đổi thành arrow thì mới thấy this
           this.accessToken = (response.data as AuthResponse).data?.access_token
+          saveAccessTokenToLS(this.accessToken)
+        } else if (url === '/logout' || url === 'logout') {
+          // Khi logout thi se xoa
+          this.accessToken = ''
+          clearAccessTokenFromLS()
         }
         return response
       },
