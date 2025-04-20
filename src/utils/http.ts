@@ -2,6 +2,7 @@
 import axios, { AxiosError, AxiosInstance } from 'axios'
 import HttpStatusCode from '../constants/httpStatusCode.enum'
 import { toast } from 'react-toastify'
+import { AuthResponse } from '../types/auth.type'
 
 //keeptrying
 class Http {
@@ -22,7 +23,7 @@ class Http {
         const { url } = response.config
         if (url === '/login' || url === '/register' || url === 'login' || url === 'register') {
           // Lưu ý phải đổi thành arrow thì mới thấy this
-          this.accessToken = response.data.data.access_token
+          this.accessToken = (response.data as AuthResponse).data?.access_token
         }
         return response
       },
