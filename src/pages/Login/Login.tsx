@@ -21,7 +21,8 @@ function Login() {
   // Lấy setIsAuthenticated bằng useContext
   const { setIsAuthenticated } = useContext(AppContext)
   // Giúp chuyển sang route productList '/'
-  const navigate = useNavigate()
+  //
+  // const navigate = useNavigate()
   //react-form
   const {
     register,
