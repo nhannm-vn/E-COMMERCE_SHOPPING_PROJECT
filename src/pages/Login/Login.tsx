@@ -7,6 +7,8 @@ import { login } from '../../apis/auth.api'
 import { isAxiosUnprocessableEntity } from '../../utils/utils'
 import { ErrorResponse } from '../../types/utils.type'
 import Input from '../../components/Input'
+import { useContext } from 'react'
+import { AppContext } from '../../contexts/app.context'
 
 // Mình sẽ lợi dụng Schema để định nghĩa thay cho type thuần luôn
 // Bên login form sẽ không có confirm_password nên mình sẽ Omit đi
@@ -17,6 +19,7 @@ const loginSchema = schema.omit(['confirm_password'])
 
 function Login() {
   // Lấy setIsAuthenticated bằng useContext
+  const { setIsAuthenticated } = useContext(AppContext)
   //react-form
   const {
     register,
