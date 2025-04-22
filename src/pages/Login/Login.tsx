@@ -16,6 +16,7 @@ type FormData = Omit<Schema, 'confirm_password'>
 const loginSchema = schema.omit(['confirm_password'])
 
 function Login() {
+  // Lấy setIsAuthenticated bằng useContext
   //react-form
   const {
     register,
