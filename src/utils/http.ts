@@ -18,6 +18,11 @@ class Http {
         'Content-Type': 'application/json'
       }
     })
+    // Xử lí cho các request yêu cầu access_token
+    this.instance.interceptors.request.use((config) => {
+      
+      if(this.accessToken)
+    })
     // Add a response interceptor
     this.instance.interceptors.response.use(
       (response) => {
