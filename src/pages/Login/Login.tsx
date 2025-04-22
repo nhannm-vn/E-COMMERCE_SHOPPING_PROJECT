@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Schema, schema } from '../../utils/rules'
 import { useMutation } from '@tanstack/react-query'
 import { login } from '../../apis/auth.api'
@@ -20,6 +20,8 @@ const loginSchema = schema.omit(['confirm_password'])
 function Login() {
   // Lấy setIsAuthenticated bằng useContext
   const { setIsAuthenticated } = useContext(AppContext)
+  // Giúp chuyển sang route productList '/'
+  const navigate = useNavigate()
   //react-form
   const {
     register,
