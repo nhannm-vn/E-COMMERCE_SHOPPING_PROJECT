@@ -3,7 +3,7 @@ import axios, { AxiosError, AxiosInstance } from 'axios'
 import HttpStatusCode from '../constants/httpStatusCode.enum'
 import { toast } from 'react-toastify'
 import { AuthResponse } from '../types/auth.type'
-import { clearAccessTokenFromLS, saveAccessTokenToLS } from './auth'
+import { clearAccessTokenFromLS, getAccessTokenFromLS, saveAccessTokenToLS } from './auth'
 
 //keeptrying
 class Http {
@@ -11,6 +11,7 @@ class Http {
   // Dùng để lưu token khi login thành công phục vụ cho các route cần authentication
   private accessToken: string
   constructor() {
+    this.accessToken = getAccessTokenFromLS()
     this.instance = axios.create({
       baseURL: 'https://api-ecom.duthanhduoc.com/',
       timeout: 1000,
@@ -19,14 +20,19 @@ class Http {
       }
     })
     // Xử lí cho các request yêu cầu access_token
-    this.instance.interceptors.request.use((config) => {
-      // Nếu có accessToken thì gáng vào headers còn rôi đã trả không thì cứ trả như bthg
-      if (this.accessToken && config.headers) {
-        config.headers.Authorization = this.accessToken
+    this.instance.interceptors.request.use(
+      (config) => {
+        // Nếu có accessToken thì gáng vào headers còn rôi đã trả không thì cứ trả như bthg
+        if (this.accessToken && config.headers) {
+          config.headers.Authorization = this.accessToken
+          return config
+        }
         return config
+      },
+      (error) => {
+        return Promise.reject(error)
       }
-      return config
-    })
+    )
     // Add a response interceptor
     this.instance.interceptors.response.use(
       (response) => {
