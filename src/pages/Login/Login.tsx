@@ -40,6 +40,7 @@ function Login() {
     loginMutation.mutate(data, {
       onSuccess: (data) => {
         console.log('Login thành công:', data)
+        setIsAuthenticated(true)
       },
       onError: (error) => {
         console.log(error)
