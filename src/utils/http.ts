@@ -20,8 +20,12 @@ class Http {
     })
     // Xử lí cho các request yêu cầu access_token
     this.instance.interceptors.request.use((config) => {
-      
-      if(this.accessToken)
+      // Nếu có accessToken thì gáng vào headers còn rôi đã trả không thì cứ trả như bthg
+      if (this.accessToken && config.headers) {
+        config.headers.Authorization = this.accessToken
+        return config
+      }
+      return config
     })
     // Add a response interceptor
     this.instance.interceptors.response.use(
