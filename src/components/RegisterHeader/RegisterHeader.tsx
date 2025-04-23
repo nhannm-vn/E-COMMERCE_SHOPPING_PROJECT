@@ -1,6 +1,10 @@
-import { Link } from 'react-router-dom'
+import { Link, useMatch } from 'react-router-dom'
 
 function RegisterHeader() {
+  // Thằng này giúp cho nhận diện match với đường dẫn nào
+  const registerMatch = useMatch('/register')
+  const isRegisterMatch = Boolean(registerMatch)
+  console.log(registerMatch)
   return (
     <header className='py-5'>
       <div className='container flex justify-between'>
@@ -12,7 +16,7 @@ function RegisterHeader() {
               </g>
             </svg>
           </Link>
-          <div className='ml-5 text-xl lg:text-2xl'>Đăng ký</div>
+          <div className='ml-5 text-xl lg:text-2xl'>{isRegisterMatch ? 'Đăng Ký' : 'Đăng Nhập'}</div>
         </nav>
         <Link className='text-red-400 ml-2 hover:text-red-700 py-3' to='/'>
           <div>Bạn cần giúp đỡ?</div>
