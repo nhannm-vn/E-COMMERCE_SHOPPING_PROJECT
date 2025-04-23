@@ -104,7 +104,7 @@ function Header() {
               <Link to='/register' className='mx-3 capitalize hover:text-white/70'>
                 Đăng ký
               </Link>
-              <div className='borer-r-[1px] border-r-white/40 h-4'></div>
+              <div className='border-r-[2px] border-r-white/40 h-4'></div>
               <Link to='/login' className='mx-3 capitalize hover:text-white/70'>
                 Đăng nhập
               </Link>
