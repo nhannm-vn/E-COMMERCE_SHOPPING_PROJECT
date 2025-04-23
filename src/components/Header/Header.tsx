@@ -28,7 +28,7 @@ function Header() {
           {/* Mình muốn khi hover vào thì nó sẽ có hiệu ứng chuẩn behavior nên sẽ cần floating UI*/}
           {/* Languague */}
           <Popover
-            className='flex items-center py-1 hover:text-gray-300 cursor-pointer'
+            className='flex items-center py-1 hover:text-white/70 cursor-pointer'
             renderPopover={
               <div className='bg-white relative shadow-md rounded-sm border border-gray-200'>
                 <div className='flex flex-col py-2 pr-28 pl-3'>
@@ -66,7 +66,7 @@ function Header() {
           </Popover>
           {isAuthenticated /* Account */ && (
             <Popover
-              className='flex items-center py-1 hover:text-gray-300 cursor-pointer ml-6'
+              className='flex items-center py-1 hover:text-white/70 cursor-pointer ml-6'
               renderPopover={
                 <div className='bg-white relative shadow-md rounded-sm border border-gray-200'>
                   <Link

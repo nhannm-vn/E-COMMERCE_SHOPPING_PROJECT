@@ -7,3 +7,5 @@ export const clearAccessTokenFromLS = () => {
 }
 
 export const getAccessTokenFromLS = () => localStorage.getItem('access_token') || ''
+
+export const getProfile = () => localStorage.getItem('profile')

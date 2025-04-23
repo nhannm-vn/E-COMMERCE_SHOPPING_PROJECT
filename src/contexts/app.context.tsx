@@ -1,17 +1,20 @@
 import { createContext, useState } from 'react'
 import { getAccessTokenFromLS } from '../utils/auth'
+import { User } from '../types/user.type'
 
 // Định nghĩa context lưu dữ liệu kiểu gì hoặc nói cách khác là định nghĩa cho initialState
 interface AppContextInterface {
   isAuthenticated: boolean
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
+  profile: User | null
 }
 
 // initialState giúp coi ban đầu sẽ lưu gì
 const initialAppContext: AppContextInterface = {
   // Nếu lấy ra được access_token thì sẽ là true, còn là '' thì ép kiểu về false
   isAuthenticated: Boolean(getAccessTokenFromLS()),
-  setIsAuthenticated: () => null
+  setIsAuthenticated: () => null,
+  profile: null
 }
 
 // <AppContextInterface>: nó quản lí kiểu dữ liệu là gì
