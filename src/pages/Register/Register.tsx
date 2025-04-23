@@ -128,7 +128,7 @@ function Register() {
                   type='submit'
                   className='w-full text-center py-4 px-2 uppercase bg-red-400 text-white text-sm hover:bg-red-500'
                 >
-                  Đăng Ký
+                  Đăng ký
                 </button>
               </div>
               {/* Thêm các chính sách */}

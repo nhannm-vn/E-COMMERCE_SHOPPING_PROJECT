@@ -8,7 +8,7 @@ import { useContext } from 'react'
 function Header() {
   // Lấy setIsAuthenticated bằng useContext
   const { isAuthenticated, setIsAuthenticated } = useContext(AppContext)
-  // Mình không cần navigate vì khi set về false thì nó sẽ tự chuyển cho mình về login
+  // ***Mình không cần navigate vì khi set về false thì nó sẽ tự chuyển cho mình về login
   const logoutMutation = useMutation({
     mutationFn: () => logout(),
     onSuccess: () => {
