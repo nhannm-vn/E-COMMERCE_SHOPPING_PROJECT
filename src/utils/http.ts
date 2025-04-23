@@ -3,7 +3,7 @@ import axios, { AxiosError, AxiosInstance } from 'axios'
 import HttpStatusCode from '../constants/httpStatusCode.enum'
 import { toast } from 'react-toastify'
 import { AuthResponse } from '../types/auth.type'
-import { clearAccessTokenFromLS, getAccessTokenFromLS, saveAccessTokenToLS } from './auth'
+import { clearLS, getAccessTokenFromLS, saveAccessTokenToLS } from './auth'
 import path from '../constants/path'
 
 //keeptrying
@@ -46,7 +46,7 @@ class Http {
         } else if (url === path.logout || url === 'logout') {
           // Khi logout thi se xoa
           this.accessToken = ''
-          clearAccessTokenFromLS()
+          clearLS()
         }
         return response
       },
