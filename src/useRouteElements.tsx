@@ -44,6 +44,7 @@ function useRouteElements() {
     {
       // Nếu xác thực rồi và match vs /profile thì cho vào tiếp
       // không thì back ra /login
+      // path: '' = không đổi đường link, chỉ chèn thêm logic bảo vệ.
       path: '',
       element: <ProtectedRoute />,
       children: [
