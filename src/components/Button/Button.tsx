@@ -9,6 +9,7 @@ export default function Button(props: ButtonProps) {
   const newClassName = disabled ? className + ' cursor-not-allowed' : className
   return (
     <button className={newClassName} disabled={disabled} {...rest}>
+      {/* spin */}
       {isLoading && (
         <svg
           aria-hidden='true'

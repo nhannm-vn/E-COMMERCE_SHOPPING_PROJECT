@@ -10,6 +10,7 @@ import { isAxiosUnprocessableEntity } from '../../utils/utils'
 import { ErrorResponse } from '../../types/utils.type'
 import { AppContext } from '../../contexts/app.context'
 import { useContext } from 'react'
+import Button from '../../components/Button'
 
 //interface này giúp cho nó hiểu
 //Form có gì và khi có lỗi thì sẽ dạng lỗi gì
@@ -124,12 +125,15 @@ function Register() {
 
               {/* button */}
               <div className='mt-2'>
-                <button
+                <Button
                   type='submit'
-                  className='w-full text-center py-4 px-2 uppercase bg-red-400 text-white text-sm hover:bg-red-500'
+                  className='flex  w-full items-center justify-center bg-red-500 py-4 px-2 text-sm uppercase
+                   text-white hover:bg-red-600'
+                  isLoading={registerAccountMutation.isPending}
+                  disabled={registerAccountMutation.isPending}
                 >
                   Đăng ký
-                </button>
+                </Button>
               </div>
               {/* Thêm các chính sách */}
               <div className='m-8'>
