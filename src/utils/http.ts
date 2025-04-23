@@ -4,6 +4,7 @@ import HttpStatusCode from '../constants/httpStatusCode.enum'
 import { toast } from 'react-toastify'
 import { AuthResponse } from '../types/auth.type'
 import { clearAccessTokenFromLS, getAccessTokenFromLS, saveAccessTokenToLS } from './auth'
+import path from '../constants/path'
 
 //keeptrying
 class Http {
@@ -38,11 +39,11 @@ class Http {
       (response) => {
         const { url } = response.config
         // Khi login hoac register thanh cong thi luu token vao LS
-        if (url === '/login' || url === '/register' || url === 'login' || url === 'register') {
+        if (url === path.login || url === path.register || url === 'login' || url === 'register') {
           // Lưu ý phải đổi thành arrow thì mới thấy this
           this.accessToken = (response.data as AuthResponse).data?.access_token
           saveAccessTokenToLS(this.accessToken)
-        } else if (url === '/logout' || url === 'logout') {
+        } else if (url === path.logout || url === 'logout') {
           // Khi logout thi se xoa
           this.accessToken = ''
           clearAccessTokenFromLS()

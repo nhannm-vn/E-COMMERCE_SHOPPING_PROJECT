@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query'
 import { logout } from '../../apis/auth.api'
 import { AppContext } from '../../contexts/app.context'
 import { useContext } from 'react'
+import path from '../../constants/path'
 
 function Header() {
   // Lấy setIsAuthenticated bằng useContext
@@ -69,7 +70,7 @@ function Header() {
               renderPopover={
                 <div className='bg-white relative shadow-md rounded-sm border border-gray-200'>
                   <Link
-                    to='/profile'
+                    to={path.profile}
                     className='block py-3 px-4 hover:bg-slate-100 bg-white hover:text-cyan-500 w-full text-left'
                   >
                     Tài Khoản Của Tôi
@@ -101,11 +102,11 @@ function Header() {
           )}
           {!isAuthenticated && (
             <div className='flex items-center'>
-              <Link to='/register' className='mx-3 capitalize hover:text-white/70'>
+              <Link to={path.register} className='mx-3 capitalize hover:text-white/70'>
                 Đăng ký
               </Link>
               <div className='border-r-[2px] border-r-white/40 h-4'></div>
-              <Link to='/login' className='mx-3 capitalize hover:text-white/70'>
+              <Link to={path.login} className='mx-3 capitalize hover:text-white/70'>
                 Đăng nhập
               </Link>
             </div>

@@ -8,6 +8,7 @@ import MainLayout from './layouts/MainLayout'
 import Profile from './pages/Profile'
 import { useContext } from 'react'
 import { AppContext } from './contexts/app.context'
+import path from './constants/path'
 
 // custom một cái hook chuyên dùng để chia route
 // có hai cách chia phổ biến là routes và dùng hook này
@@ -33,7 +34,7 @@ function useRouteElements() {
     {
       // Mặc định sẽ có thể coi được trang sản phẩm
       // xác thực hay chưa đều có thể đứng ở đây
-      path: '/',
+      path: path.home,
       // Thằng này giúp ưu tiên lúc nào vào cũng là nó
       index: true,
       element: (
@@ -53,7 +54,7 @@ function useRouteElements() {
           // Match đường dẫn mới render ra element ở dưới
           // Nghĩa là nếu mà thỏa element trên và có muốn vào tiếp nữa mà đường dẫn matches path thì
           // sẽ đi render ra được Profile luôn. Còn không thì phải về lại login
-          path: '/profile',
+          path: path.profile,
           element: (
             <MainLayout>
               <Profile />
@@ -69,7 +70,7 @@ function useRouteElements() {
       element: <RejectedRoute />,
       children: [
         {
-          path: '/login',
+          path: path.login,
           element: (
             <RegisterLayout>
               <Login />
@@ -77,7 +78,7 @@ function useRouteElements() {
           )
         },
         {
-          path: '/register',
+          path: path.register,
           element: (
             <RegisterLayout>
               <Register />
