@@ -63,45 +63,50 @@ function Header() {
               <path strokeLinecap='round' strokeLinejoin='round' d='m19.5 8.25-7.5 7.5-7.5-7.5' />
             </svg>
           </Popover>
-          {/* Account */}
-          <Popover
-            className='flex items-center py-1 hover:text-gray-300 cursor-pointer ml-6'
-            renderPopover={
-              <div className='bg-white relative shadow-md rounded-sm border border-gray-200'>
-                <Link
-                  to='/profile'
-                  className='block py-3 px-4 hover:bg-slate-100 bg-white hover:text-cyan-500 w-full text-left'
-                >
-                  Tài Khoản Của Tôi
-                </Link>
-                <Link
-                  to='/'
-                  className='block py-3 px-4 hover:bg-slate-100 bg-white hover:text-cyan-500 w-full text-left'
-                >
-                  Đơn Mua
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className='block py-3 px-4 hover:bg-slate-100 bg-white hover:text-cyan-500 w-full text-left'
-                >
-                  Đăng Xuất
-                </button>
+          {isAuthenticated /* Account */ && (
+            <Popover
+              className='flex items-center py-1 hover:text-gray-300 cursor-pointer ml-6'
+              renderPopover={
+                <div className='bg-white relative shadow-md rounded-sm border border-gray-200'>
+                  <Link
+                    to='/profile'
+                    className='block py-3 px-4 hover:bg-slate-100 bg-white hover:text-cyan-500 w-full text-left'
+                  >
+                    Tài Khoản Của Tôi
+                  </Link>
+                  <Link
+                    to='/'
+                    className='block py-3 px-4 hover:bg-slate-100 bg-white hover:text-cyan-500 w-full text-left'
+                  >
+                    Đơn Mua
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className='block py-3 px-4 hover:bg-slate-100 bg-white hover:text-cyan-500 w-full text-left'
+                  >
+                    Đăng Xuất
+                  </button>
+                </div>
+              }
+            >
+              <div className='w-6 h-6 mr-2 flex-shrink-0'>
+                <img
+                  src='https://media.istockphoto.com/id/858209386/vi/vec-to/bi%E1%BB%83u-t%C6%B0%E1%BB%A3ng-n.jpg?s=612x612&w=0&k=20&c=e8ZqeVFR2u7K2dymtBDfUlQIkpSZIghASpj642dFWQg='
+                  alt='avatar'
+                  className='w-full h-full object-cover rounded-full'
+                />
               </div>
-            }
-          >
-            <div className='w-6 h-6 mr-2 flex-shrink-0'>
-              <img
-                src='https://media.istockphoto.com/id/858209386/vi/vec-to/bi%E1%BB%83u-t%C6%B0%E1%BB%A3ng-n.jpg?s=612x612&w=0&k=20&c=e8ZqeVFR2u7K2dymtBDfUlQIkpSZIghASpj642dFWQg='
-                alt='avatar'
-                className='w-full h-full object-cover rounded-full'
-              />
-            </div>
-            <div>NguyenNhan</div>
-          </Popover>
+              <div>NguyenNhan</div>
+            </Popover>
+          )}
           {!isAuthenticated && (
             <div className='flex items-center'>
               <Link to='/register' className='mx-3 capitalize hover:text-white/70'>
                 Đăng ký
+              </Link>
+              <div className='borer-r-[1px] border-r-white/40 h-4'></div>
+              <Link to='/login' className='mx-3 capitalize hover:text-white/70'>
+                Đăng nhập
               </Link>
             </div>
           )}
