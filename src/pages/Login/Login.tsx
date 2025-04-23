@@ -9,6 +9,7 @@ import { ErrorResponse } from '../../types/utils.type'
 import Input from '../../components/Input'
 import { useContext } from 'react'
 import { AppContext } from '../../contexts/app.context'
+import Button from '../../components/Button'
 
 // Mình sẽ lợi dụng Schema để định nghĩa thay cho type thuần luôn
 // Bên login form sẽ không có confirm_password nên mình sẽ Omit đi
@@ -96,12 +97,15 @@ function Login() {
               />
               {/* button */}
               <div className='mt-3'>
-                <button
+                <Button
                   type='submit'
-                  className='w-full text-center py-4 px-2 uppercase bg-red-400 text-white text-sm hover:bg-red-500'
+                  className='flex  w-full items-center justify-center bg-red-500 py-4 px-2 text-sm uppercase
+                   text-white hover:bg-red-600'
+                  isLoading={loginMutation.isPending}
+                  disabled={loginMutation.isPending}
                 >
                   Đăng Nhập
-                </button>
+                </Button>
               </div>
               {/* forget and sms */}
               <div className='mt-2 flex justify-between'>
