@@ -6,16 +6,16 @@ import RegisterLayout from './layouts/RegisterLayout'
 import Register from './pages/Register'
 import MainLayout from './layouts/MainLayout'
 import Profile from './pages/Profile'
+import { useContext } from 'react'
+import { AppContext } from './contexts/app.context'
 
 // custom một cái hook chuyên dùng để chia route
 // có hai cách chia phổ biến là routes và dùng hook này
 
-// Keep trying
-const isAuthenticated = false
-
 // Route dùng handle. Func này giúp thằng user nào đã login thì cho nó vào tiếp
 // còn chưa thì bắt nó về lại trang login
 function ProtectedRoute() {
+  const { isAuthenticated } = useContext(AppContext)
   // Nghĩa là login rồi thì cho vào
   return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
 }
@@ -23,6 +23,7 @@ function ProtectedRoute() {
 // Ngược lại với thằng ở trên. Nghĩa là đã login rồi thì khi người dùng vào trang login rồi thì
 // không cho quay về trang login hoac register nữa
 function RejectedRoute() {
+  const { isAuthenticated } = useContext(AppContext)
   // Nghĩa là chưa login mà muốn quay lại thì cho đi vào page login. Nếu login rồi thì phải quay lại list sp
   return !isAuthenticated ? <Outlet /> : <Navigate to='/' />
 }
