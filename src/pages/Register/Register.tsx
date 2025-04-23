@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { schema, Schema } from '../../utils/rules'
 import Input from '../../components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -8,6 +8,8 @@ import { registerAccount } from '../../apis/auth.api'
 import { omit } from 'lodash'
 import { isAxiosUnprocessableEntity } from '../../utils/utils'
 import { ErrorResponse } from '../../types/utils.type'
+import { AppContext } from '../../contexts/app.context'
+import { useContext } from 'react'
 
 //interface này giúp cho nó hiểu
 //Form có gì và khi có lỗi thì sẽ dạng lỗi gì
@@ -15,6 +17,10 @@ import { ErrorResponse } from '../../types/utils.type'
 type FormData = Schema
 
 function Register() {
+  // Lấy setIsAuthenticated bằng useContext
+  const { setIsAuthenticated } = useContext(AppContext)
+  // Giúp chuyển sang route productList '/'
+  const navigate = useNavigate()
   const {
     // hỗ trợ lấy giá trị và validate cho các ô input
     register,
