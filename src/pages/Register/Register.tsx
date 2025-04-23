@@ -49,6 +49,8 @@ function Register() {
     registerAccountMutation.mutate(body, {
       onSuccess: (data) => {
         console.log('Register thành công:', data)
+        setIsAuthenticated(true)
+        navigate('/')
       },
       onError: (error) => {
         console.log(error)
