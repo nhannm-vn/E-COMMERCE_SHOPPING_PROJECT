@@ -7,7 +7,7 @@ import { useContext } from 'react'
 
 function Header() {
   // Lấy setIsAuthenticated bằng useContext
-  const { setIsAuthenticated } = useContext(AppContext)
+  const { isAuthenticated, setIsAuthenticated } = useContext(AppContext)
   // Mình không cần navigate vì khi set về false thì nó sẽ tự chuyển cho mình về login
   const logoutMutation = useMutation({
     mutationFn: () => logout(),
@@ -80,7 +80,10 @@ function Header() {
                 >
                   Đơn Mua
                 </Link>
-                <button className='block py-3 px-4 hover:bg-slate-100 bg-white hover:text-cyan-500 w-full text-left'>
+                <button
+                  onClick={handleLogout}
+                  className='block py-3 px-4 hover:bg-slate-100 bg-white hover:text-cyan-500 w-full text-left'
+                >
                   Đăng Xuất
                 </button>
               </div>
@@ -95,6 +98,13 @@ function Header() {
             </div>
             <div>NguyenNhan</div>
           </Popover>
+          {!isAuthenticated && (
+            <div className='flex items-center'>
+              <Link to='/register' className='mx-3 capitalize hover:text-white/70'>
+                Đăng ký
+              </Link>
+            </div>
+          )}
         </div>
         {/* Filter */}
         <div className='grid grid-cols-12 gap-4 mt-4 items-end'>
