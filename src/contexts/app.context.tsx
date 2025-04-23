@@ -7,13 +7,16 @@ interface AppContextInterface {
   isAuthenticated: boolean
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
   profile: User | null
+  setProfile: React.Dispatch<React.SetStateAction<User | null>>
 }
 
 // initialState giúp coi ban đầu sẽ lưu gì
 const initialAppContext: AppContextInterface = {
   // Nếu lấy ra được access_token thì sẽ là true, còn là '' thì ép kiểu về false
   isAuthenticated: Boolean(getAccessTokenFromLS()),
-  setIsAuthenticated: () => null
+  setIsAuthenticated: () => null,
+  profile: getProfileFromLS(),
+  setProfile: () => null
 }
 
 // <AppContextInterface>: nó quản lí kiểu dữ liệu là gì
@@ -23,13 +26,16 @@ export const AppContext = createContext<AppContextInterface>(initialAppContext)
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(initialAppContext.isAuthenticated)
+  const [profile, setProfile] = useState<User | null>(initialAppContext.profile)
 
   // Nếu không có value thì nó sẽ lấy inititalAppContext
   return (
     <AppContext.Provider
       value={{
         isAuthenticated, //
-        setIsAuthenticated
+        setIsAuthenticated,
+        profile,
+        setProfile
       }}
     >
       {children}
