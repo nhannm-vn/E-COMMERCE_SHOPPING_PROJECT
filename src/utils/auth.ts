@@ -11,6 +11,7 @@ export const clearLS = () => {
 
 export const getAccessTokenFromLS = () => localStorage.getItem('access_token') || ''
 
+// Lưu ý vì những thằng này là object nên cần biến đổi trước khi lây về hoặc đưa lên LS
 export const getProfileFromLS = () => {
   const result = localStorage.getItem('profile')
   return result ? JSON.parse(result) : null

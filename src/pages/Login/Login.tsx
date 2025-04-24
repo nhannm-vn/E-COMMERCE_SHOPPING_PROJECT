@@ -41,6 +41,7 @@ function Login() {
   const onSubmit = handleSubmit((data) => {
     console.log('Payload gửi lên:', data)
     loginMutation.mutate(data, {
+      // *Data trong onSuccess là data trả về từ server sau khi call api
       onSuccess: (data) => {
         console.log('Login thành công:', data)
         setIsAuthenticated(true)
@@ -186,3 +187,13 @@ function Login() {
 }
 
 export default Login
+
+/**
+ * Mặc dù setProfileToLS thì sẽ lưu cứng rồi. Tuy nhiên nếu không setstate setProfile thì nó sẽ bị
+ * một vấn đề là tên khi lấy ra để hiển thị sẽ không có liền vì lúc đầu chưa setProfile thì profile đâu có giá trị
+ * để lấy ra hiển thị. Gía trị nó chỉ có khi chúng ta ctrl-R lúc đó ở lần thứ 2 nó sẽ lấy giá trị bằng getProFileToLS
+ * lúc đó sẽ có sẵn giá trị.
+ * ==> chính vì vậy ta nên setState luôn để dữ liệu có sẵn mà lấy ra liền
+ * Tóm lại: mục đích setProfile để dữ liệu có liền
+ *          mục đích setProfileToLS là để ctrl R dữ liệu k mất
+ */
