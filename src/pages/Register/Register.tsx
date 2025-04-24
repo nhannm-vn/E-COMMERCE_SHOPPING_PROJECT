@@ -19,7 +19,7 @@ type FormData = Schema
 
 function Register() {
   // Lấy setIsAuthenticated bằng useContext
-  const { setIsAuthenticated } = useContext(AppContext)
+  const { setIsAuthenticated, setProfile } = useContext(AppContext)
   // Giúp chuyển sang route productList '/'
   const navigate = useNavigate()
   const {
@@ -50,6 +50,7 @@ function Register() {
     registerAccountMutation.mutate(body, {
       onSuccess: (data) => {
         console.log('Register thành công:', data)
+        setProfile(data.data.data.user)
         setIsAuthenticated(true)
         navigate('/')
       },

@@ -20,7 +20,7 @@ const loginSchema = schema.omit(['confirm_password'])
 
 function Login() {
   // Lấy setIsAuthenticated bằng useContext
-  const { setIsAuthenticated } = useContext(AppContext)
+  const { setIsAuthenticated, setProfile } = useContext(AppContext)
   // Giúp chuyển sang route productList '/'
   const navigate = useNavigate()
   //react-form
@@ -44,6 +44,7 @@ function Login() {
       onSuccess: (data) => {
         console.log('Login thành công:', data)
         setIsAuthenticated(true)
+        setProfile(data.data.data.user)
         navigate('/')
       },
       onError: (error) => {

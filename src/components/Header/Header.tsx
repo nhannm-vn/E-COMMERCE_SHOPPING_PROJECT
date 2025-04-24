@@ -8,12 +8,13 @@ import path from '../../constants/path'
 
 function Header() {
   // Lấy setIsAuthenticated bằng useContext
-  const { isAuthenticated, setIsAuthenticated } = useContext(AppContext)
+  const { isAuthenticated, setIsAuthenticated, setProfile, profile } = useContext(AppContext)
   // ***Mình không cần navigate vì khi set về false thì nó sẽ tự chuyển cho mình về login
   const logoutMutation = useMutation({
     mutationFn: () => logout(),
     onSuccess: () => {
       setIsAuthenticated(false)
+      setProfile(null)
     }
   })
 
@@ -97,7 +98,7 @@ function Header() {
                   className='w-full h-full object-cover rounded-full'
                 />
               </div>
-              <div>NguyenNhan</div>
+              <div>{profile?.email}</div>
             </Popover>
           )}
           {!isAuthenticated && (
