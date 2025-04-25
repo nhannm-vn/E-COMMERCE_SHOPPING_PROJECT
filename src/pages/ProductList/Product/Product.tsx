@@ -18,6 +18,12 @@ function Product() {
             alt=''
           />
         </div>
+        {/* line-clamp giúp cho hiện ... nếu dư nội dung tuy nhiên ta phải cài thêm */}
+        <div className='p-2 overflow-hidden'>
+          <div className='min-h-[1.75rem] line-clamp-2 text-sm'>
+            Áo phông MLB KOREA nam nữ cao cấp, 100% cotton co giãn 2 chiều , định lượng 250gms,NY VIỀN TRẮNG
+          </div>
+        </div>
       </div>
     </Link>
   )
