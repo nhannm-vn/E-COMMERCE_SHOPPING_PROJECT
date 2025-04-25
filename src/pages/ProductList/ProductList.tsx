@@ -1,4 +1,5 @@
 import AsideFilter from './AsideFilter'
+import SortProductList from './SortProductList'
 
 function ProductList() {
   return (
@@ -7,6 +8,9 @@ function ProductList() {
         <div className='grid grid-cols-12 gap-6'>
           <div className='col-span-3'>
             <AsideFilter />
+          </div>
+          <div className='col-span-9'>
+            <SortProductList />
           </div>
         </div>
       </div>
