@@ -44,6 +44,8 @@ function Login() {
       // *Data trong onSuccess là data trả về từ server sau khi call api
       onSuccess: (data) => {
         console.log('Login thành công:', data)
+        // Mục đích set luôn là để cho nó đồng bộ luôn chứ lúc đầu nó đâu có sẵn mà lấy từ LS
+        //phải ctrl r mới có sẽ bị bất đồng bộ
         setIsAuthenticated(true)
         setProfile(data.data.data.user)
         navigate('/')
