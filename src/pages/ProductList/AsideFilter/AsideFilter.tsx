@@ -161,6 +161,11 @@ function AsideFilter() {
           </Link>
         </li>
       </ul>
+      <div className='bg-gray-300 h-[1px] my-4' />
+      {/* Xoa tat ca */}
+      <Button className='w-full p-2 uppercase bg-orange text-white text-sm hover:bg-orange/80 flex justify-center align-self-center'>
+        Xóa Tất Cả
+      </Button>
     </div>
   )
 }
