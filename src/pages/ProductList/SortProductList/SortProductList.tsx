@@ -12,6 +12,13 @@ function SortProductList() {
         <button className='h-8 px-4 capitalize bg-white text-black text-sm hover:bg-slate-100 text-center'>
           Bán chạy
         </button>
+        <select className='h-8 px-4 capitalize bg-white text-black text-sm hover:bg-slate-100 text-left'>
+          <option value='' disabled>
+            Giá
+          </option>
+          <option value='price:asc'>Giá thấp đến cao</option>
+          <option value='price:desc'>Giá cao đến thấp</option>
+        </select>
       </div>
     </div>
   )
