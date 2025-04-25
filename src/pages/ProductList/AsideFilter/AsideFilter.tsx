@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import path from '../../../constants/path'
+import Input from '../../../components/Input'
 
 function AsideFilter() {
   return (
@@ -63,7 +64,24 @@ function AsideFilter() {
       <div className='my-5'>
         <div>Khoảng Giá</div>
         <form className='mt-2'>
-          <div className='flex items-start'></div>
+          <div className='flex items-start'>
+            <Input
+              type='text'
+              className='grow'
+              name='from' //
+              placeholder='₫ TỪ'
+              classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
+            />
+            {/* shrink để nó không co lại */}
+            <div className='mx-2 mt-2 shrink-0'>-</div>
+            <Input
+              type='text'
+              className='grow'
+              name='from' //
+              placeholder='₫ ĐẾN'
+              classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
+            />
+          </div>
         </form>
       </div>
     </div>
