@@ -1,18 +1,21 @@
+import { InputHTMLAttributes } from 'react'
 import type { RegisterOptions, UseFormRegister } from 'react-hook-form'
 
 // Khai báo interface cho prop
-interface Props {
-  type: React.HTMLInputTypeAttribute
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
+  // type: React.HTMLInputTypeAttribute
   errrorMessage?: string
-  placeholder: string
+  classNameInput?: string
+  classNameError?: string
+  // placeholder: string
   // mt-8
-  className?: string
+  // className?: string
   // xai trong register
-  name: string
+  // name: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register: UseFormRegister<any>
   rules?: RegisterOptions
-  autoComplete?: string
+  // autoComplete?: string
 }
 
 export default function Input({
@@ -23,21 +26,23 @@ export default function Input({
   autoComplete,
   name,
   register,
-  rules
+  rules,
+  classNameInput = 'p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md',
+  classNameError = 'mt-1 text-red-600 min-h-[1.3rem] text-sm'
 }: Props) {
   return (
     <div className={className}>
       <input
         type={type}
         // name='email'
-        className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
+        className={classNameInput}
         placeholder={placeholder}
         autoComplete={autoComplete}
         //Có thằng này thì xóa cái name đi bởi vì thằng register sẽ trả về cho một thuộc tính name
         {...register(name, rules)}
       />
       {/* min-h-[1rem]: giúp luôn có chiều cao kể cả không có lỗi */}
-      <div className='mt-1 text-red-600 min-h-[1.3rem] text-sm'>{errrorMessage}</div>
+      <div className={classNameError}>{errrorMessage}</div>
     </div>
   )
 }

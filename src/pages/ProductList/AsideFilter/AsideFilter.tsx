@@ -59,6 +59,13 @@ function AsideFilter() {
         Bộ lọc tìm kiếm
       </Link>
       <div className='bg-gray-300 h-[1px] my-4' />
+      {/* Khoang gia */}
+      <div className='my-5'>
+        <div>Khoảng Giá</div>
+        <form className='mt-2'>
+          <div className='flex items-start'></div>
+        </form>
+      </div>
     </div>
   )
 }
