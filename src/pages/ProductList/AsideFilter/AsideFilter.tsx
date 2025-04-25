@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import path from '../../../constants/path'
 import Input from '../../../components/Input'
+import Button from '../../../components/Button'
 
 function AsideFilter() {
   return (
@@ -82,6 +83,9 @@ function AsideFilter() {
               classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
             />
           </div>
+          <Button className='w-full p-2 uppercase bg-orange text-white text-sm hover:bg-orange/80 flex justify-center align-self-center'>
+            Áp dụng
+          </Button>
         </form>
       </div>
     </div>
