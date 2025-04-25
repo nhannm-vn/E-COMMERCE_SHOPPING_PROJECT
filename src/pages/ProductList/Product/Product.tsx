@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 
 // Ở mỗi item thì sẽ là một thẻ link khác nhau
-// Xác định thời gian chuyển đổi đó là 100ms.
+// duration-100 Xác định thời gian chuyển đổi đó là 100ms.
 // Phải đi kèm với transition để hoạt động.
 function Product() {
   return (
@@ -10,7 +10,8 @@ function Product() {
         className='bg-white shadow rounded-sm hover:translate-y-[-0.0625rem] hover:shadow-md duration-100
       transition-transform'
       >
-        Product
+        {/* Mẹo pt-[100%] và cho position img để tấm hình thành hình vuông*/}
+        <div className='w-full pt-[100%] relative'></div>
       </div>
     </Link>
   )
