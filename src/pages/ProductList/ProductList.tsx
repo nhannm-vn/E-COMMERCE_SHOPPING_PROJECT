@@ -5,12 +5,14 @@ function ProductList() {
   return (
     <div className='border-[2px] border-red-500 bg-gray-200 py-6'>
       <div className='container border-[2px] border-green-600'>
-        <div className='grid grid-cols-12 gap-6'>
+        <div className='grid grid-cols-12 gap-6 border-[2px] border-yellow-300'>
           <div className='col-span-3'>
             <AsideFilter />
           </div>
           <div className='col-span-9'>
             <SortProductList />
+            {/* chia theo break-point */}
+            <div className='mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3'></div>
           </div>
         </div>
       </div>
