@@ -18,3 +18,12 @@ export interface Product {
   createdAt: string
   updatedAt: string
 }
+
+export interface ProductList {
+  products: Product[]
+  pagination: {
+    page: number
+    limit: number
+    page_size: number
+  }
+}
