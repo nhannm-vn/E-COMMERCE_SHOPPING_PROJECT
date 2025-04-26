@@ -3,14 +3,18 @@
 import { AuthResponse } from '../types/auth.type'
 import http from '../utils/http'
 
-export const registerAccount = (body: {
-  email: string //
-  password: string
-}) => http.post<AuthResponse>('register', body)
-
-export const login = (body: {
-  email: string //
-  password: string
-}) => http.post<AuthResponse>('login', body)
-
-export const logout = () => http.post('logout')
+// Gom thành obj cho tiện dễ xài
+const authApi = {
+  // register
+  registerAccount: (body: {
+    email: string //
+    password: string
+  }) => http.post<AuthResponse>('register', body),
+  // login
+  login: (body: {
+    email: string //
+    password: string
+  }) => http.post<AuthResponse>('login', body),
+  // logout
+  logout: () => http.post('logout')
+}
