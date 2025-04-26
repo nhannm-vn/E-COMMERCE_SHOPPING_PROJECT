@@ -1,4 +1,19 @@
-function ProductRating() {
+function ProductRating({ rating }: { rating: number }) {
+  // handleWidth
+  const handleWidth = (order: number) => {
+    // order 4 rating 4 | order 3 rating 4
+    if (order <= rating) {
+      return '100%'
+    }
+    // order 5 rating 4.2 => 4 sao và 20%
+    if (order > rating && order - rating < 1) {
+      // Lấy số thập phân
+      return (rating - Math.floor(rating)) * 100 + '%'
+    }
+    // order 5 rating 3.2 => ngôi sao thứ 5 là 0%, ngôi sao thứ 4 là 20%, ngôi sao thứ 3 là 100%
+    return '0%'
+  }
+
   return (
     <div className='flex items-center'>
       {/* Cái hay là sẽ cho 1 thằng 50% và một 1 thằng 100% dùng absolute để nó đứng trên nhau*/}
