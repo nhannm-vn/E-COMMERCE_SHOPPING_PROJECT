@@ -8,7 +8,7 @@ function Product() {
     <Link to='/'>
       <div
         className='bg-white shadow rounded-sm hover:translate-y-[-0.0625rem] hover:shadow-md duration-100
-      transition-transform'
+        transition-transform overflow-hidden'
       >
         {/* Mẹo pt-[100%] và cho position img để tấm hình thành hình vuông*/}
         <div className='w-full pt-[100%] relative'>
@@ -20,7 +20,7 @@ function Product() {
         </div>
         {/* line-clamp giúp cho hiện ... nếu dư nội dung tuy nhiên ta phải cài thêm */}
         <div className='p-2 overflow-hidden'>
-          <div className='min-h-[1.75rem] line-clamp-2 text-sm'>
+          <div className='min-h-[2rem] line-clamp-2 text-xs'>
             Áo phông MLB KOREA nam nữ cao cấp, 100% cotton co giãn 2 chiều , định lượng 250gms,NY VIỀN TRẮNG //
           </div>
           <div className='flex items-center mt-3'>
@@ -105,7 +105,8 @@ function Product() {
             </div>
             {/* Đã bán */}
             <div className='ml-2 text-sm'>
-              <span></span>
+              <span>Đã bán</span>
+              <span className='ml-1'>2.5k</span>
             </div>
           </div>
         </div>

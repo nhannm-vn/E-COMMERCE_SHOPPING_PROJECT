@@ -5,7 +5,7 @@ import SortProductList from './SortProductList'
 function ProductList() {
   return (
     <div className='bg-gray-200 py-6'>
-      <div className='container border-[2px] border-green-600'>
+      <div className='container'>
         <div className='grid grid-cols-12 gap-6'>
           <div className='col-span-3'>
             <AsideFilter />
