@@ -5,7 +5,7 @@ import Button from '../../../components/Button'
 
 function AsideFilter() {
   return (
-    <div className='py-4'>
+    <div className='p-4 border-[1.2px] border-gray-300'>
       {/*  */}
       <Link to={path.home} className='flex items-center font-bold'>
         <svg viewBox='0 0 12 10' className='mr-3 h-4 w-3 fill-current'>
