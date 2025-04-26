@@ -30,4 +30,5 @@ export function formatNumberToSocialStyle(value: number) {
   })
     .format(value)
     .replace('.', ',')
+    .toLocaleLowerCase()
 }
