@@ -3,16 +3,21 @@ import AsideFilter from './AsideFilter'
 import Product from './Product/Product'
 import SortProductList from './SortProductList'
 import productApi from '../../apis/product.api'
+import useQueryParams from '../../hooks/useQueryParams'
 
 function ProductList() {
+  // Xài customHook để lấy dữ liệu từ đường dẫn
+  const queryParams = useQueryParams()
   // Lấy dữ liệu ra
   const { data } = useQuery({
     // Vì chúng ta có ProductConfig nữa nên cần truyền thêm queryParams nữa
     // khi các key thay đổi thì nó sẽ chạy lại một lần nữa để cho chúng ta có cái data mới
     queryKey: ['products', queryParams],
-    queryFn: () => productApi.getProducts
+    queryFn: () => {
+      return productApi.getProducts(queryParams)
+    }
   })
-
+  console.log(data)
   return (
     <div className='bg-gray-200 py-6'>
       <div className='container'>
