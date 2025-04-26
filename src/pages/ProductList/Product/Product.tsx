@@ -23,6 +23,9 @@ function Product() {
           <div className='min-h-[1.75rem] line-clamp-2 text-sm'>
             Áo phông MLB KOREA nam nữ cao cấp, 100% cotton co giãn 2 chiều , định lượng 250gms,NY VIỀN TRẮNG //
           </div>
+          <div className='flex items-center mt-3'>
+            <div className='line-through max-w-[50%] text-gray-500 truncate'>₫2.000</div>
+          </div>
         </div>
       </div>
     </Link>
