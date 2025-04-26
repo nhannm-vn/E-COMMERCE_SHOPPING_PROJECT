@@ -27,9 +27,7 @@ function Product({ product }: Props) {
         </div>
         {/* line-clamp giúp cho hiện ... nếu dư nội dung tuy nhiên ta phải cài thêm */}
         <div className='p-2 overflow-hidden'>
-          <div className='min-h-[2rem] line-clamp-2 text-xs'>
-            Áo phông MLB KOREA nam nữ cao cấp, 100% cotton co giãn 2 chiều , định lượng 250gms,NY VIỀN TRẮNG //
-          </div>
+          <div className='min-h-[2rem] line-clamp-2 text-xs'>{product.name}</div>
           <div className='flex items-center mt-3'>
             <div className='line-through max-w-[50%] text-gray-500 truncate'>
               <span className='text-sm'>₫</span>
@@ -42,7 +40,7 @@ function Product({ product }: Props) {
           </div>
           {/* Rating star */}
           <div className='mt-3 flex items-center justify-start'>
-            <ProductRating />
+            <ProductRating rating={product.rating} />
             {/* Đã bán */}
             <div className='ml-2 text-xs'>
               <span>Đã bán</span>
