@@ -27,3 +27,15 @@ export interface ProductList {
     page_size: number
   }
 }
+
+export interface ProductListConfig {
+  page?: number
+  limit?: number
+  sort_by?: 'createdAt' | 'view' | 'sold' | 'price'
+  order?: 'desc' | 'asc'
+  exclude?: string
+  rating_filter?: number
+  price_max?: number
+  price_min?: number
+  name?: string
+}
