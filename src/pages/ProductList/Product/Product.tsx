@@ -1,9 +1,14 @@
 import { Link } from 'react-router-dom'
+import { Product as ProductType } from '../../../types/product.type'
+
+interface Props {
+  product: ProductType
+}
 
 // Ở mỗi item thì sẽ là một thẻ link khác nhau
 // duration-100 Xác định thời gian chuyển đổi đó là 100ms.
 // Phải đi kèm với transition để hoạt động.
-function Product() {
+function Product({ product }: Props) {
   return (
     <Link to='/'>
       <div
@@ -13,9 +18,9 @@ function Product() {
         {/* Mẹo pt-[100%] và cho position img để tấm hình thành hình vuông*/}
         <div className='w-full pt-[100%] relative'>
           <img
-            className='absolute top-0 left-0 bg-white w-full h-full object-cover'
-            src='https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m601pzsbaw1k32_tn.webp'
-            alt=''
+            className='absolute top-0 left-0 bg-white w-full h-full object-cover' //
+            src={product.image}
+            alt={product.name}
           />
         </div>
         {/* line-clamp giúp cho hiện ... nếu dư nội dung tuy nhiên ta phải cài thêm */}
@@ -26,11 +31,11 @@ function Product() {
           <div className='flex items-center mt-3'>
             <div className='line-through max-w-[50%] text-gray-500 truncate'>
               <span className='text-sm'>₫</span>
-              <span>5.000</span>
+              <span>{product.price_before_discount}</span>
             </div>
             <div className='text-orange truncate ml-1'>
               <span className='text-sm'>₫</span>
-              <span>2.000</span>
+              <span>{product.price}</span>
             </div>
           </div>
           {/* Rating star */}
@@ -202,7 +207,7 @@ function Product() {
             {/* Đã bán */}
             <div className='ml-2 text-xs'>
               <span>Đã bán</span>
-              <span className='ml-1'>2.5k</span>
+              <span className='ml-1'>{product.sold}</span>
             </div>
           </div>
         </div>
