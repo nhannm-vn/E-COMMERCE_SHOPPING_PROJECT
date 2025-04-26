@@ -9,12 +9,20 @@ const authApi = {
   registerAccount: (body: {
     email: string //
     password: string
-  }) => http.post<AuthResponse>('register', body),
+  }) => {
+    return http.post<AuthResponse>('register', body)
+  },
   // login
   login: (body: {
     email: string //
     password: string
-  }) => http.post<AuthResponse>('login', body),
+  }) => {
+    return http.post<AuthResponse>('login', body)
+  },
   // logout
-  logout: () => http.post('logout')
+  logout: () => {
+    return http.post('logout')
+  }
 }
+
+export default authApi
