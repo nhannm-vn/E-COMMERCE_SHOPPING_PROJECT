@@ -4,6 +4,7 @@ import Product from './Product/Product'
 import SortProductList from './SortProductList'
 import productApi from '../../apis/product.api'
 import useQueryParams from '../../hooks/useQueryParams'
+import Pagination from '../../components/Pagination'
 
 function ProductList() {
   // Xài customHook để lấy dữ liệu từ đường dẫn
@@ -36,6 +37,8 @@ function ProductList() {
                   </div>
                 ))}
             </div>
+            {/* Pagination */}
+            <Pagination />
           </div>
         </div>
       </div>
