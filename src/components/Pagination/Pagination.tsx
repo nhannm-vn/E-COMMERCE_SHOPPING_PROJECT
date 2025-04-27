@@ -11,7 +11,7 @@ function Pagination({ page, setPage, pageSize }: Props) {
     // Biến giúp check render ... một lần duy nhất
     let dotAfter = false
     let dotBefore = false
-    // Tách func
+    // Tách func: **LƯU Ý CẢ HAI ĐỀU CHỈ CHẠY DUY NHẤT 1 LẦN
     const renderDotBefore = (index: number) => {
       if (!dotBefore) {
         dotBefore = true
@@ -47,8 +47,14 @@ function Pagination({ page, setPage, pageSize }: Props) {
         // _Thứ ba những pageNumber render map ra phải nhỏ hơn thằng cuối 2 đơn vị
         //=> thì sẽ không render ra pageNumber đó mà render ra (button ...) một lần sau đó còn lại thì bỏ qua
         if (page <= RANGE * 2 + 1 && pageNumber > page + RANGE && pageNumber < pageSize - RANGE + 1) {
-          return renderDotAfter()
-        } else if()
+          return renderDotAfter(index)
+        } else if (page > RANGE * 2 + 1 && page < pageSize - RANGE * 2) {
+          if (pageNumber < page - RANGE && pageNumber > RANGE) {
+            return renderDotBefore(index)
+          } else if (pageNumber > page + RANGE && pageNumber < pageSize - RANGE + 1) {
+            return renderDotAfter(index)
+          }
+        }
         // Nếu vượt qua được if ở trên thì mới xuống dưới render ra
         return (
           <button
