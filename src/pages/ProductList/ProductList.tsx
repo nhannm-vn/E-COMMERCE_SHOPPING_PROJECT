@@ -5,10 +5,13 @@ import SortProductList from './SortProductList'
 import productApi from '../../apis/product.api'
 import useQueryParams from '../../hooks/useQueryParams'
 import Pagination from '../../components/Pagination'
+import { useState } from 'react'
 
 function ProductList() {
   // Xài customHook để lấy dữ liệu từ đường dẫn
   const queryParams = useQueryParams()
+  // Page
+  const [page, setPage] = useState(1)
   // Lấy dữ liệu ra
   const { data } = useQuery({
     // Vì chúng ta có ProductConfig nữa nên cần truyền thêm queryParams nữa
@@ -38,7 +41,7 @@ function ProductList() {
                 ))}
             </div>
             {/* Pagination */}
-            <Pagination />
+            <Pagination page={page} setPage={setPage} pageSize={20} />
           </div>
         </div>
       </div>

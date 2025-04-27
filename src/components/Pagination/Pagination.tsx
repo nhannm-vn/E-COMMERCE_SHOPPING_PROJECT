@@ -1,4 +1,13 @@
-function Pagination() {
+interface Props {
+  page: number
+  setPage: React.Dispatch<React.SetStateAction<number>>
+  pageSize: number
+}
+
+function Pagination({ page, setPage, pageSize }: Props) {
+  const renderPagination = () => {
+    return null
+  }
   return (
     <div
       className='flex flex-wrap mt-6 border-[3px] border-red-500
@@ -10,6 +19,7 @@ function Pagination() {
       >
         Prev
       </button>
+      {renderPagination()}
       <button
         className='bg-white rounded px-3 py-2 shadow-sm mx-2
       cursor-pointer'
