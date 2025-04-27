@@ -14,7 +14,7 @@ function Product({ product }: Props) {
   return (
     <Link to='/'>
       <div
-        className='bg-white shadow rounded-sm hover:translate-y-[-0.0625rem] hover:shadow-md duration-100
+        className='bg-white shadow rounded-sm hover:translate-y-[-0.06rem] hover:shadow-md duration-100
         transition-transform overflow-hidden'
       >
         {/* Mẹo pt-[100%] và cho position img để tấm hình thành hình vuông*/}
