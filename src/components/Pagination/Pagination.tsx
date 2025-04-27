@@ -6,10 +6,37 @@ interface Props {
   pageSize: number
 }
 const RANGE = 2
-function Pagination({ page, pageSize }: Props) {
+function Pagination({ page, setPage, pageSize }: Props) {
   const renderPagination = () => {
     // Biến giúp check render ... một lần duy nhất
     let dotAfter = false
+    let dotBefore = false
+    // Tách func
+    const renderDotBefore = (index: number) => {
+      if (!dotBefore) {
+        dotBefore = true
+        return (
+          <button key={index} className='bg-white rounded px-3 py-2 shadow-sm mx-2 cursor-pointer border'>
+            ...
+          </button>
+        )
+      } else {
+        return null
+      }
+    }
+    const renderDotAfter = (index: number) => {
+      if (!dotAfter) {
+        dotAfter = true
+        return (
+          <button key={index} className='bg-white rounded px-3 py-2 shadow-sm mx-2 cursor-pointer border'>
+            ...
+          </button>
+        )
+      } else {
+        return null
+      }
+    }
+    // Thực hiện
     return Array(pageSize)
       .fill(0)
       .map((_, index) => {
@@ -19,29 +46,23 @@ function Pagination({ page, pageSize }: Props) {
         // _Thứ hai những pageNumber render map ra phải cách thằng đang đứng 2 đơn vị
         // _Thứ ba những pageNumber render map ra phải nhỏ hơn thằng cuối 2 đơn vị
         //=> thì sẽ không render ra pageNumber đó mà render ra (button ...) một lần sau đó còn lại thì bỏ qua
-        if (page <= RANGE * 2 + 1 && pageNumber > page + RANGE && pageNumber < pageSize - RANGE - 1) {
-          if (!dotAfter) {
-            dotAfter = true
-            return (
-              <button key={index} className='bg-white rounded px-3 py-2 shadow-sm mx-2 cursor-pointer border'>
-                ...
-              </button>
-            )
-          } else {
-            return null
-          }
-        }
+        if (page <= RANGE * 2 + 1 && pageNumber > page + RANGE && pageNumber < pageSize - RANGE + 1) {
+          return renderDotAfter()
+        } else if()
         // Nếu vượt qua được if ở trên thì mới xuống dưới render ra
         return (
           <button
             key={index}
             className={classNames(
-              'bg-white rounded px-3 py-2 shadow-sm mx-2 cursor-pointer border-[2px]', //
+              'bg-white rounded px-3 py-2 shadow-sm mx-2 cursor-pointer border-[1.5px]', //
               {
                 'border-cyan-500': pageNumber === page,
                 'border-transparent': pageNumber !== page
               }
             )}
+            onClick={() => {
+              setPage(pageNumber)
+            }}
           >
             {pageNumber}
           </button>
@@ -50,7 +71,7 @@ function Pagination({ page, pageSize }: Props) {
   }
   return (
     <div
-      className='flex flex-wrap mt-6 border-[3px] border-red-500
+      className='flex flex-wrap mt-6
       justify-center'
     >
       <button
