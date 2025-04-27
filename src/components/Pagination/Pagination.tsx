@@ -1,11 +1,12 @@
+import classNames from 'classnames'
+
 interface Props {
   page: number
   setPage: React.Dispatch<React.SetStateAction<number>>
   pageSize: number
 }
-
 const RANGE = 2
-function Pagination({ page, setPage, pageSize }: Props) {
+function Pagination({ page, pageSize }: Props) {
   const renderPagination = () => {
     // Biến giúp check render ... một lần duy nhất
     let dotAfter = false
@@ -22,7 +23,7 @@ function Pagination({ page, setPage, pageSize }: Props) {
           if (!dotAfter) {
             dotAfter = true
             return (
-              <button key={index} className='bg-white rounded px-3 py-2 shadow-sm mx-2 cursor-pointer'>
+              <button key={index} className='bg-white rounded px-3 py-2 shadow-sm mx-2 cursor-pointer border'>
                 ...
               </button>
             )
@@ -30,8 +31,18 @@ function Pagination({ page, setPage, pageSize }: Props) {
             return null
           }
         }
+        // Nếu vượt qua được if ở trên thì mới xuống dưới render ra
         return (
-          <button key={index} className='bg-white rounded px-3 py-2 shadow-sm mx-2 cursor-pointer'>
+          <button
+            key={index}
+            className={classNames(
+              'bg-white rounded px-3 py-2 shadow-sm mx-2 cursor-pointer border-[2px]', //
+              {
+                'border-cyan-500': pageNumber === page,
+                'border-transparent': pageNumber !== page
+              }
+            )}
+          >
             {pageNumber}
           </button>
         )
@@ -44,14 +55,14 @@ function Pagination({ page, setPage, pageSize }: Props) {
     >
       <button
         className='bg-white rounded px-3 py-2 shadow-sm mx-2
-      cursor-pointer'
+      cursor-pointer border'
       >
         Prev
       </button>
       {renderPagination()}
       <button
         className='bg-white rounded px-3 py-2 shadow-sm mx-2
-      cursor-pointer'
+      cursor-pointer border'
       >
         Next
       </button>
