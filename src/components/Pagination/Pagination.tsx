@@ -54,13 +54,15 @@ function Pagination({ page, setPage, pageSize }: Props) {
         // _Thứ hai page < pageSize - RANGE * 2 nghĩa là page nó chắc chắc không vượt qua 15 thì
         // mới thỏa hiển thị ... khi đứng ở 15 còn đứng 16 thì hiển thị đủ 17 18 19 20 nên không bị ẩn
         else if (page > RANGE * 2 + 1 && page < pageSize - RANGE * 2) {
-          // Những thằng nào > 2 và đồng thời phải cách thằng page 2 thì cho ra ...
+          // Những thằng nào > 2 và đồng thời phải cách thằng page 2 thì cho ra ... phía trước
           if (pageNumber > RANGE && pageNumber < page - RANGE) {
             return renderDotBefore(index)
-            // Những thằng nào cách page 2 và cách 20 2 đơn vị thì cho ra ...
+            // Những thằng nào cách page 2 và cách 20 2 đơn vị thì cho ra ... phía sau
           } else if (pageNumber > page + RANGE && pageNumber < pageSize - RANGE + 1) {
             return renderDotAfter(index)
-          }
+          } // Những thằng nào thỏa page >= 16 và pageNumber đứng sau 2 thằng đầu tiên và < page - RANGE nghĩa là 2 đơn vị
+        } else if (page >= pageSize - RANGE * 2 && pageNumber > RANGE && pageNumber < page - RANGE) {
+          return renderDotBefore(index)
         }
         // Nếu vượt qua được if ở trên thì mới xuống dưới render ra
         return (
