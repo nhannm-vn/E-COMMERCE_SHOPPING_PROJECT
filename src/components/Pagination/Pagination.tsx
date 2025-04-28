@@ -41,6 +41,7 @@ function Pagination({ page, setPage, pageSize }: Props) {
       .fill(0)
       .map((_, index) => {
         const pageNumber = index + 1
+        // ***Điều kiện để return về ký tự [...]
         // Trường hợp dot ở sau page hiển thị các dấu ...
         // _Thứ nhất page <= 5 do business rule sao cho cách 2 đơn vị
         // _Thứ hai những pageNumber render map ra phải cách thằng đang đứng(page) 2 đơn vị
@@ -60,11 +61,12 @@ function Pagination({ page, setPage, pageSize }: Props) {
             // Những thằng nào cách page 2 và cách 20 2 đơn vị thì cho ra ... phía sau
           } else if (pageNumber > page + RANGE && pageNumber < pageSize - RANGE + 1) {
             return renderDotAfter(index)
-          } // Những thằng nào thỏa page >= 16 và pageNumber đứng sau 2 thằng đầu tiên và < page - RANGE nghĩa là 2 đơn vị
+          }
+          // Những thằng nào thỏa page >= 16 và pageNumber đứng sau 2 thằng đầu tiên và < page - RANGE nghĩa là 2 đơn vị
         } else if (page >= pageSize - RANGE * 2 && pageNumber > RANGE && pageNumber < page - RANGE) {
           return renderDotBefore(index)
         }
-        // Nếu vượt qua được if ở trên thì mới xuống dưới render ra
+        // Nếu vượt qua được if ở trên thì mới xuống dưới render ra. Còn nếu vướng if trên thì ra [...] 1 lần duy nhất rồi dừng
         return (
           <button
             key={index}
