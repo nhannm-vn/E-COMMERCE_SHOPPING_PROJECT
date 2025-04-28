@@ -31,7 +31,7 @@ function ProductList() {
           <div className='col-span-9'>
             <SortProductList />
             {/* chia theo break-point */}
-            <div className='mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3'>
+            <div className='mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
               {/* Vì có thể data là undefind nên cần phải check */}
               {data &&
                 data.data.data.products.map((product) => (
@@ -41,7 +41,7 @@ function ProductList() {
                 ))}
             </div>
             {/* Pagination */}
-            <Pagination page={page} setPage={setPage} pageSize={20} />
+            <Pagination page={page} setPage={setPage} pageSize={7} />
           </div>
         </div>
       </div>
