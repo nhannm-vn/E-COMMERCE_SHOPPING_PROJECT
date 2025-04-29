@@ -22,7 +22,7 @@ function Pagination({ queryConfig, pageSize }: Props) {
       if (!dotBefore) {
         dotBefore = true
         return (
-          <span key={index} className='mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm'>
+          <span key={index} className='mx-2 cursor-not-allowed rounded border bg-white px-3 py-2 shadow-sm'>
             ...
           </span>
         )
@@ -34,7 +34,7 @@ function Pagination({ queryConfig, pageSize }: Props) {
       if (!dotAfter) {
         dotAfter = true
         return (
-          <span key={index} className='mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm'>
+          <span key={index} className='mx-2 cursor-not-allowed rounded border bg-white px-3 py-2 shadow-sm'>
             ...
           </span>
         )
@@ -76,6 +76,7 @@ function Pagination({ queryConfig, pageSize }: Props) {
         return (
           <Link
             to={{
+              // Nghĩa là nó bắt đầu từ URL gì
               pathname: path.home,
               // Flow là mấy nút sẽ là mấy thằng Link có sẵn đường dẫn là '/'
               //và queryString trên URL sẽ được biến đổi dựa trên thằng createSearchParams
@@ -103,7 +104,23 @@ function Pagination({ queryConfig, pageSize }: Props) {
   }
   return (
     <div className='mt-6 flex flex-wrap justify-center'>
-      <button className='mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm'>Prev</button>
+      {page === 1 ? (
+        <span className='mx-2 cursor-not-allowed rounded border bg-white px-3 py-2 shadow-sm'>Prev</span>
+      ) : (
+        <Link
+          to={{
+            pathname: path.home,
+            search: createSearchParams({
+              ...queryConfig,
+              page: (page - 1).toString()
+            }).toString()
+          }}
+          className='mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm'
+        >
+          Prev
+        </Link>
+      )}
+
       {renderPagination()}
       <button className='mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm'>Next</button>
     </div>
