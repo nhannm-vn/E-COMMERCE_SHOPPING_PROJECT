@@ -10,6 +10,7 @@ interface Props {
 const RANGE = 2
 function Pagination({ queryConfig, pageSize }: Props) {
   // Lấy ra page nhưng phải ép kiểu
+  // Thằng này giúp biết đang đứng ở trang nào
   const page = Number(queryConfig.page)
 
   const renderPagination = () => {
@@ -79,7 +80,8 @@ function Pagination({ queryConfig, pageSize }: Props) {
               // Flow là mấy nút sẽ là mấy thằng Link có sẵn đường dẫn là '/'
               //và queryString trên URL sẽ được biến đổi dựa trên thằng createSearchParams
               //riêng chỉ có thằng page là phải override lại chứ nếu lấy luôn từ param trên URL thì
-              //nó sẽ bị lấy thằng cũ và bấm không được
+              //nó sẽ bị lấy thằng cũ và bấm không được. Nó chỉ chờ bấm vào nó thì nó chạy queryString thôi
+              //****Giữ lại hết limit, ... chỉ thay đổi số page của từng riêng button khi bấm vào thôi
               search: createSearchParams({
                 ...queryConfig,
                 page: pageNumber.toString()
