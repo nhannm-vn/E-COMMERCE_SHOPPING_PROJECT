@@ -1,12 +1,15 @@
 import classNames from 'classnames'
+import { QueryConfig } from '../../pages/ProductList/ProductList'
 
 interface Props {
-  page: number
-  setPage: React.Dispatch<React.SetStateAction<number>>
+  queryConfig: QueryConfig
   pageSize: number
 }
 const RANGE = 2
-function Pagination({ page, setPage, pageSize }: Props) {
+function Pagination({ queryConfig, pageSize }: Props) {
+  // Lấy ra page nhưng phải ép kiểu
+  const page = Number(queryConfig.page)
+
   const renderPagination = () => {
     // Biến giúp check render ... một lần duy nhất
     let dotAfter = false
