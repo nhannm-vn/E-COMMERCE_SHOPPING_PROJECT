@@ -68,19 +68,16 @@ function Login() {
   })
 
   return (
-    <div className='bg-orange '>
+    <div className='bg-orange'>
       <div className='container'>
-        <div className='grid grid-cols-1 py-12 lg:grid-cols-5 lg:pr-10 lg:py-32'>
+        <div className='grid grid-cols-1 py-12 lg:grid-cols-5 lg:py-32 lg:pr-10'>
           {/* màn hình lớn thì chiếm 3 cột, bắt đầu từ cột thứ 1 */}
           {/* image */}
-          <div
-            className='bg-[url("D:\PIEDTEAM_MERN\F2\Shopee\Shopee-Clone\src\assets\img-login.png")] 
-          bg-no-repeat w-full lg:col-span-3 lg:col-start-1 bg-contain bg-center ml-10'
-          ></div>
+          <div className='ml-10 w-full bg-[url("D:\\PIEDTEAM_MERN\\F2\\Shopee\\Shopee-Clone\\src\\assets\\img-login.png")] bg-contain bg-center bg-no-repeat lg:col-span-3 lg:col-start-1'></div>
           {/* màn hình lớn thì chiếm 2 cột, bắt đầu từ cột thứ 4.*/}
           {/* form */}
           <div className='lg:col-span-2 lg:col-start-4'>
-            <form className='p-10 rounded bg-white shadow-sm' onSubmit={onSubmit} noValidate>
+            <form className='rounded bg-white p-10 shadow-sm' onSubmit={onSubmit} noValidate>
               <div className='text-2xl'>Đăng nhập</div>
               <Input
                 name='email' //
@@ -103,8 +100,7 @@ function Login() {
               <div className='mt-3'>
                 <Button
                   type='submit'
-                  className='flex  w-full items-center justify-center bg-red-500 py-4 px-2 text-sm uppercase
-                   text-white hover:bg-red-600'
+                  className='flex w-full items-center justify-center bg-red-500 px-2 py-4 text-sm uppercase text-white hover:bg-red-600'
                   isLoading={loginMutation.isPending}
                   disabled={loginMutation.isPending}
                 >
@@ -121,9 +117,9 @@ function Login() {
                 </Link>
               </div>
               {/* --HOẶC-- */}
-              <div className='flex items-center mt-3'>
+              <div className='mt-3 flex items-center'>
                 <div className='flex-1 border-t border-gray-300'></div>
-                <span className='px-3 text-gray-300 text-sm uppercase'>hoặc</span>
+                <span className='px-3 text-sm uppercase text-gray-300'>hoặc</span>
                 <div className='flex-1 border-t border-gray-300'></div>
               </div>
               {/* facebook and google */}
@@ -132,10 +128,10 @@ function Login() {
                 <div>
                   <button
                     type='button'
-                    className='text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 me-2 mb-2'
+                    className='mb-2 me-2 inline-flex items-center rounded-lg bg-[#3b5998] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#3b5998]/90 focus:outline-none focus:ring-4 focus:ring-[#3b5998]/50 dark:focus:ring-[#3b5998]/55'
                   >
                     <svg
-                      className='w-4 h-4 me-2'
+                      className='me-2 h-4 w-4'
                       aria-hidden='true'
                       xmlns='http://www.w3.org/2000/svg'
                       fill='currentColor'
@@ -154,10 +150,10 @@ function Login() {
                 <div>
                   <button
                     type='button'
-                    className='text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 me-2 mb-2'
+                    className='mb-2 me-2 inline-flex items-center rounded-lg bg-[#4285F4] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#4285F4]/90 focus:outline-none focus:ring-4 focus:ring-[#4285F4]/50 dark:focus:ring-[#4285F4]/55'
                   >
                     <svg
-                      className='w-4 h-4 me-2'
+                      className='me-2 h-4 w-4'
                       aria-hidden='true'
                       xmlns='http://www.w3.org/2000/svg'
                       fill='currentColor'
@@ -174,9 +170,9 @@ function Login() {
                 </div>
               </div>
               {/* translate */}
-              <div className='flex justify-center mt-8'>
+              <div className='mt-8 flex justify-center'>
                 <span className='text-gray-400'>Bạn mới biết đến Shopee?</span>
-                <Link className='text-red-400 ml-2 hover:text-red-600' to='/register'>
+                <Link className='ml-2 text-red-400 hover:text-red-600' to='/register'>
                   Đăng ký
                 </Link>
               </div>

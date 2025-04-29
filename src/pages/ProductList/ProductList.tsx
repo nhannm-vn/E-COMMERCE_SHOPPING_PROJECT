@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import AsideFilter from './AsideFilter'
 import Product from './Product/Product'
+import { omitBy, isUndefined } from 'lodash'
 import SortProductList from './SortProductList'
 import productApi from '../../apis/product.api'
 import useQueryParams from '../../hooks/useQueryParams'
 import Pagination from '../../components/Pagination'
-import { useState } from 'react'
 import { ProductListConfig } from '../../types/product.type'
 
 export type QueryConfig = {
@@ -17,7 +17,7 @@ function ProductList() {
   const queryParams: QueryConfig = useQueryParams()
   // Tạo biến filter ra từ params
   // **Nghĩa là trên đường dẫn không phải cứ lấy hết từ đường dẫn mà chỉ lấy những cái cần thiết
-  // theo đúng business rule thôi
+  // theo đúng business rule thôi tránh người dừng nhập thêm bậy vào url
   const queryConfig: QueryConfig = {
     page: queryParams.page || '1',
     limit: queryParams.limit,
@@ -29,15 +29,14 @@ function ProductList() {
     price_min: queryParams.price_min,
     rating_filter: queryParams.rating_filter
   }
-  // Page
-  const [page, setPage] = useState(1)
+
   // Lấy dữ liệu ra
   const { data } = useQuery({
     // Vì chúng ta có ProductConfig nữa nên cần truyền thêm queryParams nữa
     // khi các key thay đổi thì nó sẽ chạy lại một lần nữa để cho chúng ta có cái data mới
-    queryKey: ['products', queryParams],
+    queryKey: ['products', queryConfig],
     queryFn: () => {
-      return productApi.getProducts(queryParams)
+      return productApi.getProducts(queryConfig as ProductListConfig)
     }
   })
   return (
@@ -60,7 +59,7 @@ function ProductList() {
                 ))}
             </div>
             {/* Pagination */}
-            <Pagination page={page} setPage={setPage} pageSize={7} />
+            <Pagination page={1} setPage={() => {}} pageSize={7} />
           </div>
         </div>
       </div>
