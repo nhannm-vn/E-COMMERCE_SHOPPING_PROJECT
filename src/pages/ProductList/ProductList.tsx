@@ -18,17 +18,21 @@ function ProductList() {
   // Tạo biến filter ra từ params
   // **Nghĩa là trên đường dẫn không phải cứ lấy hết từ đường dẫn mà chỉ lấy những cái cần thiết
   // theo đúng business rule thôi tránh người dừng nhập thêm bậy vào url
-  const queryConfig: QueryConfig = {
-    page: queryParams.page || '1',
-    limit: queryParams.limit,
-    sort_by: queryParams.sort_by,
-    exclude: queryParams.exclude,
-    name: queryParams.name,
-    order: queryParams.order,
-    price_max: queryParams.price_max,
-    price_min: queryParams.price_min,
-    rating_filter: queryParams.rating_filter
-  }
+  const queryConfig: QueryConfig = omitBy(
+    {
+      page: queryParams.page || '1',
+      limit: queryParams.limit,
+      sort_by: queryParams.sort_by,
+      exclude: queryParams.exclude,
+      name: queryParams.name,
+      order: queryParams.order,
+      price_max: queryParams.price_max,
+      price_min: queryParams.price_min,
+      rating_filter: queryParams.rating_filter
+    },
+    isUndefined
+    // Kết hợp omitBy và isUndefined để loại bỏ những thằng nào bị undefined
+  )
 
   // Lấy dữ liệu ra
   const { data } = useQuery({
@@ -42,26 +46,27 @@ function ProductList() {
   return (
     <div className='bg-gray-200 py-6'>
       <div className='container'>
-        <div className='grid grid-cols-12 gap-6'>
-          <div className='col-span-3'>
-            <AsideFilter />
-          </div>
-          <div className='col-span-9'>
-            <SortProductList />
-            {/* chia theo break-point */}
-            <div className='mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
-              {/* Vì có thể data là undefind nên cần phải check */}
-              {data &&
-                data.data.data.products.map((product) => (
+        {/* Vì có thể data là undefind nên cần phải check */}
+        {data && (
+          <div className='grid grid-cols-12 gap-6'>
+            <div className='col-span-3'>
+              <AsideFilter />
+            </div>
+            <div className='col-span-9'>
+              <SortProductList />
+              {/* chia theo break-point */}
+              <div className='mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
+                {data.data.data.products.map((product) => (
                   <div className='col-span-1' key={product._id}>
                     <Product product={product} />
                   </div>
                 ))}
+              </div>
+              {/* Pagination */}
+              <Pagination queryConfig={queryConfig} pageSize={data.data.data.pagination.page_size} />
             </div>
-            {/* Pagination */}
-            <Pagination page={1} setPage={() => {}} pageSize={7} />
           </div>
-        </div>
+        )}
       </div>
     </div>
   )
