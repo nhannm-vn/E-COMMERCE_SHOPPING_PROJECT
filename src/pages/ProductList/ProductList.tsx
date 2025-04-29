@@ -14,9 +14,21 @@ export type QueryConfig = {
 
 function ProductList() {
   // Xài customHook để lấy dữ liệu từ đường dẫn
-  const queryParams = useQueryParams()
+  const queryParams: QueryConfig = useQueryParams()
   // Tạo biến filter ra từ params
-  const queryConfig = 
+  // **Nghĩa là trên đường dẫn không phải cứ lấy hết từ đường dẫn mà chỉ lấy những cái cần thiết
+  // theo đúng business rule thôi
+  const queryConfig: QueryConfig = {
+    page: queryParams.page || '1',
+    limit: queryParams.limit,
+    sort_by: queryParams.sort_by,
+    exclude: queryParams.exclude,
+    name: queryParams.name,
+    order: queryParams.order,
+    price_max: queryParams.price_max,
+    price_min: queryParams.price_min,
+    rating_filter: queryParams.rating_filter
+  }
   // Page
   const [page, setPage] = useState(1)
   // Lấy dữ liệu ra
