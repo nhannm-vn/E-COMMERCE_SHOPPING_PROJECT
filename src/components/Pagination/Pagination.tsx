@@ -1,5 +1,7 @@
 import classNames from 'classnames'
 import { QueryConfig } from '../../pages/ProductList/ProductList'
+import { createSearchParams, Link } from 'react-router-dom'
+import path from '../../constants/path'
 
 interface Props {
   queryConfig: QueryConfig
@@ -19,9 +21,9 @@ function Pagination({ queryConfig, pageSize }: Props) {
       if (!dotBefore) {
         dotBefore = true
         return (
-          <button key={index} className='mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm'>
+          <span key={index} className='mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm'>
             ...
-          </button>
+          </span>
         )
       } else {
         return null
@@ -31,9 +33,9 @@ function Pagination({ queryConfig, pageSize }: Props) {
       if (!dotAfter) {
         dotAfter = true
         return (
-          <button key={index} className='mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm'>
+          <span key={index} className='mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm'>
             ...
-          </button>
+          </span>
         )
       } else {
         return null
@@ -71,7 +73,18 @@ function Pagination({ queryConfig, pageSize }: Props) {
         }
         // Nếu vượt qua được if ở trên thì mới xuống dưới render ra. Còn nếu vướng if trên thì ra [...] 1 lần duy nhất rồi dừng
         return (
-          <button
+          <Link
+            to={{
+              pathname: path.home,
+              // Flow là mấy nút sẽ là mấy thằng Link có sẵn đường dẫn là '/'
+              //và queryString trên URL sẽ được biến đổi dựa trên thằng createSearchParams
+              //riêng chỉ có thằng page là phải override lại chứ nếu lấy luôn từ param trên URL thì
+              //nó sẽ bị lấy thằng cũ và bấm không được
+              search: createSearchParams({
+                ...queryConfig,
+                page: pageNumber.toString()
+              }).toString()
+            }}
             key={index}
             className={classNames(
               'mx-2 cursor-pointer rounded border-[1.5px] bg-white px-3 py-2 shadow-sm', //
@@ -80,12 +93,9 @@ function Pagination({ queryConfig, pageSize }: Props) {
                 'border-transparent': pageNumber !== page
               }
             )}
-            onClick={() => {
-              setPage(pageNumber)
-            }}
           >
             {pageNumber}
-          </button>
+          </Link>
         )
       })
   }
