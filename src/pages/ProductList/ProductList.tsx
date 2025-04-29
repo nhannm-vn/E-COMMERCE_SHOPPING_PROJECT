@@ -6,10 +6,17 @@ import productApi from '../../apis/product.api'
 import useQueryParams from '../../hooks/useQueryParams'
 import Pagination from '../../components/Pagination'
 import { useState } from 'react'
+import { ProductListConfig } from '../../types/product.type'
+
+export type QueryConfig = {
+  [key in keyof ProductListConfig]: string
+}
 
 function ProductList() {
   // Xài customHook để lấy dữ liệu từ đường dẫn
   const queryParams = useQueryParams()
+  // Tạo biến filter ra từ params
+  const queryConfig = 
   // Page
   const [page, setPage] = useState(1)
   // Lấy dữ liệu ra
