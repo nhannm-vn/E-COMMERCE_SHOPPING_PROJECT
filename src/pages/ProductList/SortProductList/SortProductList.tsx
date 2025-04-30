@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { sortBy } from '../../../constants/product'
+import { sortBy, order as orderConstant } from '../../../constants/product'
 import { QueryConfig } from '../ProductList'
 import { ProductListConfig } from '../../../types/product.type'
 import { createSearchParams, useNavigate } from 'react-router-dom'
@@ -13,7 +13,7 @@ interface Props {
 function SortProductList({ queryConfig }: Props) {
   // Lấy sort_by để biết được sắp xếp dựa trên dạng nào. Để biết được button nào cần active
   // nếu sort_by không có trong đó thì mình sẽ lấy giá trị createAt
-  const { sort_by } = queryConfig
+  const { sort_by = sortBy.createdAt, order } = queryConfig
 
   // Thằng này giúp chuyển trang
   const navigate = useNavigate()
@@ -29,6 +29,17 @@ function SortProductList({ queryConfig }: Props) {
       search: createSearchParams({
         ...queryConfig,
         sort_by: sortByValue
+      }).toString()
+    })
+  }
+
+  const handlePriceOrder = (orderValue: Exclude<ProductListConfig['order'], undefined>) => {
+    navigate({
+      pathname: path.home,
+      search: createSearchParams({
+        ...queryConfig,
+        sort_by: sortBy.price,
+        order: orderValue
       }).toString()
     })
   }
@@ -65,14 +76,18 @@ function SortProductList({ queryConfig }: Props) {
           Bán chạy
         </button>
         <select
-          className='h-8 bg-white px-4 text-left text-sm capitalize text-black outline-none hover:bg-slate-100'
-          defaultValue=''
+          className={classNames('h-8 px-4 text-left text-sm capitalize outline-none', {
+            'bg-orange text-white hover:bg-orange/80': isActiveSortBy(sortBy.price),
+            'bg-white text-black hover:bg-slate-100': !isActiveSortBy(sortBy.price)
+          })}
+          value={order || ''}
+          onChange={(event) => }
         >
           <option value='' disabled>
             Giá
           </option>
-          <option value='price:asc'>Giá: thấp đến cao</option>
-          <option value='price:desc'>Giá: cao đến thấp</option>
+          <option value={orderConstant.asc}>Giá: thấp đến cao</option>
+          <option value={orderConstant.desc}>Giá: cao đến thấp</option>
         </select>
       </div>
       <div className='flex items-center'>
