@@ -111,6 +111,7 @@ function SortProductList({ queryConfig, pageSize }: Props) {
           <span>/{pageSize}</span>
         </div>
         <div className='ml-2'>
+          {/* Prev */}
           {page === 1 ? (
             <span className='justify-content-center flex h-8 w-9 cursor-not-allowed items-center rounded-bl-sm rounded-tl-sm bg-white/60 px-3 shadow hover:bg-slate-100'>
               <svg
@@ -148,18 +149,43 @@ function SortProductList({ queryConfig, pageSize }: Props) {
             </Link>
           )}
 
-          <button className='h-8 rounded-br-sm rounded-tr-sm bg-white px-3 shadow hover:bg-slate-100'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-              strokeWidth={1.5}
-              stroke='currentColor'
-              className='h-3 w-3'
+          {/* Next */}
+          {page === pageSize ? (
+            <span className='justify-content-center flex h-8 w-9 cursor-not-allowed items-center rounded-bl-sm rounded-tl-sm bg-white/60 px-3 shadow hover:bg-slate-100'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth={1.5}
+                stroke='currentColor'
+                className='h-3 w-3'
+              >
+                <path strokeLinecap='round' strokeLinejoin='round' d='m8.25 4.5 7.5 7.5-7.5 7.5' />
+              </svg>
+            </span>
+          ) : (
+            <Link
+              to={{
+                pathname: path.home,
+                search: createSearchParams({
+                  ...queryConfig,
+                  page: (page + 1).toString()
+                }).toString()
+              }}
+              className='justify-content-center flex h-8 w-9 items-center rounded-bl-sm rounded-tl-sm bg-white px-3 shadow hover:bg-slate-100'
             >
-              <path strokeLinecap='round' strokeLinejoin='round' d='m8.25 4.5 7.5 7.5-7.5 7.5' />
-            </svg>
-          </button>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth={1.5}
+                stroke='currentColor'
+                className='h-3 w-3'
+              >
+                <path strokeLinecap='round' strokeLinejoin='round' d='m8.25 4.5 7.5 7.5-7.5 7.5' />
+              </svg>
+            </Link>
+          )}
         </div>
       </div>
     </div>
