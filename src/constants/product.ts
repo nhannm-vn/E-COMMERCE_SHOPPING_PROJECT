@@ -2,7 +2,7 @@
 // mấy cái string để tránh gõ nhầm thì khai báo cái obj rồi lấy cái obj chấm ra thôi
 
 export const sortBy = {
-  createAt: 'createdAt',
+  createdAt: 'createdAt',
   view: 'view',
   sold: 'sold',
   price: 'price'

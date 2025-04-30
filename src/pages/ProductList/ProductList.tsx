@@ -38,6 +38,7 @@ function ProductList() {
   const { data } = useQuery({
     // Vì chúng ta có ProductConfig nữa nên cần truyền thêm queryParams nữa
     // khi các key thay đổi thì nó sẽ chạy lại một lần nữa để cho chúng ta có cái data mới
+    // **Nếu mà mình không gửi param nào thì nó sẽ mặc định trả về 1 và 30
     queryKey: ['products', queryConfig],
     queryFn: () => {
       return productApi.getProducts(queryConfig as ProductListConfig)

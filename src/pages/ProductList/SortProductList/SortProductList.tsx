@@ -1,24 +1,48 @@
+import classNames from 'classnames'
+import { sortBy } from '../../../constants/product'
 import { QueryConfig } from '../ProductList'
-
+import { ProductListConfig } from '../../../types/product.type'
+// Cần phải lấy ra 2 thằng này để xài
 interface Props {
   queryConfig: QueryConfig
   pageSize: number
 }
 
-function SortProductList({ queryConfig, pageSize }: Props) {
-  // Lấy sort_by để biết được sắp xếp dựa trên dạng nào
+function SortProductList({ queryConfig }: Props) {
+  // Lấy sort_by để biết được sắp xếp dựa trên dạng nào. Để biết được button nào cần active
+  // nếu sort_by không có trong đó thì mình sẽ lấy giá trị createAt
   const { sort_by } = queryConfig
+
+  // Function check active
+  // Exclude là func bên ts giúp bỏ undefined
+  const isActiveSortBy = (sortByValue: Exclude<ProductListConfig['sort_by'], undefined>) => sort_by === sortByValue
+
   return (
     <div className='flex flex-wrap items-center justify-between gap-2 bg-gray-300/40 px-3 py-4'>
       <div className='flex flex-wrap items-center gap-2'>
         <div>Sắp xếp theo</div>
-        <button className='h-8 bg-orange px-4 text-center text-sm capitalize text-white hover:bg-orange/80'>
+        <button
+          className={classNames('h-8 px-4 text-center text-sm capitalize', {
+            'bg-orange text-white hover:bg-orange/80': isActiveSortBy(sortBy.view),
+            'bg-white text-black hover:bg-slate-100': !isActiveSortBy(sortBy.view)
+          })}
+        >
           Phổ biến
         </button>
-        <button className='h-8 bg-white px-4 text-center text-sm capitalize text-black hover:bg-slate-100'>
+        <button
+          className={classNames('h-8 px-4 text-center text-sm capitalize', {
+            'bg-orange text-white hover:bg-orange/80': isActiveSortBy(sortBy.createdAt),
+            'bg-white text-black hover:bg-slate-100': !isActiveSortBy(sortBy.createdAt)
+          })}
+        >
           Mới nhất
         </button>
-        <button className='h-8 bg-white px-4 text-center text-sm capitalize text-black hover:bg-slate-100'>
+        <button
+          className={classNames('h-8 px-4 text-center text-sm capitalize', {
+            'bg-orange text-white hover:bg-orange/80': isActiveSortBy(sortBy.sold),
+            'bg-white text-black hover:bg-slate-100': !isActiveSortBy(sortBy.sold)
+          })}
+        >
           Bán chạy
         </button>
         <select
