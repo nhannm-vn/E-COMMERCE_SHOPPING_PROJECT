@@ -38,6 +38,7 @@ function SortProductList({ queryConfig }: Props) {
       pathname: path.home,
       search: createSearchParams({
         ...queryConfig,
+        // **Lưu ý đối với thằng này chỉ hoạt động khi sort_by là price
         sort_by: sortBy.price,
         order: orderValue
       }).toString()
@@ -81,13 +82,17 @@ function SortProductList({ queryConfig }: Props) {
             'bg-white text-black hover:bg-slate-100': !isActiveSortBy(sortBy.price)
           })}
           value={order || ''}
-          onChange={(event) => }
+          onChange={(event) => handlePriceOrder(event.target.value as Exclude<ProductListConfig['order'], undefined>)}
         >
-          <option value='' disabled>
+          <option className='bg-white text-black' value='' disabled>
             Giá
           </option>
-          <option value={orderConstant.asc}>Giá: thấp đến cao</option>
-          <option value={orderConstant.desc}>Giá: cao đến thấp</option>
+          <option className='bg-white text-black' value={orderConstant.asc}>
+            Giá: thấp đến cao
+          </option>
+          <option className='bg-white text-black' value={orderConstant.desc}>
+            Giá: cao đến thấp
+          </option>
         </select>
       </div>
       <div className='flex items-center'>
