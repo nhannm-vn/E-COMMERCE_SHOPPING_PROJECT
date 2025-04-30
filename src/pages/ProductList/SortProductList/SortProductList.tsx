@@ -110,7 +110,7 @@ function SortProductList({ queryConfig, pageSize }: Props) {
           <span className='text-orange'>{page}</span>
           <span>/{pageSize}</span>
         </div>
-        <div className='ml-2'>
+        <div className='ml-2 flex items-center'>
           {/* Prev */}
           {page === 1 ? (
             <span className='justify-content-center flex h-8 w-9 cursor-not-allowed items-center rounded-bl-sm rounded-tl-sm bg-white/60 px-3 shadow hover:bg-slate-100'>
