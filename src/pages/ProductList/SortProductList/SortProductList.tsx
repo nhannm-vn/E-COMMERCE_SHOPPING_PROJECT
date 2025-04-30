@@ -2,6 +2,8 @@ import classNames from 'classnames'
 import { sortBy } from '../../../constants/product'
 import { QueryConfig } from '../ProductList'
 import { ProductListConfig } from '../../../types/product.type'
+import { createSearchParams, useNavigate } from 'react-router-dom'
+import path from '../../../constants/path'
 // Cần phải lấy ra 2 thằng này để xài
 interface Props {
   queryConfig: QueryConfig
@@ -13,9 +15,23 @@ function SortProductList({ queryConfig }: Props) {
   // nếu sort_by không có trong đó thì mình sẽ lấy giá trị createAt
   const { sort_by } = queryConfig
 
+  // Thằng này giúp chuyển trang
+  const navigate = useNavigate()
+
   // Function check active
   // Exclude là func bên ts giúp bỏ undefined
   const isActiveSortBy = (sortByValue: Exclude<ProductListConfig['sort_by'], undefined>) => sort_by === sortByValue
+
+  // Hàm giúp thay đổi đường dẫn sort
+  const handleSort = (sortByValue: Exclude<ProductListConfig['sort_by'], undefined>) => {
+    navigate({
+      pathname: path.home,
+      search: createSearchParams({
+        ...queryConfig,
+        sort_by: sortByValue
+      }).toString()
+    })
+  }
 
   return (
     <div className='flex flex-wrap items-center justify-between gap-2 bg-gray-300/40 px-3 py-4'>
@@ -26,6 +42,7 @@ function SortProductList({ queryConfig }: Props) {
             'bg-orange text-white hover:bg-orange/80': isActiveSortBy(sortBy.view),
             'bg-white text-black hover:bg-slate-100': !isActiveSortBy(sortBy.view)
           })}
+          onClick={() => handleSort(sortBy.view)}
         >
           Phổ biến
         </button>
@@ -34,6 +51,7 @@ function SortProductList({ queryConfig }: Props) {
             'bg-orange text-white hover:bg-orange/80': isActiveSortBy(sortBy.createdAt),
             'bg-white text-black hover:bg-slate-100': !isActiveSortBy(sortBy.createdAt)
           })}
+          onClick={() => handleSort(sortBy.createdAt)}
         >
           Mới nhất
         </button>
@@ -42,6 +60,7 @@ function SortProductList({ queryConfig }: Props) {
             'bg-orange text-white hover:bg-orange/80': isActiveSortBy(sortBy.sold),
             'bg-white text-black hover:bg-slate-100': !isActiveSortBy(sortBy.sold)
           })}
+          onClick={() => handleSort(sortBy.sold)}
         >
           Bán chạy
         </button>
