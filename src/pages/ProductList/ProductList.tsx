@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import AsideFilter from './AsideFilter'
 import Product from './Product/Product'
 import { omitBy, isUndefined } from 'lodash'
@@ -20,8 +20,8 @@ function ProductList() {
   // theo đúng business rule thôi tránh người dừng nhập thêm bậy vào url
   const queryConfig: QueryConfig = omitBy(
     {
-      page: queryParams.page || '1',
-      limit: queryParams.limit,
+      page: queryParams.page || '1', // số 1 hoặc '1' thì queryFn vẫn lấy data được
+      limit: queryParams.limit || 3,
       sort_by: queryParams.sort_by,
       exclude: queryParams.exclude,
       name: queryParams.name,
@@ -41,7 +41,9 @@ function ProductList() {
     queryKey: ['products', queryConfig],
     queryFn: () => {
       return productApi.getProducts(queryConfig as ProductListConfig)
-    }
+    },
+    // Giữ lại dữ liệu cũ đợi tới có dữ liệu mới thì thay đổi tránh bị giật
+    placeholderData: keepPreviousData
   })
   console.log(data)
   return (
