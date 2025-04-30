@@ -21,7 +21,7 @@ function ProductList() {
   const queryConfig: QueryConfig = omitBy(
     {
       page: queryParams.page || '1', // số 1 hoặc '1' thì queryFn vẫn lấy data được
-      limit: queryParams.limit || 1,
+      limit: queryParams.limit || 5,
       sort_by: queryParams.sort_by,
       exclude: queryParams.exclude,
       name: queryParams.name,
