@@ -4,6 +4,7 @@ import { QueryConfig } from '../ProductList'
 import { ProductListConfig } from '../../../types/product.type'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import path from '../../../constants/path'
+import { omit } from 'lodash'
 // Cần phải lấy ra 2 thằng này để xài
 interface Props {
   queryConfig: QueryConfig
@@ -26,10 +27,16 @@ function SortProductList({ queryConfig }: Props) {
   const handleSort = (sortByValue: Exclude<ProductListConfig['sort_by'], undefined>) => {
     navigate({
       pathname: path.home,
-      search: createSearchParams({
-        ...queryConfig,
-        sort_by: sortByValue
-      }).toString()
+      search: createSearchParams(
+        // Giúp cho đang ở price nhảy qua thằng khác nội dung không bị thay đổi
+        omit(
+          {
+            ...queryConfig,
+            sort_by: sortByValue
+          },
+          ['order']
+        )
+      ).toString()
     })
   }
 
