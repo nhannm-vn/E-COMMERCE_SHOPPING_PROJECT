@@ -15,6 +15,7 @@ function SortProductList({ queryConfig, pageSize }: Props) {
   // Lấy page ra
   const page = Number(queryConfig.page)
   // Keep trying
+  // Keep trying
   // Lấy sort_by để biết được sắp xếp dựa trên dạng nào. Để biết được button nào cần active
   // nếu sort_by không có trong đó thì mình sẽ lấy giá trị createAt
   const { sort_by = sortBy.createdAt, order } = queryConfig
