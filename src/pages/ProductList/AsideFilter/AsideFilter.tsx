@@ -2,8 +2,19 @@ import { Link } from 'react-router-dom'
 import path from '../../../constants/path'
 import Input from '../../../components/Input'
 import Button from '../../../components/Button'
+import { QueryConfig } from '../ProductList'
+import { Category } from '../../../types/category.type'
+import classNames from 'classnames'
 
-function AsideFilter() {
+interface Props {
+  queryConfig: QueryConfig
+  categories: Category[]
+}
+
+function AsideFilter({ queryConfig, categories }: Props) {
+  // Lấy categoryId trên url
+  const { category } = queryConfig
+
   return (
     <div className='border-[1.2px] border-gray-300 p-4'>
       {/*  */}
@@ -25,19 +36,24 @@ function AsideFilter() {
       </Link>
       <div className='my-4 h-[1px] bg-gray-300' />
       <ul>
-        <li className='py-2 pl-2'>
-          <Link to={path.home} className='relative px-2 font-semibold text-orange'>
-            <svg viewBox='0 0 4 7' className='absolute left-[-10px] top-1 h-2 w-2 fill-orange'>
-              <polygon points='4 3.5 0 0 0 7' />
-            </svg>
-            Thời Trang Nam
-          </Link>
-        </li>
-        <li className='py-2 pl-2'>
-          <Link to={path.home} className='relative px-2'>
-            Điện Thoại
-          </Link>
-        </li>
+        {categories.map((categoryItem) => {
+          const isActive = category === categoryItem._id
+          return (
+            <li className='py-2 pl-2' key={categoryItem._id}>
+              <Link
+                to={path.home}
+                className={classNames('relative px-2', {
+                  'font-semibold text-orange': isActive
+                })}
+              >
+                <svg viewBox='0 0 4 7' className='absolute left-[-10px] top-1 h-2 w-2 fill-orange'>
+                  <polygon points='4 3.5 0 0 0 7' />
+                </svg>
+                {categoryItem.name}
+              </Link>
+            </li>
+          )
+        })}
       </ul>
       {/*  */}
       <Link to={path.home} className='mt-4 flex items-center font-bold uppercase'>
