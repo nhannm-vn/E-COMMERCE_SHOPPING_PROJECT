@@ -46,9 +46,12 @@ function AsideFilter({ queryConfig, categories }: Props) {
                   'font-semibold text-orange': isActive
                 })}
               >
-                <svg viewBox='0 0 4 7' className='absolute left-[-10px] top-1 h-2 w-2 fill-orange'>
-                  <polygon points='4 3.5 0 0 0 7' />
-                </svg>
+                {/* Nếu nó active thì show cái dấu ra */}
+                {isActive && (
+                  <svg viewBox='0 0 4 7' className={classNames('absolute left-[-10px] top-1 h-2 w-2 fill-orange')}>
+                    <polygon points='4 3.5 0 0 0 7' />
+                  </svg>
+                )}
                 {categoryItem.name}
               </Link>
             </li>
