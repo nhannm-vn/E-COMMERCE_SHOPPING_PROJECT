@@ -28,6 +28,9 @@ function SortProductList({ queryConfig, pageSize }: Props) {
   const isActiveSortBy = (sortByValue: Exclude<ProductListConfig['sort_by'], undefined>) => sort_by === sortByValue
 
   // Hàm giúp thay đổi đường dẫn sort
+  // Nghĩa là nó sẽ lấy từ đường dẫn về và ghì đè thuộc tính
+  // nên phải omit đi thằng sort. Nếu không từ sort bthg mà qua sort có order nó sẽ giữ nguyên order
+  // do lấy đường dẫn cũ độ chế
   const handleSort = (sortByValue: Exclude<ProductListConfig['sort_by'], undefined>) => {
     navigate({
       pathname: path.home,
