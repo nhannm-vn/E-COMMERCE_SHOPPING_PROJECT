@@ -29,7 +29,8 @@ function ProductList() {
       order: queryParams.order,
       price_max: queryParams.price_max,
       price_min: queryParams.price_min,
-      rating_filter: queryParams.rating_filter
+      rating_filter: queryParams.rating_filter,
+      category: queryParams.category
     },
     isUndefined
     // Kết hợp omitBy và isUndefined để loại bỏ những thằng nào bị undefined

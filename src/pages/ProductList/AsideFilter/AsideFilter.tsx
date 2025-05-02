@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { createSearchParams, Link } from 'react-router-dom'
 import path from '../../../constants/path'
 import Input from '../../../components/Input'
 import Button from '../../../components/Button'
@@ -41,7 +41,13 @@ function AsideFilter({ queryConfig, categories }: Props) {
           return (
             <li className='py-2 pl-2' key={categoryItem._id}>
               <Link
-                to={path.home}
+                to={{
+                  pathname: path.home,
+                  search: createSearchParams({
+                    ...queryConfig,
+                    category: categoryItem._id
+                  }).toString()
+                }}
                 className={classNames('relative px-2', {
                   'font-semibold text-orange': isActive
                 })}
