@@ -1,5 +1,29 @@
-function InputNumber() {
-  return <div>InputNumber</div>
+import { InputHTMLAttributes } from 'react'
+
+// Khai báo interface cho prop
+// **Nhờ extend mà mình có thể không cần ĐỊNH NGHĨA hết các thuộc tính vd như placeholder
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
+  // type: React.HTMLInputTypeAttribute
+  errrorMessage?: string
+  classNameInput?: string
+  classNameError?: string
 }
 
-export default InputNumber
+export default function InputNumber({
+  errrorMessage,
+  className,
+  classNameInput = 'p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md',
+  classNameError = 'mt-1 text-red-600 min-h-[1.3rem] text-sm',
+  ...rest
+}: Props) {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {}
+  return (
+    <div className={className}>
+      <input className={classNameInput} {...rest} />
+      {/* min-h-[1rem]: giúp luôn có chiều cao kể cả không có lỗi */}
+      <div className={classNameError}>{errrorMessage}</div>
+    </div>
+  )
+}
+
+// Component này chuyên dùng riêng cho handler số xài đến onChangeEvent. Nên không có xài lại Input được do có register
