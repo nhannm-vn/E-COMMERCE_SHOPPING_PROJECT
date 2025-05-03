@@ -1,19 +1,34 @@
 import { createSearchParams, Link } from 'react-router-dom'
 import path from '../../../constants/path'
-import Input from '../../../components/Input'
 import Button from '../../../components/Button'
 import { QueryConfig } from '../ProductList'
 import { Category } from '../../../types/category.type'
 import classNames from 'classnames'
+import InputNumber from '../../../components/InputNumber'
+import { useForm, Controller } from 'react-hook-form'
 
 interface Props {
   queryConfig: QueryConfig
   categories: Category[]
 }
 
+type FormData = {
+  price_min: string
+  price_max: string
+}
+
 function AsideFilter({ queryConfig, categories }: Props) {
   // Lấy categoryId trên url
   const { category } = queryConfig
+
+  const { control, watch } = useForm<FormData>({
+    defaultValues: {
+      price_min: '',
+      price_max: ''
+    }
+  })
+  const valueForm = watch()
+  console.log(valueForm)
 
   return (
     <div className='border-[1.2px] border-gray-300 p-4'>
@@ -96,21 +111,42 @@ function AsideFilter({ queryConfig, categories }: Props) {
         <div>Khoảng Giá</div>
         <form className='mt-2'>
           <div className='flex items-start'>
-            <Input
-              type='text'
-              className='grow'
-              name='from' //
-              placeholder='₫ TỪ'
-              classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
+            <Controller
+              control={control}
+              name='price_min'
+              render={({ field }) => {
+                return (
+                  <InputNumber
+                    type='text'
+                    className='grow'
+                    name='from' //
+                    placeholder='₫ TỪ'
+                    classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
+                    onChange={(event) => field.onChange(event)}
+                    value={field.value}
+                  />
+                )
+              }}
             />
+
             {/* shrink để nó không co lại */}
             <div className='mx-2 mt-2 shrink-0'>-</div>
-            <Input
-              type='text'
-              className='grow'
-              name='from' //
-              placeholder='₫ ĐẾN'
-              classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
+            <Controller
+              control={control}
+              name='price_max'
+              render={({ field }) => {
+                return (
+                  <InputNumber
+                    type='text'
+                    className='grow'
+                    name='from' //
+                    placeholder='₫ ĐẾN'
+                    classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
+                    onChange={(event) => field.onChange(event)}
+                    value={field.value}
+                  />
+                )
+              }}
             />
           </div>
           <Button className='align-self-center flex w-full justify-center bg-orange p-2 text-sm uppercase text-white hover:bg-orange/80'>
