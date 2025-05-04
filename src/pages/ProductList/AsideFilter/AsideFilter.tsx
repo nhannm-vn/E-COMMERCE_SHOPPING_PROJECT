@@ -35,13 +35,15 @@ function AsideFilter({ queryConfig, categories }: Props) {
   const {
     control,
     handleSubmit,
+    trigger,
     formState: { errors }
   } = useForm<FormData>({
     defaultValues: {
       price_min: '',
       price_max: ''
     },
-    resolver: yupResolver(priceSchema)
+    resolver: yupResolver(priceSchema),
+    shouldFocusError: false
   })
   console.log(errors)
 
@@ -141,9 +143,13 @@ function AsideFilter({ queryConfig, categories }: Props) {
                     name='from' //
                     placeholder='₫ TỪ'
                     classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
-                    onChange={field.onChange}
+                    onChange={(event) => {
+                      field.onChange(event) //
+                      trigger('price_max')
+                    }}
                     value={field.value}
                     ref={field.ref}
+                    classNameError='hidden'
                   />
                 )
               }}
@@ -162,14 +168,19 @@ function AsideFilter({ queryConfig, categories }: Props) {
                     name='from' //
                     placeholder='₫ ĐẾN'
                     classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
-                    onChange={field.onChange}
+                    onChange={(event) => {
+                      field.onChange(event) //
+                      trigger('price_min')
+                    }}
                     value={field.value}
                     ref={field.ref}
+                    classNameError='hidden'
                   />
                 )
               }}
             />
           </div>
+          <div className='mt-1 min-h-[1.3rem] text-center text-sm text-red-600'>{errors.price_min?.message}</div>
           <Button className='align-self-center flex w-full justify-center bg-orange p-2 text-sm uppercase text-white hover:bg-orange/80'>
             Áp dụng
           </Button>
