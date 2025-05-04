@@ -98,10 +98,14 @@ export const schema = yup.object({
     test: function (value) {
       const price_min = value
       // Đây là obj chứa hai thằng price_min và price_max
-      const { price_max } = this.parent
+      const { price_max } = this.parent as { price_min: string; price_max: string }
+      // _Giá hai thằng đều có và price_max >= price_min
+      //nếu cả hai thằng đều có thì check độ lớn
       if (price_min !== '' && price_max !== '') {
         return Number(price_max) >= Number(price_min)
       }
+      // _Giá một thằng có cũng không có lỗi
+      return price_min !== '' || price_max !== ''
     }
   }) //
 })
