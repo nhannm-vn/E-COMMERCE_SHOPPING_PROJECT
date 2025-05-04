@@ -1,4 +1,4 @@
-import { createSearchParams, Link } from 'react-router-dom'
+import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import path from '../../../constants/path'
 import Button from '../../../components/Button'
 import { QueryConfig } from '../ProductList'
@@ -48,8 +48,17 @@ function AsideFilter({ queryConfig, categories }: Props) {
   console.log(errors)
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
+    navigate({
+      pathname: path.home,
+      search: createSearchParams({
+        ...queryConfig,
+        price_max: data.price_max as string,
+        price_min: data.price_min as string
+      }).toString()
+    })
   })
+
+  const navigate = useNavigate()
 
   return (
     <div className='border-[1.2px] border-gray-300 p-4'>
@@ -140,16 +149,14 @@ function AsideFilter({ queryConfig, categories }: Props) {
                   <InputNumber
                     type='text'
                     className='grow'
-                    name='from' //
                     placeholder='₫ TỪ'
                     classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
+                    {...field}
+                    classNameError='hidden'
                     onChange={(event) => {
                       field.onChange(event) //
                       trigger('price_max')
                     }}
-                    value={field.value}
-                    ref={field.ref}
-                    classNameError='hidden'
                   />
                 )
               }}
@@ -165,16 +172,14 @@ function AsideFilter({ queryConfig, categories }: Props) {
                   <InputNumber
                     type='text'
                     className='grow'
-                    name='from' //
                     placeholder='₫ ĐẾN'
                     classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
+                    {...field}
+                    classNameError='hidden'
                     onChange={(event) => {
                       field.onChange(event) //
                       trigger('price_min')
                     }}
-                    value={field.value}
-                    ref={field.ref}
-                    classNameError='hidden'
                   />
                 )
               }}
