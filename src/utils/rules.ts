@@ -107,6 +107,22 @@ export const schema = yup.object({
       // _Giá một thằng có cũng không có lỗi
       return price_min !== '' || price_max !== ''
     }
+  }), //
+  price_max: yup.string().test({
+    name: 'price-not-allowed',
+    message: 'Giá không phù hợp',
+    test: function (value) {
+      const price_max = value
+      // Đây là obj chứa hai thằng price_min và price_max
+      const { price_min } = this.parent as { price_min: string; price_max: string }
+      // _Giá hai thằng đều có và price_max >= price_min
+      //nếu cả hai thằng đều có thì check độ lớn
+      if (price_min !== '' && price_max !== '') {
+        return Number(price_max) >= Number(price_min)
+      }
+      // _Giá một thằng có cũng không có lỗi
+      return price_min !== '' || price_max !== ''
+    }
   }) //
 })
 

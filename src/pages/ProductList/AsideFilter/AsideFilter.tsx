@@ -6,6 +6,8 @@ import { Category } from '../../../types/category.type'
 import classNames from 'classnames'
 import InputNumber from '../../../components/InputNumber'
 import { useForm, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { schema } from '../../../utils/rules'
 
 interface Props {
   queryConfig: QueryConfig
@@ -13,8 +15,8 @@ interface Props {
 }
 
 type FormData = {
-  price_min: string
-  price_max: string
+  price_min?: string
+  price_max?: string
 }
 
 /**
@@ -23,15 +25,28 @@ type FormData = {
  * Còn không thì có price_min thì không có price_max và ngược lại
  */
 
+// Chỉ lấy ra price_min và price_max
+const priceSchema = schema.pick(['price_min', 'price_max'])
+
 function AsideFilter({ queryConfig, categories }: Props) {
   // Lấy categoryId trên url
   const { category } = queryConfig
 
-  const { control } = useForm<FormData>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<FormData>({
     defaultValues: {
       price_min: '',
       price_max: ''
-    }
+    },
+    resolver: yupResolver(priceSchema)
+  })
+  console.log(errors)
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data)
   })
 
   return (
@@ -113,7 +128,7 @@ function AsideFilter({ queryConfig, categories }: Props) {
       {/* Khoang gia */}
       <div className='my-5'>
         <div>Khoảng Giá</div>
-        <form className='mt-2'>
+        <form className='mt-2' onSubmit={onSubmit}>
           <div className='flex items-start'>
             <Controller
               control={control}
@@ -126,8 +141,9 @@ function AsideFilter({ queryConfig, categories }: Props) {
                     name='from' //
                     placeholder='₫ TỪ'
                     classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
-                    onChange={(event) => field.onChange(event)}
+                    onChange={field.onChange}
                     value={field.value}
+                    ref={field.ref}
                   />
                 )
               }}
@@ -146,8 +162,9 @@ function AsideFilter({ queryConfig, categories }: Props) {
                     name='from' //
                     placeholder='₫ ĐẾN'
                     classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
-                    onChange={(event) => field.onChange(event)}
+                    onChange={field.onChange}
                     value={field.value}
+                    ref={field.ref}
                   />
                 )
               }}
