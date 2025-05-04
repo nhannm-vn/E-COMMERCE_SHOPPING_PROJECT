@@ -17,18 +17,22 @@ type FormData = {
   price_max: string
 }
 
+/**
+ * Rule validate
+ * Nếu có price_min và price_max thì price_max >= price_min
+ * Còn không thì có price_min thì không có price_max và ngược lại
+ */
+
 function AsideFilter({ queryConfig, categories }: Props) {
   // Lấy categoryId trên url
   const { category } = queryConfig
 
-  const { control, watch } = useForm<FormData>({
+  const { control } = useForm<FormData>({
     defaultValues: {
       price_min: '',
       price_max: ''
     }
   })
-  const valueForm = watch()
-  console.log(valueForm)
 
   return (
     <div className='border-[1.2px] border-gray-300 p-4'>
