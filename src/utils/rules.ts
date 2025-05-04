@@ -89,9 +89,21 @@ export const schema = yup.object({
     .required('Nhập lại password là bắt buộc')
     .max(160, 'Độ dài từ 6 - 160 ký tự')
     .min(6, 'Độ dài từ 6 - 160 ký tự')
-    .oneOf([yup.ref('password')], 'Nhập lại password không khớp')
+    .oneOf([yup.ref('password')], 'Nhập lại password không khớp'),
   // Một cái giá trị mà nó matches với một giá trị nào đó: xài oneOf
   //cái array nghĩa là một trong những cái giá trị này
+  price_min: yup.string().test({
+    name: 'price-not-allowed',
+    message: 'Giá không phù hợp',
+    test: function (value) {
+      const price_min = value
+      // Đây là obj chứa hai thằng price_min và price_max
+      const { price_max } = this.parent
+      if (price_min !== '' && price_max !== '') {
+        return Number(price_max) >= Number(price_min)
+      }
+    }
+  }) //
 })
 
 // Trường hợp muốn tái sử dụng schema ở trên mà bỏ bớt thằng nào đó
