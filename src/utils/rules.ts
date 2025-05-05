@@ -72,6 +72,16 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
 //có thằng này thì bỏ luôn thằng trên
 //
 //
+
+function testPriceMinMax(this: yup.TestContext<yup.AnyObject>) {
+  const { price_min, price_max } = this.parent as { price_min: string; price_max: string }
+  if (price_min !== '' && price_max !== '') {
+    return Number(price_max) >= Number(price_min)
+  }
+  // _Giá một thằng có cũng không có lỗi
+  return price_min !== '' || price_max !== ''
+}
+
 export const schema = yup.object({
   email: yup
     .string()
@@ -95,34 +105,12 @@ export const schema = yup.object({
   price_min: yup.string().test({
     name: 'price-not-allowed',
     message: 'Giá không phù hợp',
-    test: function (value) {
-      const price_min = value
-      // Đây là obj chứa hai thằng price_min và price_max
-      const { price_max } = this.parent as { price_min: string; price_max: string }
-      // _Giá hai thằng đều có và price_max >= price_min
-      //nếu cả hai thằng đều có thì check độ lớn
-      if (price_min !== '' && price_max !== '') {
-        return Number(price_max) >= Number(price_min)
-      }
-      // _Giá một thằng có cũng không có lỗi
-      return price_min !== '' || price_max !== ''
-    }
+    test: testPriceMinMax
   }), //
   price_max: yup.string().test({
     name: 'price-not-allowed',
     message: 'Giá không phù hợp',
-    test: function (value) {
-      const price_max = value
-      // Đây là obj chứa hai thằng price_min và price_max
-      const { price_min } = this.parent as { price_min: string; price_max: string }
-      // _Giá hai thằng đều có và price_max >= price_min
-      //nếu cả hai thằng đều có thì check độ lớn
-      if (price_min !== '' && price_max !== '') {
-        return Number(price_max) >= Number(price_min)
-      }
-      // _Giá một thằng có cũng không có lỗi
-      return price_min !== '' || price_max !== ''
-    }
+    test: testPriceMinMax
   }) //
 })
 
