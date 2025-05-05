@@ -7,17 +7,14 @@ import classNames from 'classnames'
 import InputNumber from '../../../components/InputNumber'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { schema } from '../../../utils/rules'
+import { Schema, schema } from '../../../utils/rules'
 
 interface Props {
   queryConfig: QueryConfig
   categories: Category[]
 }
 
-type FormData = {
-  price_min?: string
-  price_max?: string
-}
+type FormData = Pick<Schema, 'price_max' | 'price_min'>
 
 /**
  * Rule validate
@@ -153,6 +150,7 @@ function AsideFilter({ queryConfig, categories }: Props) {
                     classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
                     {...field}
                     classNameError='hidden'
+                    // Giúp validate lại
                     onChange={(event) => {
                       field.onChange(event) //
                       trigger('price_max')
