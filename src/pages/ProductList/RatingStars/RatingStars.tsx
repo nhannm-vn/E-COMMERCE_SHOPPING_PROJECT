@@ -35,7 +35,13 @@ function RatingStars({ queryConfig }: Props) {
         .fill(0)
         .map((_, index) => (
           <li className='py-1 pl-2' key={index}>
-            <div className='flex items-center text-sm' onClick={() => handleFilterStar(5 - index)}>
+            <div
+              className='flex cursor-pointer items-center text-sm'
+              onClick={() => handleFilterStar(5 - index)}
+              tabIndex={0}
+              role='button'
+              aria-hidden='true'
+            >
               {Array(5)
                 .fill(0)
                 .map((_, indexStar) => {
