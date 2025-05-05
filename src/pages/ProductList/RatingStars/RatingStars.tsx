@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom'
+import { createSearchParams, useNavigate } from 'react-router-dom'
+import { QueryConfig } from '../ProductList'
+import path from '../../../constants/path'
 
 /**
  * index 0: Có 5 cái màu vàng tương ứng từ indexStar 0 - 4 đều màu vàng
@@ -10,14 +12,30 @@ import { Link } from 'react-router-dom'
  * Chúng ta nhận ra là indexStar < 5 - index thì đều là màu vàng
  */
 
-function RatingStars() {
+interface Props {
+  queryConfig: QueryConfig
+}
+
+function RatingStars({ queryConfig }: Props) {
+  const navigate = useNavigate()
+
+  const handleFilterStar = (ratingFilter: number) => {
+    navigate({
+      pathname: path.home,
+      search: createSearchParams({
+        ...queryConfig,
+        rating_filter: String(ratingFilter)
+      }).toString()
+    })
+  }
+
   return (
     <ul className='my-3'>
       {Array(5)
         .fill(0)
         .map((_, index) => (
           <li className='py-1 pl-2' key={index}>
-            <Link to='' className='flex items-center text-sm'>
+            <div className='flex items-center text-sm' onClick={() => handleFilterStar(5 - index)}>
               {Array(5)
                 .fill(0)
                 .map((_, indexStar) => {
@@ -70,7 +88,7 @@ function RatingStars() {
                   }
                 })}
               {index !== 0 && <span>Trở lên</span>}
-            </Link>
+            </div>
           </li>
         ))}
     </ul>

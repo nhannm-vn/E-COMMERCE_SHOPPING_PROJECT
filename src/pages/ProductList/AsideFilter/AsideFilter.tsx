@@ -196,7 +196,7 @@ function AsideFilter({ queryConfig, categories }: Props) {
       {/* Danh gia */}
       <div className='text-sm'>Đánh giá</div>
       {/* star */}
-      <RatingStars />
+      <RatingStars queryConfig={queryConfig} />
       <div className='my-4 h-[1px] bg-gray-300' />
       {/* Xoa tat ca */}
       <Button className='align-self-center flex w-full justify-center bg-orange p-2 text-sm uppercase text-white hover:bg-orange/80'>
