@@ -61,7 +61,7 @@ function AsideFilter({ queryConfig, categories }: Props) {
   const navigate = useNavigate()
 
   return (
-    <div className='border-[1.2px] border-gray-300 p-4'>
+    <div className='p-4'>
       {/*  */}
       <Link
         to={path.home}
