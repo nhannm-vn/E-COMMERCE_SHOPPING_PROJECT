@@ -12,11 +12,10 @@ import { AppContext } from '../../contexts/app.context'
 import Button from '../../components/Button'
 
 // Mình sẽ lợi dụng Schema để định nghĩa thay cho type thuần luôn
-// Bên login form sẽ không có confirm_password nên mình sẽ Omit đi
-type FormData = Omit<Schema, 'confirm_password'>
+type FormData = Pick<Schema, 'email' | 'password'>
 
 // schema của login cũng khác nên cần độ chế lại miếng
-const loginSchema = schema.omit(['confirm_password'])
+const loginSchema = schema.pick(['email', 'password'])
 
 function Login() {
   // Lấy setIsAuthenticated bằng useContext
