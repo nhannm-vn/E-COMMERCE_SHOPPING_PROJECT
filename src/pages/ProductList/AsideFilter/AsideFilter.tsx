@@ -8,13 +8,15 @@ import InputNumber from '../../../components/InputNumber'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Schema, schema } from '../../../utils/rules'
+import { NoUndefinedField } from '../../../types/utils.type'
+import { ObjectSchema } from 'yup'
 
 interface Props {
   queryConfig: QueryConfig
   categories: Category[]
 }
 
-type FormData = Pick<Schema, 'price_max' | 'price_min'>
+type FormData = NoUndefinedField<Pick<Schema, 'price_max' | 'price_min'>>
 
 /**
  * Rule validate
@@ -39,7 +41,7 @@ function AsideFilter({ queryConfig, categories }: Props) {
       price_min: '',
       price_max: ''
     },
-    resolver: yupResolver(priceSchema),
+    resolver: yupResolver<FormData>(priceSchema as ObjectSchema<FormData>),
     shouldFocusError: false
   })
   console.log(errors)
@@ -49,8 +51,8 @@ function AsideFilter({ queryConfig, categories }: Props) {
       pathname: path.home,
       search: createSearchParams({
         ...queryConfig,
-        price_max: data.price_max as string,
-        price_min: data.price_min as string
+        price_max: data.price_max,
+        price_min: data.price_min
       }).toString()
     })
   })
