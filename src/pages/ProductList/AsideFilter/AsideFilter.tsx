@@ -11,6 +11,7 @@ import { Schema, schema } from '../../../utils/rules'
 import { NoUndefinedField } from '../../../types/utils.type'
 import { ObjectSchema } from 'yup'
 import RatingStars from '../RatingStars'
+import { omit } from 'lodash'
 
 interface Props {
   queryConfig: QueryConfig
@@ -31,6 +32,8 @@ const priceSchema = schema.pick(['price_min', 'price_max'])
 function AsideFilter({ queryConfig, categories }: Props) {
   // Lấy categoryId trên url
   const { category } = queryConfig
+
+  const navigate = useNavigate()
 
   const {
     control,
@@ -58,7 +61,14 @@ function AsideFilter({ queryConfig, categories }: Props) {
     })
   })
 
-  const navigate = useNavigate()
+  // Xóa tất cả
+  //sẽ xóa các filter bên AsideFilter
+  const handleRemoveAll = () => {
+    navigate({
+      pathname: path.home,
+      search: createSearchParams(omit(queryConfig, ['category', 'price_min', 'price_max', 'rating_filter'])).toString()
+    })
+  }
 
   return (
     <div className='p-4'>
@@ -199,7 +209,10 @@ function AsideFilter({ queryConfig, categories }: Props) {
       <RatingStars queryConfig={queryConfig} />
       <div className='my-4 h-[1px] bg-gray-300' />
       {/* Xoa tat ca */}
-      <Button className='align-self-center flex w-full justify-center bg-orange p-2 text-sm uppercase text-white hover:bg-orange/80'>
+      <Button
+        onClick={handleRemoveAll}
+        className='align-self-center flex w-full justify-center bg-orange p-2 text-sm uppercase text-white hover:bg-orange/80'
+      >
         Xóa Tất Cả
       </Button>
     </div>
