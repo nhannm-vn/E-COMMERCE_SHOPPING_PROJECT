@@ -48,7 +48,6 @@ function AsideFilter({ queryConfig, categories }: Props) {
     resolver: yupResolver<FormData>(priceSchema as ObjectSchema<FormData>),
     shouldFocusError: false
   })
-  console.log(errors)
 
   const onSubmit = handleSubmit((data) => {
     navigate({

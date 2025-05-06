@@ -48,7 +48,6 @@ function ProductList() {
     // Giữ lại dữ liệu cũ đợi tới có dữ liệu mới thì thay đổi tránh bị giật
     placeholderData: keepPreviousData
   })
-  console.log(productsData)
 
   // Lấy dữ liệu từ call api của category
   const { data: categoriesData } = useQuery({
