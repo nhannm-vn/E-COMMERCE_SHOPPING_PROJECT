@@ -1,10 +1,10 @@
 import classNames from 'classnames'
-import { sortBy, order as orderConstant } from '../../../constants/product'
-import { QueryConfig } from '../ProductList'
-import { ProductListConfig } from '../../../types/product.type'
+import { sortBy, order as orderConstant } from '../../../../constants/product'
+import { ProductListConfig } from '../../../../types/product.type'
 import { createSearchParams, Link, useNavigate } from 'react-router-dom'
-import path from '../../../constants/path'
 import { omit } from 'lodash'
+import path from '../../../../constants/path'
+import { QueryConfig } from '../../ProductList'
 // Cần phải lấy ra 2 thằng này để xài
 interface Props {
   queryConfig: QueryConfig
