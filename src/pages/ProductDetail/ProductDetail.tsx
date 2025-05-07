@@ -42,6 +42,20 @@ function ProductDetail() {
                       <path strokeLinecap='round' strokeLinejoin='round' d='M15.75 19.5 8.25 12l7.5-7.5' />
                     </svg>
                   </button>
+                  {/* render ra các bức ảnh */}
+                  {product.images.slice(0, 5).map((img, index) => {
+                    const isActive = index === 0
+                    return (
+                      <div className='relative w-full pt-[100%] shadow' key={img}>
+                        <img
+                          className='absolute left-0 top-0 h-full w-full cursor-pointer bg-white object-cover' //
+                          src={product.image}
+                          alt={product.name}
+                        />
+                        {isActive && <div className='absolute inset-0 border-2 border-orange'></div>}
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
               <div className='border-black-500 col-span-7 border-[1px]'></div>
