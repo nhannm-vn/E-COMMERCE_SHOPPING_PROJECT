@@ -12,7 +12,31 @@ function ProductDetail() {
   })
   // Lấy dữ liệu ra
   const product = productDetailData?.data.data
-  return <div>ProductDetail</div>
+  // if (!product) return null
+  return (
+    <div className='border-[1px] border-red-500 bg-gray-200 py-6'>
+      <div className='border-[1px] border-green-600 bg-white p-4 shadow'>
+        <div className='container'>
+          {/* Vì có thể data là undefind nên cần phải check */}
+          {product && (
+            <div className='grid grid-cols-12 gap-9 border-[1px] border-yellow-500'>
+              <div className='border-purple-600-500 col-span-5 border-[1px]'>
+                {/* Kỹ thuật để cho hình có chiều cao bằng chiều rộng */}
+                <div className='relative w-full pt-[100%] shadow'>
+                  <img
+                    className='absolute left-0 top-0 h-full w-full bg-white object-cover' //
+                    src={product.image}
+                    alt={product.name}
+                  />
+                </div>
+              </div>
+              <div className='border-black-500 col-span-7 border-[1px]'></div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default ProductDetail
