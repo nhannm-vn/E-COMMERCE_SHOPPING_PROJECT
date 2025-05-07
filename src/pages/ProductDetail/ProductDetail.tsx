@@ -12,6 +12,7 @@ function ProductDetail() {
   })
   // Lấy dữ liệu ra
   const product = productDetailData?.data.data
+  console.log(product)
   // if (!product) return null
   return (
     <div className='border-[1px] border-red-500 bg-gray-200 py-6'>
@@ -49,7 +50,7 @@ function ProductDetail() {
                       <div className='relative w-full pt-[100%] shadow' key={img}>
                         <img
                           className='absolute left-0 top-0 h-full w-full cursor-pointer bg-white object-cover' //
-                          src={product.image}
+                          src={img}
                           alt={product.name}
                         />
                         {/* Việc này giúp có border bao quanh khi active nhưng không làm thay đổi kích thước của ảnh
@@ -73,7 +74,9 @@ function ProductDetail() {
                   </button>
                 </div>
               </div>
-              <div className='border-black-500 col-span-7 border-[1px]'></div>
+              <div className='border-black-500 col-span-7 border-[1px]'>
+                <h1 className='text-xl font-medium capitalize'>{product.name}</h1>
+              </div>
             </div>
           )}
         </div>
