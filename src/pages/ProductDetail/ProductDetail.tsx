@@ -52,10 +52,25 @@ function ProductDetail() {
                           src={product.image}
                           alt={product.name}
                         />
+                        {/* Việc này giúp có border bao quanh khi active nhưng không làm thay đổi kích thước của ảnh
+                          inset-0 giúp ôm sát tất cả các cạnh
+                        */}
                         {isActive && <div className='absolute inset-0 border-2 border-orange'></div>}
                       </div>
                     )
                   })}
+                  <button className='absolute right-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white'>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      strokeWidth={1.5}
+                      stroke='currentColor'
+                      className='size-6'
+                    >
+                      <path strokeLinecap='round' strokeLinejoin='round' d='m8.25 4.5 7.5 7.5-7.5 7.5' />
+                    </svg>
+                  </button>
                 </div>
               </div>
               <div className='border-black-500 col-span-7 border-[1px]'></div>
