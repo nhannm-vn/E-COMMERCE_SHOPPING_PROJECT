@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import productApi from '../../apis/product.api'
+import ProductRating from '../../components/ProductRating'
 
 function ProductDetail() {
   const { id } = useParams()
@@ -76,6 +77,18 @@ function ProductDetail() {
               </div>
               <div className='border-black-500 col-span-7 border-[1px]'>
                 <h1 className='text-xl font-medium capitalize'>{product.name}</h1>
+                <div className='mt-8 flex items-center'>
+                  <div className='flex items-center'>
+                    <span className='mr-1 border border-b border-b-orange border-l-transparent border-r-transparent border-t-transparent text-orange'>
+                      {product.rating}
+                    </span>
+                    <ProductRating
+                      rating={product.rating}
+                      activeClassname='fill-orange text-orange h-4 w-4' //
+                      nonActiveClassname='fill-gray-300 text-gray-300 h-4 w-4'
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           )}
