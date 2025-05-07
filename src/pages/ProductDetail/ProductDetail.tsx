@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import productApi from '../../apis/product.api'
 import ProductRating from '../../components/ProductRating'
-import { formatNumberToSocialStyle } from '../../utils/utils'
+import { formatCurrency, formatNumberToSocialStyle, rateSale } from '../../utils/utils'
 
 function ProductDetail() {
   const { id } = useParams()
@@ -91,12 +91,36 @@ function ProductDetail() {
                     />
                   </div>
                   <div className='mx-4 h-4 w-[1px] bg-gray-300'></div>
+                  {/* View */}
+                  <div>
+                    <span className='mr-1 border border-b border-b-black border-l-transparent border-r-transparent border-t-transparent text-black'>
+                      {formatNumberToSocialStyle(product.view)}
+                    </span>
+                    <span className='ml-1 text-gray-500'>Đã xem</span>
+                  </div>
+                  <div className='mx-4 h-4 w-[1px] bg-gray-300'></div>
                   {/* Sold */}
                   <div>
                     <span className='mr-1 border border-b border-b-black border-l-transparent border-r-transparent border-t-transparent text-black'>
                       {formatNumberToSocialStyle(product.sold)}
                     </span>
                     <span className='ml-1 text-gray-500'>Đã bán</span>
+                  </div>
+                  <div className='mx-4 h-4 w-[1px] bg-gray-300'></div>
+                  {/* Quantity */}
+                  <div>
+                    <span className='mr-1 border border-b border-b-black border-l-transparent border-r-transparent border-t-transparent text-black'>
+                      {formatNumberToSocialStyle(product.quantity)}
+                    </span>
+                    <span className='ml-1 text-gray-500'>Số lượng</span>
+                  </div>
+                </div>
+                {/* Khoang gia */}
+                <div className='mt-8 flex items-center bg-gray-100 px-5 py-4'>
+                  <div className='text-gray-500 line-through'>₫{formatCurrency(product.price_before_discount)}</div>
+                  <div className='ml-5 text-3xl font-medium text-orange'>{formatCurrency(product.price)}</div>
+                  <div className='ml-5 rounded-sm bg-orange px-1 py-[2px] text-xs font-semibold uppercase text-white'>
+                    {rateSale(product.price, product.price_before_discount)} Giảm
                   </div>
                 </div>
               </div>
