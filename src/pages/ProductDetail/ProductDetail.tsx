@@ -6,6 +6,7 @@ import { formatCurrency, formatNumberToSocialStyle, rateSale } from '../../utils
 import InputNumber from '../../components/InputNumber'
 import DOMPurify from 'dompurify'
 import { useEffect, useMemo, useState } from 'react'
+import { Product } from '../../types/product.type'
 
 function ProductDetail() {
   const { id } = useParams()
@@ -43,6 +44,20 @@ function ProductDetail() {
     }
   }, [product])
 
+  const next = () => {
+    // Nghĩa là nếu nó chưa tới giới hạn thì cho nó next tiếp
+    if (currentIndexImages[1] < (product as Product).images.length) {
+      setCurrentIndexImages((prev) => [prev[0] + 1, prev[1] + 1])
+    }
+  }
+
+  const prev = () => {
+    // Nghĩa là nó > 0 thì mới cho nó lùi
+    if (currentIndexImages[0] > 0) {
+      setCurrentIndexImages((prev) => [prev[0] - 1, prev[1] - 1])
+    }
+  }
+
   const chooseActive = (img: string) => {
     setActiveImage(img)
   }
@@ -67,7 +82,10 @@ function ProductDetail() {
                   />
                 </div>
                 <div className='relative mt-4 grid grid-cols-5 gap-1'>
-                  <button className='absolute left-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white'>
+                  <button
+                    className='absolute left-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white'
+                    onClick={prev}
+                  >
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
                       fill='none'
@@ -100,7 +118,10 @@ function ProductDetail() {
                       </div>
                     )
                   })}
-                  <button className='absolute right-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white'>
+                  <button
+                    className='absolute right-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white'
+                    onClick={next}
+                  >
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
                       fill='none'
