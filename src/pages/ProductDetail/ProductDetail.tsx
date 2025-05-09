@@ -23,6 +23,7 @@ function ProductDetail() {
           {/* Vì có thể data là undefind nên cần phải check */}
           {product && (
             <div className='grid grid-cols-12 gap-9 border-[1px] border-yellow-500'>
+              {/* Left */}
               <div className='border-purple-600-500 col-span-5 border-[1px]'>
                 {/* Kỹ thuật để cho hình có chiều cao bằng chiều rộng */}
                 <div className='relative w-full pt-[100%] shadow'>
@@ -76,8 +77,12 @@ function ProductDetail() {
                   </button>
                 </div>
               </div>
+              {/* Right */}
               <div className='border-black-500 col-span-7 border-[1px]'>
+                {/* Name Sp */}
                 <h1 className='text-xl font-medium capitalize'>{product.name}</h1>
+                {/*  */}
+                {/* Information */}
                 <div className='mt-8 flex items-center'>
                   {/* Rating */}
                   <div className='flex items-center'>
@@ -123,6 +128,8 @@ function ProductDetail() {
                     {rateSale(product.price, product.price_before_discount)} Giảm
                   </div>
                 </div>
+                {/* So Luong */}
+                <div className=''></div>
               </div>
             </div>
           )}
