@@ -4,6 +4,7 @@ import productApi from '../../apis/product.api'
 import ProductRating from '../../components/ProductRating'
 import { formatCurrency, formatNumberToSocialStyle, rateSale } from '../../utils/utils'
 import InputNumber from '../../components/InputNumber'
+import DOMPurify from 'dompurify'
 
 function ProductDetail() {
   const { id } = useParams()
@@ -16,7 +17,8 @@ function ProductDetail() {
   // Lấy dữ liệu ra
   const product = productDetailData?.data.data
   console.log(product)
-  // if (!product) return null
+  // Giúp tránh dấu ? làm không đẹp do dữ liệu có thể underfined
+  if (!product) return null
   return (
     <div className='border-[1px] border-red-500 bg-gray-200 py-6'>
       <div className='border-[1px] border-green-600 bg-white p-4 shadow'>
@@ -213,8 +215,22 @@ function ProductDetail() {
           )}
         </div>
       </div>
+      {/* Chi tiet sp */}
+      <div className='mt-8 bg-white p-4 shadow'>
+        <div className='container'>
+          <div className='rounded bg-gray-100 p-4 text-lg capitalize text-slate-700'>Mô tả sản phẩm</div>
+          <div className='mx-4 mb-4 mt-12 text-sm leading-loose'>
+            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.description) }} />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
 
 export default ProductDetail
+
+// Bình thường sẽ không render ra được html. Vì đó là cách mà jsx giúp chống tấn công xss
+// dangerouslySetInnerHTML nghĩa là những thằng trong này rất nguy hiểm dễ bị tấn công
+// ** Để khắc chế người ta chén thẻ script thì xài thư viện dompurify, nó sẽ loại bỏ js trong câu code
+//`<div onclick={alert('ok')}>hehe</div>`
