@@ -129,7 +129,23 @@ function ProductDetail() {
                   </div>
                 </div>
                 {/* So Luong */}
-                <div className=''></div>
+                <div className='mt-8 flex items-center'>
+                  <div className='capitalize text-gray-500'>Số lượng</div>
+                  <div className='ml-10 flex items-center'>
+                    <button className='flex h-8 w-8 items-center justify-center rounded-l-sm border border-gray-300 text-gray-600'>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        strokeWidth={1.5}
+                        stroke='currentColor'
+                        className='size-4'
+                      >
+                        <path strokeLinecap='round' strokeLinejoin='round' d='M5 12h14' />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           )}
