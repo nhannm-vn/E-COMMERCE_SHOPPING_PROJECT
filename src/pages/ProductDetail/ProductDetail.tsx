@@ -5,7 +5,7 @@ import ProductRating from '../../components/ProductRating'
 import { formatCurrency, formatNumberToSocialStyle, rateSale } from '../../utils/utils'
 import InputNumber from '../../components/InputNumber'
 import DOMPurify from 'dompurify'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 function ProductDetail() {
   const { id } = useParams()
@@ -24,11 +24,28 @@ function ProductDetail() {
   // **Lưu ý mình sẽ cho từ 0 - 5 vì slice sẽ lấy index cuối - 1
   const [currentIndexImages, setCurrentIndexImages] = useState([0, 5])
 
+  // Thằng này dùng để lưu trạng thái active của bức ảnh
+  const [activeImage, setActiveImage] = useState('')
+
+  // Thằng này dựa vào state để lấy ra mảng các bức ảnh
   // Mỗi lần component re-render thì sẽ tính toán lại. Mình sẽ hạn chế nó bằng useMemo
+  //currentImages sẽ là cái mảng lưu 5 cái ảnh lấy ra được hiện tại
   const currentImages = useMemo(
     () => (product ? product.images.slice(...currentIndexImages) : []),
     [product, currentIndexImages]
   )
+
+  // Lúc đầu vào chưa có ảnh. Sau khi có data rồi thì sẽ luôn là bức ảnh đầu tiên
+  // chứ không lẽ để defaultValue là nguyên cái chuỗi ảnh luôn thì xấu
+  useEffect(() => {
+    if (product && product.images.length > 0) {
+      setActiveImage(product.images[0])
+    }
+  }, [product])
+
+  const chooseActive = (img: string) => {
+    setActiveImage(img)
+  }
 
   // Giúp tránh dấu ? làm không đẹp do dữ liệu có thể underfined
   if (!product) return null
@@ -45,7 +62,7 @@ function ProductDetail() {
                 <div className='relative w-full pt-[100%] shadow'>
                   <img
                     className='absolute left-0 top-0 h-full w-full bg-white object-cover' //
-                    src={product.image}
+                    src={activeImage || product.images[0]}
                     alt={product.name}
                   />
                 </div>
@@ -63,10 +80,14 @@ function ProductDetail() {
                     </svg>
                   </button>
                   {/* render ra các bức ảnh */}
-                  {product.images.slice(0, 5).map((img, index) => {
-                    const isActive = index === 0
+                  {currentImages.map((img) => {
+                    const isActive = img === activeImage
                     return (
-                      <div className='relative w-full pt-[100%] shadow' key={img}>
+                      <div
+                        className='relative w-full pt-[100%] shadow'
+                        key={img}
+                        onMouseEnter={() => chooseActive(img)}
+                      >
                         <img
                           className='absolute left-0 top-0 h-full w-full cursor-pointer bg-white object-cover' //
                           src={img}
