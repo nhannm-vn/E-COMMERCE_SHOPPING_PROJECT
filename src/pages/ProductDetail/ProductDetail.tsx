@@ -126,7 +126,7 @@ function ProductDetail() {
                   <div className='text-gray-500 line-through'>₫{formatCurrency(product.price_before_discount)}</div>
                   <div className='ml-5 text-3xl font-medium text-orange'>{formatCurrency(product.price)}</div>
                   <div className='ml-5 rounded-sm bg-orange px-1 py-[2px] text-xs font-semibold uppercase text-white'>
-                    {rateSale(product.price, product.price_before_discount)} Giảm
+                    {rateSale(product.price_before_discount, product.price)} Giảm
                   </div>
                 </div>
                 {/* So Luong */}
@@ -203,6 +203,9 @@ function ProductDetail() {
                       </g>
                     </svg>
                     Thêm vào giỏ hàng
+                  </button>
+                  <button className='ml-4 flex h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange px-5 capitalize text-white shadow-sm outline-none hover:bg-orange/90'>
+                    Mua ngay
                   </button>
                 </div>
               </div>

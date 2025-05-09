@@ -34,6 +34,4 @@ export function formatNumberToSocialStyle(value: number) {
 }
 
 // Func tính % giảm giá
-export function rateSale(original: number, sale: number) {
-  return Math.round(((original - sale) / original) * 100) + '%'
-}
+export const rateSale = (original: number, sale: number) => Math.round(((original - sale) / original) * 100) + '%'
