@@ -5,6 +5,7 @@ import ProductRating from '../../components/ProductRating'
 import { formatCurrency, formatNumberToSocialStyle, rateSale } from '../../utils/utils'
 import InputNumber from '../../components/InputNumber'
 import DOMPurify from 'dompurify'
+import { useMemo, useState } from 'react'
 
 function ProductDetail() {
   const { id } = useParams()
@@ -17,12 +18,24 @@ function ProductDetail() {
   // Lấy dữ liệu ra
   const product = productDetailData?.data.data
   console.log(product)
+
+  // Tạo ra cái state để lưu index image hiện tại
+  //khi bấm next hoặc prev thì sẽ thay đổi cái state
+  // **Lưu ý mình sẽ cho từ 0 - 5 vì slice sẽ lấy index cuối - 1
+  const [currentIndexImages, setCurrentIndexImages] = useState([0, 5])
+
+  // Mỗi lần component re-render thì sẽ tính toán lại. Mình sẽ hạn chế nó bằng useMemo
+  const currentImages = useMemo(
+    () => (product ? product.images.slice(...currentIndexImages) : []),
+    [product, currentIndexImages]
+  )
+
   // Giúp tránh dấu ? làm không đẹp do dữ liệu có thể underfined
   if (!product) return null
   return (
     <div className='border-[1px] border-red-500 bg-gray-200 py-6'>
-      <div className='border-[1px] border-green-600 bg-white p-4 shadow'>
-        <div className='container'>
+      <div className='container'>
+        <div className='border-[1px] border-green-600 bg-white p-4 shadow'>
           {/* Vì có thể data là undefind nên cần phải check */}
           {product && (
             <div className='grid grid-cols-12 gap-9 border-[1px] border-yellow-500'>
@@ -216,8 +229,8 @@ function ProductDetail() {
         </div>
       </div>
       {/* Chi tiet sp */}
-      <div className='mt-8 bg-white p-4 shadow'>
-        <div className='container'>
+      <div className='container'>
+        <div className='mt-8 bg-white p-4 shadow'>
           <div className='rounded bg-gray-100 p-4 text-lg capitalize text-slate-700'>Mô tả sản phẩm</div>
           <div className='mx-4 mb-4 mt-12 text-sm leading-loose'>
             <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.description) }} />
