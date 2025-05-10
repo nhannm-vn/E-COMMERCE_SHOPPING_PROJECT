@@ -76,6 +76,8 @@ function ProductDetail() {
     const image = imageRef.current as HTMLImageElement
     // Lấy ra naturalHeight và naturalWidth để khi zoom ảnh thì nó sẽ thay đổi
     const { naturalHeight, naturalWidth } = image
+
+    // C1: Lấy offsetX, offsetY đơn giản khi chúng ta đã xử lí được bubble event
     const { offsetX, offsetY } = event.nativeEvent
     // Công thức tính top và left khi move chuột
     const top = offsetY * (1 - naturalHeight / rect.height)
