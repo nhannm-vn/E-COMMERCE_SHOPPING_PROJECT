@@ -5,7 +5,7 @@ import ProductRating from '../../components/ProductRating'
 import { formatCurrency, formatNumberToSocialStyle, rateSale } from '../../utils/utils'
 import InputNumber from '../../components/InputNumber'
 import DOMPurify from 'dompurify'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Product } from '../../types/product.type'
 
 function ProductDetail() {
@@ -28,6 +28,10 @@ function ProductDetail() {
   // Thằng này dùng để lưu trạng thái active của bức ảnh
   const [activeImage, setActiveImage] = useState('')
 
+  // Dùng để DOM tới image
+  //nghĩa là điều khiển bằng cách DOM tới như js truyền thống
+  const imageRef = useRef<HTMLImageElement>(null)
+
   // Thằng này dựa vào state để lấy ra mảng các bức ảnh
   // Mỗi lần component re-render thì sẽ tính toán lại. Mình sẽ hạn chế nó bằng useMemo
   //currentImages sẽ là cái mảng lưu 5 cái ảnh lấy ra được hiện tại
@@ -44,6 +48,7 @@ function ProductDetail() {
     }
   }, [product])
 
+  // Func next image
   const next = () => {
     // Nghĩa là nếu nó chưa tới giới hạn thì cho nó next tiếp
     if (currentIndexImages[1] < (product as Product).images.length) {
@@ -58,27 +63,36 @@ function ProductDetail() {
     }
   }
 
+  // Func active
   const chooseActive = (img: string) => {
     setActiveImage(img)
+  }
+
+  // Func zoom image
+  const handleZoom = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    // lấy cái ref dom ở trên ra sử dụng
+    const image = imageRef.current
+    image?.style
   }
 
   // Giúp tránh dấu ? làm không đẹp do dữ liệu có thể underfined
   if (!product) return null
   return (
-    <div className='border-[1px] border-red-500 bg-gray-200 py-6'>
+    <div className='bg-gray-200 py-6'>
       <div className='container'>
-        <div className='border-[1px] border-green-600 bg-white p-4 shadow'>
+        <div className='bg-white p-4 shadow'>
           {/* Vì có thể data là undefind nên cần phải check */}
           {product && (
-            <div className='grid grid-cols-12 gap-9 border-[1px] border-yellow-500'>
+            <div className='grid grid-cols-12 gap-9'>
               {/* Left */}
-              <div className='border-purple-600-500 col-span-5 border-[1px]'>
+              <div className='border-purple-600-500 col-span-5 border-[1px] shadow-sm'>
                 {/* Kỹ thuật để cho hình có chiều cao bằng chiều rộng */}
-                <div className='relative w-full pt-[100%] shadow'>
+                <div className='relative w-full pt-[100%] shadow' onMouseMove={(event) => {}}>
                   <img
                     className='absolute left-0 top-0 h-full w-full bg-white object-cover' //
                     src={activeImage || product.images[0]}
                     alt={product.name}
+                    ref={imageRef}
                   />
                 </div>
                 <div className='relative mt-4 grid grid-cols-5 gap-1'>
@@ -136,7 +150,7 @@ function ProductDetail() {
                 </div>
               </div>
               {/* Right */}
-              <div className='border-black-500 col-span-7 border-[1px]'>
+              <div className='border-black-500 col-span-7 border-[1px] p-4 shadow-sm'>
                 {/* Name Sp */}
                 <h1 className='text-xl font-medium capitalize'>{product.name}</h1>
                 {/*  */}
