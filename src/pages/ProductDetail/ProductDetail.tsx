@@ -70,9 +70,25 @@ function ProductDetail() {
 
   // Func zoom image
   const handleZoom = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    // Lấy ra object chứa các thông số về h,w của div dính event
+    const rect = event.currentTarget.getBoundingClientRect()
     // lấy cái ref dom ở trên ra sử dụng
-    const image = imageRef.current
-    image?.style
+    const image = imageRef.current as HTMLImageElement
+    // Lấy ra naturalHeight và naturalWidth để khi zoom ảnh thì nó sẽ thay đổi
+    const { naturalHeight, naturalWidth } = image
+    const { offsetX, offsetY } = event.nativeEvent
+    // Công thức tính top và left khi move chuột
+    const top = offsetY * (1 - naturalHeight / rect.height)
+    const left = offsetX * (1 - naturalWidth / rect.width)
+    // Cho cái hình về chiều cao và dài nguyên bản của nó
+    image.style.width = naturalWidth + 'px'
+    image.style.height = naturalHeight + 'px'
+    image.style.maxWidth = 'unset'
+    // Ap dung
+    image.style.top = top + 'px'
+    image.style.left = left + 'px'
+    // Event Bubble: nghĩa là chồng nhiều sự kiện không biết lúc nào cha, lúc nào con
+    // Để fix được thì ta cần thêm thuộc tính pointer-events-none: nghĩa là không bị ảnh hưởng bởi sự kiện chuột cho thẻ img
   }
 
   // Giúp tránh dấu ? làm không đẹp do dữ liệu có thể underfined
@@ -87,9 +103,12 @@ function ProductDetail() {
               {/* Left */}
               <div className='border-purple-600-500 col-span-5 border-[1px] shadow-sm'>
                 {/* Kỹ thuật để cho hình có chiều cao bằng chiều rộng */}
-                <div className='relative w-full pt-[100%] shadow' onMouseMove={(event) => {}}>
+                <div
+                  className='relative w-full cursor-zoom-in overflow-hidden pt-[100%] shadow'
+                  onMouseMove={handleZoom}
+                >
                   <img
-                    className='absolute left-0 top-0 h-full w-full bg-white object-cover' //
+                    className='pointer-events-none absolute left-0 top-0 h-full w-full bg-white object-cover' //
                     src={activeImage || product.images[0]}
                     alt={product.name}
                     ref={imageRef}
