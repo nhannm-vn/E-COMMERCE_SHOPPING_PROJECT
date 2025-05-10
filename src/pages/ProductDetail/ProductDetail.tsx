@@ -68,7 +68,7 @@ function ProductDetail() {
     setActiveImage(img)
   }
 
-  // Func zoom image
+  // Func zoom in image
   const handleZoom = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     // Lấy ra object chứa các thông số về h,w của div dính event
     const rect = event.currentTarget.getBoundingClientRect()
@@ -91,6 +91,11 @@ function ProductDetail() {
     // Để fix được thì ta cần thêm thuộc tính pointer-events-none: nghĩa là không bị ảnh hưởng bởi sự kiện chuột cho thẻ img
   }
 
+  // Func handle remove zoom
+  const handleRemoveZoom = () => {
+    imageRef.current?.removeAttribute('style')
+  }
+
   // Giúp tránh dấu ? làm không đẹp do dữ liệu có thể underfined
   if (!product) return null
   return (
@@ -106,6 +111,7 @@ function ProductDetail() {
                 <div
                   className='relative w-full cursor-zoom-in overflow-hidden pt-[100%] shadow'
                   onMouseMove={handleZoom}
+                  onMouseLeave={handleRemoveZoom}
                 >
                   <img
                     className='pointer-events-none absolute left-0 top-0 h-full w-full bg-white object-cover' //
