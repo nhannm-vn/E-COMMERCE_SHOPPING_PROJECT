@@ -316,6 +316,7 @@ function ProductDetail() {
         <div className='mt-8 bg-white p-4 shadow'>
           <div className='rounded bg-gray-100 p-4 text-lg capitalize text-slate-700'>Mô tả sản phẩm</div>
           <div className='mx-4 mb-4 mt-12 text-sm leading-loose'>
+            {/* Chống tấn công xxs */}
             <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.description) }} />
           </div>
         </div>
