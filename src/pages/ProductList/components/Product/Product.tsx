@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Product as ProductType } from '../../../../types/product.type'
-import { formatCurrency, formatNumberToSocialStyle } from '../../../../utils/utils'
+import { formatCurrency, formatNumberToSocialStyle, generateNameId } from '../../../../utils/utils'
 import ProductRating from '../../../../components/ProductRating'
 import path from '../../../../constants/path'
 
@@ -13,7 +13,7 @@ interface Props {
 // Phải đi kèm với transition để hoạt động.
 function Product({ product }: Props) {
   return (
-    <Link to={`${path.home}${product._id}`}>
+    <Link to={`${path.home}${generateNameId({ name: product.name, id: product._id })}`}>
       <div className='overflow-hidden rounded-sm bg-white shadow transition-transform duration-100 hover:translate-y-[-0.06rem] hover:shadow-md'>
         {/* Mẹo pt-[100%] và cho position img để tấm hình thành hình vuông*/}
         <div className='relative w-full pt-[100%]'>

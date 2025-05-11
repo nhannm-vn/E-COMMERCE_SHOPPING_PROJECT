@@ -48,3 +48,10 @@ export const generateNameId = ({ name, id }: { name: string; id: string }) => {
   // tiếp theo sẽ nối id vào nhưng ở giữa phải có '-i.' để một hồi cắt ra bỏ vào queryFunc lấy ra sản phẩm render ra
   return removeSpecialCharacter(name).replace(/\s/g, '-') + `-i.${id}`
 }
+
+// Func lấy ra id từ URL được biến đổi theo cách ở trên
+export const getIdFromNameId = (nameId: string) => {
+  const arr = nameId.split('-i.')
+  // Trả ra phần tử cuối cùng của mảng
+  return arr[arr.length - 1]
+}
