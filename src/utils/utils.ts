@@ -36,10 +36,15 @@ export function formatNumberToSocialStyle(value: number) {
 // Func tính % giảm giá
 export const rateSale = (original: number, sale: number) => Math.round(((original - sale) / original) * 100) + '%'
 
-export const removeSpecialCharacter = (str: string) =>
+// Func xoá các ký tự đặc biệt
+const removeSpecialCharacter = (str: string) =>
   // eslint-disable-next-line no-useless-escape
   str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, '')
 
 // Func này giúp cho việc biến đường dẫn URL thân thiện SEO hơn bằng cách thêm tên sản phẩm kèm theo Id
 //chứ không phải cái tên sp muốn đem lên URL là đem lỡ có kí tự đặc biệt là bú
-export const generateNameId = ({ name, id }: { name: string; id: string }) => {}
+export const generateNameId = ({ name, id }: { name: string; id: string }) => {
+  // Đầu tiên là xóa các ký tự đặc biệt có trong name. Sau đó là thay thế toàn bộ các dấu space bằng dấu '-'
+  // tiếp theo sẽ nối id vào nhưng ở giữa phải có '-i.' để một hồi cắt ra bỏ vào queryFunc lấy ra sản phẩm render ra
+  return removeSpecialCharacter(name).replace(/\s/g, '-') + `-i.${id}`
+}
