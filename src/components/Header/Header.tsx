@@ -5,8 +5,28 @@ import authApi from '../../apis/auth.api'
 import { AppContext } from '../../contexts/app.context'
 import { useContext } from 'react'
 import path from '../../constants/path'
+import useQueryConfig from '../../hooks/useQueryConfig'
+import { useForm } from 'react-hook-form'
+import { schema, Schema } from '../../utils/rules'
+import { yupResolver } from '@hookform/resolvers/yup'
+
+type FormData = Pick<Schema, 'name'>
+
+const nameSchema = schema.pick(['name'])
 
 function Header() {
+  // Mục đích láy được param bên này để filter dữ liệu giữ lại các param cũ
+  const queryConfig = useQueryConfig()
+  console.log(queryConfig)
+
+  // Gọi thằng này để lấy handleSubmit
+  const { handleSubmit, register } = useForm<FormData>({
+    defaultValues: {
+      name: ''
+    },
+    resolver: yupResolver(nameSchema)
+  })
+
   // Lấy setIsAuthenticated bằng useContext
   const { isAuthenticated, setIsAuthenticated, setProfile, profile } = useContext(AppContext)
   // ***Mình không cần navigate vì khi set về false thì nó sẽ tự chuyển cho mình về login
@@ -21,6 +41,11 @@ function Header() {
   const handleLogout = () => {
     logoutMutation.mutate()
   }
+
+  // Sự kiện filter bằng thanh search
+  const onSubmitSearch = handleSubmit((data) => {
+    console.log(data)
+  })
 
   return (
     <div className='bg-[linear-gradient(-180deg,#f53d2d,#f63)] pb-5 pt-2 text-white'>
@@ -123,13 +148,13 @@ function Header() {
               </g>
             </svg>
           </Link>
-          <form className='col-span-9'>
+          <form className='col-span-9' onSubmit={onSubmitSearch}>
             <div className='flex rounded-sm bg-white p-1'>
               <input
                 type='text'
-                name='search'
                 className='flex-grow border-none bg-transparent px-3 py-2 text-black outline-none'
                 placeholder='Free Ship Đơn Từ 0Đ'
+                {...register('name')}
               />
               <button className='flex-shrink-0 rounded-sm bg-orange px-6 py-2 hover:opacity-90'>
                 <svg
