@@ -2,14 +2,17 @@ import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import productApi from '../../apis/product.api'
 import ProductRating from '../../components/ProductRating'
-import { formatCurrency, formatNumberToSocialStyle, rateSale } from '../../utils/utils'
+import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from '../../utils/utils'
 import InputNumber from '../../components/InputNumber'
 import DOMPurify from 'dompurify'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Product } from '../../types/product.type'
 
 function ProductDetail() {
-  const { id } = useParams()
+  // Biến tên nameId vì mình quy định dynamic router trong path.ts như vậy
+  const { nameId } = useParams()
+  // Lấy ra id từ nameId rồi mới fetch được dữ liệu
+  const id = getIdFromNameId(nameId as string)
   const { data: productDetailData } = useQuery({
     // Điền cái id để khi id thay đổi thì dữ liệu sẽ fetch lại
     queryKey: ['product', id],
