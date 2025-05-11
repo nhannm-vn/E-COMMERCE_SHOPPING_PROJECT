@@ -1,40 +1,16 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import AsideFilter from './components/AsideFilter'
-import { omitBy, isUndefined } from 'lodash'
 import productApi from '../../apis/product.api'
-import useQueryParams from '../../hooks/useQueryParams'
 import Pagination from '../../components/Pagination'
 import { ProductListConfig } from '../../types/product.type'
 import categoryApi from '../../apis/category.api'
 import Product from './components/Product'
 import SortProductList from './components/SortProductList'
-
-export type QueryConfig = {
-  [key in keyof ProductListConfig]: string
-}
+import useQueryConfig from '../../hooks/useQueryConfig'
 
 function ProductList() {
-  // Xài customHook để lấy dữ liệu từ đường dẫn
-  const queryParams: QueryConfig = useQueryParams()
-  // Tạo biến filter ra từ params
-  // **Nghĩa là trên đường dẫn không phải cứ lấy hết từ đường dẫn mà chỉ lấy những cái cần thiết
-  // theo đúng business rule thôi tránh người dừng nhập thêm bậy vào url
-  const queryConfig: QueryConfig = omitBy(
-    {
-      page: queryParams.page || '1', // số 1 hoặc '1' thì queryFn vẫn lấy data được
-      limit: queryParams.limit || '20',
-      sort_by: queryParams.sort_by,
-      exclude: queryParams.exclude,
-      name: queryParams.name,
-      order: queryParams.order,
-      price_max: queryParams.price_max,
-      price_min: queryParams.price_min,
-      rating_filter: queryParams.rating_filter,
-      category: queryParams.category
-    },
-    isUndefined
-    // Kết hợp omitBy và isUndefined để loại bỏ những thằng nào bị undefined
-  )
+  // Sử dụng custom hook
+  const queryConfig = useQueryConfig()
 
   // Lấy dữ liệu ra
   const { data: productsData } = useQuery({
