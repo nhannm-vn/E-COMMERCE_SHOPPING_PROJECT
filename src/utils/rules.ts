@@ -112,7 +112,7 @@ export const schema = yup.object({
     message: 'Giá không phù hợp',
     test: testPriceMinMax
   }), //
-  name: yup.string().required('Tên sản phẩm là bắt buộc')
+  name: yup.string().trim().required('Tên sản phẩm là bắt buộc')
 })
 
 // Trường hợp muốn tái sử dụng schema ở trên mà bỏ bớt thằng nào đó

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import Popover from '../Popover'
 import { useMutation } from '@tanstack/react-query'
 import authApi from '../../apis/auth.api'
@@ -9,6 +9,7 @@ import useQueryConfig from '../../hooks/useQueryConfig'
 import { useForm } from 'react-hook-form'
 import { schema, Schema } from '../../utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { omit } from 'lodash'
 
 type FormData = Pick<Schema, 'name'>
 
@@ -17,15 +18,17 @@ const nameSchema = schema.pick(['name'])
 function Header() {
   // Mục đích láy được param bên này để filter dữ liệu giữ lại các param cũ
   const queryConfig = useQueryConfig()
-  console.log(queryConfig)
 
-  // Gọi thằng này để lấy handleSubmit
+  // Gọi thằng này để lấy handleSubmit, và xử lí form
   const { handleSubmit, register } = useForm<FormData>({
     defaultValues: {
       name: ''
     },
     resolver: yupResolver(nameSchema)
   })
+
+  // Thằng này giúp chuyển trang
+  const navigate = useNavigate()
 
   // Lấy setIsAuthenticated bằng useContext
   const { isAuthenticated, setIsAuthenticated, setProfile, profile } = useContext(AppContext)
@@ -42,9 +45,27 @@ function Header() {
     logoutMutation.mutate()
   }
 
-  // Sự kiện filter bằng thanh search
+  // Sự kiện filter bằng thanh search, mình sẽ thay đổi các param trên URL để api nó fetch lại dữ liệu mới
   const onSubmitSearch = handleSubmit((data) => {
-    console.log(data)
+    // Nghĩa là nếu có order thì sort_by sẽ là sort_by: price lúc đó mình sẽ xóa sạch và cho về mặc định
+    //còn nếu không có order thì có nghĩa là sort_by mà là cái khác lúc đó giữ nguyên không cần xóa gì hết
+    //và yên tâm rằng bên SortProductList mình đã handle nếu như sort_by: khác price thì sẽ có omit liền order
+    const config = queryConfig.order
+      ? omit(
+          {
+            ...queryConfig,
+            name: data.name
+          },
+          ['order', 'sort_by']
+        )
+      : {
+          ...queryConfig,
+          name: data.name
+        }
+    navigate({
+      pathname: path.home,
+      search: createSearchParams(config).toString()
+    })
   })
 
   return (
