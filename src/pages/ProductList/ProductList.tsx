@@ -22,7 +22,8 @@ function ProductList() {
       return productApi.getProducts(queryConfig as ProductListConfig)
     },
     // Giữ lại dữ liệu cũ đợi tới có dữ liệu mới thì thay đổi tránh bị giật
-    placeholderData: keepPreviousData
+    placeholderData: keepPreviousData,
+    staleTime: 3 * 60 * 1000
   })
 
   // Lấy dữ liệu từ call api của category

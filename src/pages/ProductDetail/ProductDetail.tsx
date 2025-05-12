@@ -49,7 +49,11 @@ function ProductDetail() {
     queryKey: ['products', queryConfig],
     queryFn: () => {
       return productApi.getProducts(queryConfig)
-    }
+    },
+    // Chỉ fetch khi có product rồi, để không fetch lần đầu ra toàn bộ sản phẩm
+    enabled: Boolean(product),
+    // Giúp khi đã có sản phẩm lọc theo category bên ProductList rồi khì không fetch lại nữa
+    staleTime: 3 * 60 * 1000
   })
   console.log(productsData)
 
