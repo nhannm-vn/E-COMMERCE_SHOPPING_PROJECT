@@ -6,7 +6,8 @@ import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } 
 import InputNumber from '../../components/InputNumber'
 import DOMPurify from 'dompurify'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Product, ProductListConfig } from '../../types/product.type'
+import { Product as ProductType, ProductListConfig } from '../../types/product.type'
+import Product from '../ProductList/components/Product'
 
 function ProductDetail() {
   // Biến tên nameId vì mình quy định dynamic router trong path.ts như vậy
@@ -68,7 +69,7 @@ function ProductDetail() {
   // Func next image
   const next = () => {
     // Nghĩa là nếu nó chưa tới giới hạn thì cho nó next tiếp
-    if (currentIndexImages[1] < (product as Product).images.length) {
+    if (currentIndexImages[1] < (product as ProductType).images.length) {
       setCurrentIndexImages((prev) => [prev[0] + 1, prev[1] + 1])
     }
   }
@@ -329,13 +330,29 @@ function ProductDetail() {
         </div>
       </div>
       {/* Chi tiet sp */}
-      <div className='container'>
-        <div className='mt-8 bg-white p-4 shadow'>
-          <div className='rounded bg-gray-100 p-4 text-lg capitalize text-slate-700'>Mô tả sản phẩm</div>
-          <div className='mx-4 mb-4 mt-12 text-sm leading-loose'>
-            {/* Chống tấn công xxs */}
-            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.description) }} />
+      <div className='mt-8'>
+        <div className='container'>
+          <div className='mt-8 bg-white p-4 shadow'>
+            <div className='rounded bg-gray-100 p-4 text-lg capitalize text-slate-700'>Mô tả sản phẩm</div>
+            <div className='mx-4 mb-4 mt-12 text-sm leading-loose'>
+              {/* Chống tấn công xxs */}
+              <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.description) }} />
+            </div>
           </div>
+        </div>
+      </div>
+      <div className='mt-8'>
+        <div className='container'>
+          <div className='uppercase text-gray-400'>Có thể bạn cũng thích</div>
+          {productsData && (
+            <div className='mt-6 grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'>
+              {productsData.data.data.products.map((product) => (
+                <div className='col-span-1' key={product._id}>
+                  <Product product={product} />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
