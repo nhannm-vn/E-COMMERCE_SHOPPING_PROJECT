@@ -6,7 +6,7 @@ import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } 
 import InputNumber from '../../components/InputNumber'
 import DOMPurify from 'dompurify'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Product } from '../../types/product.type'
+import { Product, ProductListConfig } from '../../types/product.type'
 
 function ProductDetail() {
   // Biến tên nameId vì mình quy định dynamic router trong path.ts như vậy
@@ -42,6 +42,16 @@ function ProductDetail() {
     () => (product ? product.images.slice(...currentIndexImages) : []),
     [product, currentIndexImages]
   )
+
+  // Lấy dữ liệu ra để hiển thị các sản phẩm cùng category dựa vào categoryId của productDetail
+  const queryConfig: ProductListConfig = { limit: '20', page: '1', category: product?.category._id }
+  const { data: productsData } = useQuery({
+    queryKey: ['products', queryConfig],
+    queryFn: () => {
+      return productApi.getProducts(queryConfig)
+    }
+  })
+  console.log(productsData)
 
   // Lúc đầu vào chưa có ảnh. Sau khi có data rồi thì sẽ luôn là bức ảnh đầu tiên
   // chứ không lẽ để defaultValue là nguyên cái chuỗi ảnh luôn thì xấu

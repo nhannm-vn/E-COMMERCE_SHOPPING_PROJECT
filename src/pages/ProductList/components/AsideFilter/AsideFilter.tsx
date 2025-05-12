@@ -1,7 +1,6 @@
 import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import path from '../../../../constants/path'
 import Button from '../../../../components/Button'
-import { QueryConfig } from '../../ProductList'
 import { Category } from '../../../../types/category.type'
 import classNames from 'classnames'
 import InputNumber from '../../../../components/InputNumber'
@@ -12,6 +11,7 @@ import { NoUndefinedField } from '../../../../types/utils.type'
 import { ObjectSchema } from 'yup'
 import RatingStars from '../RatingStars'
 import { omit } from 'lodash'
+import { QueryConfig } from '../../../../hooks/useQueryConfig'
 
 interface Props {
   queryConfig: QueryConfig
