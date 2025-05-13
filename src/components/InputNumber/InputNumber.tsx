@@ -2,14 +2,14 @@ import { forwardRef, InputHTMLAttributes } from 'react'
 
 // Khai báo interface cho prop
 // **Nhờ extend mà mình có thể không cần ĐỊNH NGHĨA hết các thuộc tính vd như placeholder
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
+export interface InputNumberProps extends InputHTMLAttributes<HTMLInputElement> {
   // type: React.HTMLInputTypeAttribute
   errrorMessage?: string
   classNameInput?: string
   classNameError?: string
 }
 
-const InputNumber = forwardRef<HTMLInputElement, Props>(function InputNumberInner(
+const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function InputNumberInner(
   {
     errrorMessage,
     className,

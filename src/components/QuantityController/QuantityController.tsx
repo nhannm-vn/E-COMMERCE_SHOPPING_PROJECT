@@ -1,4 +1,6 @@
-import InputNumber from '../InputNumber'
+import InputNumber, { InputNumberProps } from '../InputNumber'
+
+interface Props extends InputNumberProps
 
 function QuantityController() {
   return (
