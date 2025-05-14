@@ -32,6 +32,13 @@ function ProductDetail() {
   // Thằng này dùng để lưu trạng thái active của bức ảnh
   const [activeImage, setActiveImage] = useState('')
 
+  // Thằng này dùng để lưu value của button
+  const [byCount, setByCount] = useState(1)
+
+  const handleBuyCount = (value: number) => {
+    setBuyCount(value)
+  }
+
   // Dùng để DOM tới image
   //nghĩa là điều khiển bằng cách DOM tới như js truyền thống
   const imageRef = useRef<HTMLImageElement>(null)
@@ -249,7 +256,7 @@ function ProductDetail() {
                 <div className='mt-8 flex items-center'>
                   <div className='capitalize text-gray-500'>Số lượng</div>
                   {/* Input so luong hang */}
-                  <QuantityController />
+                  <QuantityController value={byCount} />
                   {/* So luong sp co san */}
                   <div className='ml-6 text-sm text-gray-500'>{product.quantity} sản phẩm có sẵn</div>
                 </div>

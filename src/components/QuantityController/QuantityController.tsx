@@ -40,6 +40,7 @@ function QuantityController({
       _value = max
     }
 
+    // Lấy từ value trên xuống biến đổi và cập nhật. Thực chất thằng onIncrease chính là setByCount
     if (onIncrease) {
       onIncrease(_value)
     }
