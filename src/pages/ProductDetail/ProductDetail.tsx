@@ -257,10 +257,11 @@ function ProductDetail() {
                   <div className='capitalize text-gray-500'>Số lượng</div>
                   {/* Input so luong hang */}
                   <QuantityController
-                    value={buyCount}
-                    onIncrease={handleBuyCount}
                     onDecrease={handleBuyCount}
+                    onIncrease={handleBuyCount}
                     onType={handleBuyCount}
+                    value={buyCount}
+                    max={product.quantity}
                   />
                   {/* So luong sp co san */}
                   <div className='ml-6 text-sm text-gray-500'>{product.quantity} sản phẩm có sẵn</div>
