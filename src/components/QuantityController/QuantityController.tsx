@@ -21,6 +21,7 @@ function QuantityController({
 }: Props) {
   // Logic để tăng giảm số lượng sp đặt hàng
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // Lấy từ ô input khi nhập tay
     let _value = Number(event.target.value)
     if (max !== undefined && _value > max) {
       _value = max

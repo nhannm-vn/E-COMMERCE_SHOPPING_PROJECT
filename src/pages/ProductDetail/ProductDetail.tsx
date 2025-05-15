@@ -33,7 +33,7 @@ function ProductDetail() {
   const [activeImage, setActiveImage] = useState('')
 
   // Thằng này dùng để lưu value của button
-  const [byCount, setByCount] = useState(1)
+  const [buyCount, setBuyCount] = useState(1)
 
   const handleBuyCount = (value: number) => {
     setBuyCount(value)
@@ -256,7 +256,12 @@ function ProductDetail() {
                 <div className='mt-8 flex items-center'>
                   <div className='capitalize text-gray-500'>Số lượng</div>
                   {/* Input so luong hang */}
-                  <QuantityController value={byCount} />
+                  <QuantityController
+                    value={buyCount}
+                    onIncrease={handleBuyCount}
+                    onDecrease={handleBuyCount}
+                    onType={handleBuyCount}
+                  />
                   {/* So luong sp co san */}
                   <div className='ml-6 text-sm text-gray-500'>{product.quantity} sản phẩm có sẵn</div>
                 </div>
