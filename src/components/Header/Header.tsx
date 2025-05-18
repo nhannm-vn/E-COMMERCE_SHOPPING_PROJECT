@@ -19,6 +19,8 @@ type FormData = Pick<Schema, 'name'>
 
 const nameSchema = schema.pick(['name'])
 
+const MAX_PURCHASES = 5
+
 function Header() {
   // Mục đích láy được param bên này để filter dữ liệu giữ lại các param cũ
   const queryConfig = useQueryConfig()
@@ -222,8 +224,8 @@ function Header() {
                       <div className='capitalize text-gray-400'>Sản phẩm mới thêm</div>
                       {/* list */}
                       <div className='mt-5'>
-                        {purchasesInCart.map((purchase) => (
-                          <div className='mt-4 flex' key={purchase._id}>
+                        {purchasesInCart.slice(0, MAX_PURCHASES).map((purchase) => (
+                          <div className='mt-2 flex p-2 hover:bg-gray-100' key={purchase._id}>
                             <div className='flex-shrink-0'>
                               <img
                                 src={purchase.product.image}
@@ -242,7 +244,10 @@ function Header() {
                       </div>
                       {/* footer */}
                       <div className='items center mt-6 flex justify-between'>
-                        <div className='text-xs capitalize text-gray-500'>Thêm hàng vào giỏ</div>
+                        <div className='text-xs capitalize text-gray-500'>
+                          {purchasesInCart.length > MAX_PURCHASES ? purchasesInCart.length - MAX_PURCHASES : ''} Thêm
+                          hàng vào giỏ
+                        </div>
                         <button className='rounded-sm bg-orange px-4 py-2 capitalize text-white hover:bg-opacity-90'>
                           Xem giỏ hàng
                         </button>
