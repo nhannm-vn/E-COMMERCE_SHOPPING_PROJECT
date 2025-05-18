@@ -12,6 +12,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { omit } from 'lodash'
 import { purchaseStatus } from '../../constants/purchase'
 import purchaseApi from '../../apis/purchase.api'
+import noproduct from '../../assets/images/no-product.png'
 
 type FormData = Pick<Schema, 'name'>
 
@@ -48,12 +49,12 @@ function Header() {
   // Chứ không bị unmount - mounting again
   // (Tất nhiên là trường hợp logout rồi nhảy sang RegisterLayout rồi nhảy vào lại)
   // Nên các query này sẽ không bị inactive => Không bị gọi lại => Không cân thiết phải set stale: Infiniti
-  const { data } = useQuery({
+  const { data: purchasesInCartData } = useQuery({
     queryKey: ['purchases', { status: purchaseStatus.inCart }],
     queryFn: () => purchaseApi.getPurchases({ status: purchaseStatus.inCart })
   })
 
-  console.log(data)
+  const purchasesInCart = purchasesInCartData?.data.data
 
   const handleLogout = () => {
     logoutMutation.mutate()
@@ -214,110 +215,116 @@ function Header() {
             <Popover
               renderPopover={
                 <div className='relative max-w-[400px] rounded-sm border border-gray-200 bg-white text-sm shadow-md'>
-                  <div className='p-2'>
-                    {/* title */}
-                    <div className='capitalize text-gray-400'>Sản phẩm mới thêm</div>
-                    {/* list */}
-                    <div className='mt-5'>
-                      <div className='mt-4 flex'>
-                        <div className='flex-shrink-0'>
-                          <img
-                            src='https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m601u9bom7h314@resize_w80_nl.webp'
-                            alt='anh'
-                            className='h-11 w-11 object-cover'
-                          />
-                        </div>
-                        <div className='ml-2 flex-grow overflow-hidden'>
-                          <div className='truncate'>
-                            Áo phông MLB KOREA nam nữ cao cấp, 100% cotton co giãn 2 chiều , định lượng 250gms,NY VIỀN
-                            TRẮNG
+                  {purchasesInCart ? (
+                    <div className='p-2'>
+                      {/* title */}
+                      <div className='capitalize text-gray-400'>Sản phẩm mới thêm</div>
+                      {/* list */}
+                      <div className='mt-5'>
+                        <div className='mt-4 flex'>
+                          <div className='flex-shrink-0'>
+                            <img
+                              src='https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m601u9bom7h314@resize_w80_nl.webp'
+                              alt='anh'
+                              className='h-11 w-11 object-cover'
+                            />
+                          </div>
+                          <div className='ml-2 flex-grow overflow-hidden'>
+                            <div className='truncate'>
+                              Áo phông MLB KOREA nam nữ cao cấp, 100% cotton co giãn 2 chiều , định lượng 250gms,NY VIỀN
+                              TRẮNG
+                            </div>
+                          </div>
+                          <div className='ml-2 flex-shrink-0'>
+                            <span className='text-orange'>₫210.000</span>
                           </div>
                         </div>
-                        <div className='ml-2 flex-shrink-0'>
-                          <span className='text-orange'>₫210.000</span>
+                        <div className='mt-4 flex'>
+                          <div className='flex-shrink-0'>
+                            <img
+                              src='https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m601u9bom7h314@resize_w80_nl.webp'
+                              alt='anh'
+                              className='h-11 w-11 object-cover'
+                            />
+                          </div>
+                          <div className='ml-2 flex-grow overflow-hidden'>
+                            <div className='truncate'>
+                              Áo phông MLB KOREA nam nữ cao cấp, 100% cotton co giãn 2 chiều , định lượng 250gms,NY VIỀN
+                              TRẮNG
+                            </div>
+                          </div>
+                          <div className='ml-2 flex-shrink-0'>
+                            <span className='text-orange'>₫210.000</span>
+                          </div>
+                        </div>
+                        <div className='mt-4 flex'>
+                          <div className='flex-shrink-0'>
+                            <img
+                              src='https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m601u9bom7h314@resize_w80_nl.webp'
+                              alt='anh'
+                              className='h-11 w-11 object-cover'
+                            />
+                          </div>
+                          <div className='ml-2 flex-grow overflow-hidden'>
+                            <div className='truncate'>
+                              Áo phông MLB KOREA nam nữ cao cấp, 100% cotton co giãn 2 chiều , định lượng 250gms,NY VIỀN
+                              TRẮNG
+                            </div>
+                          </div>
+                          <div className='ml-2 flex-shrink-0'>
+                            <span className='text-orange'>₫210.000</span>
+                          </div>
+                        </div>
+                        <div className='mt-4 flex'>
+                          <div className='flex-shrink-0'>
+                            <img
+                              src='https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m601u9bom7h314@resize_w80_nl.webp'
+                              alt='anh'
+                              className='h-11 w-11 object-cover'
+                            />
+                          </div>
+                          <div className='ml-2 flex-grow overflow-hidden'>
+                            <div className='truncate'>
+                              Áo phông MLB KOREA nam nữ cao cấp, 100% cotton co giãn 2 chiều , định lượng 250gms,NY VIỀN
+                              TRẮNG
+                            </div>
+                          </div>
+                          <div className='ml-2 flex-shrink-0'>
+                            <span className='text-orange'>₫210.000</span>
+                          </div>
+                        </div>
+                        <div className='mt-4 flex'>
+                          <div className='flex-shrink-0'>
+                            <img
+                              src='https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m601u9bom7h314@resize_w80_nl.webp'
+                              alt='anh'
+                              className='h-11 w-11 object-cover'
+                            />
+                          </div>
+                          <div className='ml-2 flex-grow overflow-hidden'>
+                            <div className='truncate'>
+                              Áo phông MLB KOREA nam nữ cao cấp, 100% cotton co giãn 2 chiều , định lượng 250gms,NY VIỀN
+                              TRẮNG
+                            </div>
+                          </div>
+                          <div className='ml-2 flex-shrink-0'>
+                            <span className='text-orange'>₫210.000</span>
+                          </div>
                         </div>
                       </div>
-                      <div className='mt-4 flex'>
-                        <div className='flex-shrink-0'>
-                          <img
-                            src='https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m601u9bom7h314@resize_w80_nl.webp'
-                            alt='anh'
-                            className='h-11 w-11 object-cover'
-                          />
-                        </div>
-                        <div className='ml-2 flex-grow overflow-hidden'>
-                          <div className='truncate'>
-                            Áo phông MLB KOREA nam nữ cao cấp, 100% cotton co giãn 2 chiều , định lượng 250gms,NY VIỀN
-                            TRẮNG
-                          </div>
-                        </div>
-                        <div className='ml-2 flex-shrink-0'>
-                          <span className='text-orange'>₫210.000</span>
-                        </div>
-                      </div>
-                      <div className='mt-4 flex'>
-                        <div className='flex-shrink-0'>
-                          <img
-                            src='https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m601u9bom7h314@resize_w80_nl.webp'
-                            alt='anh'
-                            className='h-11 w-11 object-cover'
-                          />
-                        </div>
-                        <div className='ml-2 flex-grow overflow-hidden'>
-                          <div className='truncate'>
-                            Áo phông MLB KOREA nam nữ cao cấp, 100% cotton co giãn 2 chiều , định lượng 250gms,NY VIỀN
-                            TRẮNG
-                          </div>
-                        </div>
-                        <div className='ml-2 flex-shrink-0'>
-                          <span className='text-orange'>₫210.000</span>
-                        </div>
-                      </div>
-                      <div className='mt-4 flex'>
-                        <div className='flex-shrink-0'>
-                          <img
-                            src='https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m601u9bom7h314@resize_w80_nl.webp'
-                            alt='anh'
-                            className='h-11 w-11 object-cover'
-                          />
-                        </div>
-                        <div className='ml-2 flex-grow overflow-hidden'>
-                          <div className='truncate'>
-                            Áo phông MLB KOREA nam nữ cao cấp, 100% cotton co giãn 2 chiều , định lượng 250gms,NY VIỀN
-                            TRẮNG
-                          </div>
-                        </div>
-                        <div className='ml-2 flex-shrink-0'>
-                          <span className='text-orange'>₫210.000</span>
-                        </div>
-                      </div>
-                      <div className='mt-4 flex'>
-                        <div className='flex-shrink-0'>
-                          <img
-                            src='https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m601u9bom7h314@resize_w80_nl.webp'
-                            alt='anh'
-                            className='h-11 w-11 object-cover'
-                          />
-                        </div>
-                        <div className='ml-2 flex-grow overflow-hidden'>
-                          <div className='truncate'>
-                            Áo phông MLB KOREA nam nữ cao cấp, 100% cotton co giãn 2 chiều , định lượng 250gms,NY VIỀN
-                            TRẮNG
-                          </div>
-                        </div>
-                        <div className='ml-2 flex-shrink-0'>
-                          <span className='text-orange'>₫210.000</span>
-                        </div>
+                      {/* footer */}
+                      <div className='items center mt-6 flex justify-between'>
+                        <div className='text-xs capitalize text-gray-500'>Thêm hàng vào giỏ</div>
+                        <button className='rounded-sm bg-orange px-4 py-2 capitalize text-white hover:bg-opacity-90'>
+                          Xem giỏ hàng
+                        </button>
                       </div>
                     </div>
-                    {/* footer */}
-                    <div className='items center mt-6 flex justify-between'>
-                      <div className='text-xs capitalize text-gray-500'>Thêm hàng vào giỏ</div>
-                      <button className='rounded-sm bg-orange px-4 py-2 capitalize text-white hover:bg-opacity-90'>
-                        Xem giỏ hàng
-                      </button>
+                  ) : (
+                    <div className='p-2'>
+                      <img src={noproduct} alt='no purchase' />
                     </div>
-                  </div>
+                  )}
                 </div>
               }
             >
