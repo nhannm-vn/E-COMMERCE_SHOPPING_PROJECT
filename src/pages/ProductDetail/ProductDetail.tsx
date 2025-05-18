@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import productApi from '../../apis/product.api'
 import ProductRating from '../../components/ProductRating'
@@ -9,6 +9,7 @@ import { Product as ProductType, ProductListConfig } from '../../types/product.t
 import Product from '../ProductList/components/Product'
 import QuantityController from '../../components/QuantityController'
 import purchaseApi from '../../apis/purchase.api'
+import { purchaseStatus } from '../../constants/purchase'
 
 function ProductDetail() {
   // Biến tên nameId vì mình quy định dynamic router trong path.ts như vậy
@@ -39,6 +40,8 @@ function ProductDetail() {
   const handleBuyCount = (value: number) => {
     setBuyCount(value)
   }
+
+  const queryClient = useQueryClient()
 
   // Dùng để DOM tới image
   //nghĩa là điều khiển bằng cách DOM tới như js truyền thống
@@ -130,7 +133,16 @@ function ProductDetail() {
   }
 
   const addToCart = () => {
-    addToCartMutation.mutate({ buy_count: buyCount, product_id: product?._id as string })
+    addToCartMutation.mutate(
+      { buy_count: buyCount, product_id: product?._id as string },
+      {
+        // Thằng này giúp cho khi chúng ta addToCart thành công thì nó sẽ fetch lại api
+        // giúp cho sản phẩm có liền trong cart
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['purchases', { status: purchaseStatus.inCart }] })
+        }
+      }
+    )
   }
 
   // Giúp tránh dấu ? làm không đẹp do dữ liệu có thể underfined
