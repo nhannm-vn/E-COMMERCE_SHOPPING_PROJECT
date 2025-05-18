@@ -1,6 +1,6 @@
 import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import Popover from '../Popover'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import authApi from '../../apis/auth.api'
 import { AppContext } from '../../contexts/app.context'
 import { useContext } from 'react'
@@ -10,6 +10,8 @@ import { useForm } from 'react-hook-form'
 import { schema, Schema } from '../../utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { omit } from 'lodash'
+import { purchaseStatus } from '../../constants/purchase'
+import purchaseApi from '../../apis/purchase.api'
 
 type FormData = Pick<Schema, 'name'>
 
@@ -40,6 +42,18 @@ function Header() {
       setProfile(null)
     }
   })
+
+  // Lấy dữ liệu để hiển thị trên header các sản phẩm trong giỏ hàng
+  // Khi chúng ta chuyển trang thì Header chỉ bị re-render
+  // Chứ không bị unmount - mounting again
+  // (Tất nhiên là trường hợp logout rồi nhảy sang RegisterLayout rồi nhảy vào lại)
+  // Nên các query này sẽ không bị inactive => Không bị gọi lại => Không cân thiết phải set stale: Infiniti
+  const { data } = useQuery({
+    queryKey: ['purchases', { status: purchaseStatus.inCart }],
+    queryFn: () => purchaseApi.getPurchases({ status: purchaseStatus.inCart })
+  })
+
+  console.log(data)
 
   const handleLogout = () => {
     logoutMutation.mutate()

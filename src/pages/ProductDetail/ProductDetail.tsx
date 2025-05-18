@@ -278,7 +278,10 @@ function ProductDetail() {
                 </div>
                 {/* Button dat hang */}
                 <div className='mt-8 flex items-center'>
-                  <button className='justify-content-center flex h-12 items-center rounded-sm border border-orange bg-orange/10 px-5 capitalize text-orange shadow-sm hover:bg-orange/5'>
+                  <button
+                    onClick={addToCart}
+                    className='justify-content-center flex h-12 items-center rounded-sm border border-orange bg-orange/10 px-5 capitalize text-orange shadow-sm hover:bg-orange/5'
+                  >
                     <svg
                       enableBackground='new 0 0 15 15'
                       viewBox='0 0 15 15'
