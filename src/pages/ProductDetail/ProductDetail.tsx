@@ -9,7 +9,7 @@ import { Product as ProductType, ProductListConfig } from '../../types/product.t
 import Product from '../ProductList/components/Product'
 import QuantityController from '../../components/QuantityController'
 import purchaseApi from '../../apis/purchase.api'
-import { purchaseStatus } from '../../constants/purchase'
+import { purchasesStatus } from '../../constants/purchase'
 import { toast } from 'react-toastify'
 
 function ProductDetail() {
@@ -141,8 +141,10 @@ function ProductDetail() {
         // giúp cho sản phẩm có liền trong cart
         onSuccess: (data) => {
           // Xaì toastify để thông báo thêm sản phẩm vào giỏ hàng thành công
-          toast.success(data.data.message)
-          queryClient.invalidateQueries({ queryKey: ['purchases', { status: purchaseStatus.inCart }] })
+          toast.success(data.data.message, {
+            autoClose: 3000
+          })
+          queryClient.invalidateQueries({ queryKey: ['purchases', { status: purchasesStatus.inCart }] })
         }
       }
     )

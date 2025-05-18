@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form'
 import { schema, Schema } from '../../utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { omit } from 'lodash'
-import { purchaseStatus } from '../../constants/purchase'
+import { purchasesStatus } from '../../constants/purchase'
 import purchaseApi from '../../apis/purchase.api'
 import noproduct from '../../assets/images/no-product.png'
 import { formatCurrency } from '../../utils/utils'
@@ -53,8 +53,8 @@ function Header() {
   // (Tất nhiên là trường hợp logout rồi nhảy sang RegisterLayout rồi nhảy vào lại)
   // Nên các query này sẽ không bị inactive => Không bị gọi lại => Không cân thiết phải set stale: Infiniti
   const { data: purchasesInCartData } = useQuery({
-    queryKey: ['purchases', { status: purchaseStatus.inCart }],
-    queryFn: () => purchaseApi.getPurchases({ status: purchaseStatus.inCart })
+    queryKey: ['purchases', { status: purchasesStatus.inCart }],
+    queryFn: () => purchaseApi.getPurchases({ status: purchasesStatus.inCart })
   })
 
   const purchasesInCart = purchasesInCartData?.data.data
@@ -254,14 +254,15 @@ function Header() {
                       </div>
                     </div>
                   ) : (
-                    <div className='p-2'>
-                      <img src={noproduct} alt='no purchase' />
+                    <div className='flex h-[300px] w-[300px] items-center justify-center p-2'>
+                      <img src={noproduct} alt='no purchase' className='h-25 w-20' />
+                      <div className='mt-3 capitalize'> Chưa có sản phẩm</div>
                     </div>
                   )}
                 </div>
               }
             >
-              <Link to='/'>
+              <Link to='/' className='relative'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
@@ -276,6 +277,9 @@ function Header() {
                     d='M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z'
                   />
                 </svg>
+                <span className='absolute left-[17px] top-[-5px] rounded-full bg-white px-[10px] py-[0px] text-sm text-orange'>
+                  {purchasesInCart?.length}
+                </span>
               </Link>
             </Popover>
           </div>
