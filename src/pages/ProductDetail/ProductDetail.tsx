@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import productApi from '../../apis/product.api'
 import ProductRating from '../../components/ProductRating'
@@ -8,6 +8,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Product as ProductType, ProductListConfig } from '../../types/product.type'
 import Product from '../ProductList/components/Product'
 import QuantityController from '../../components/QuantityController'
+import purchaseApi from '../../apis/purchase.api'
 
 function ProductDetail() {
   // Biến tên nameId vì mình quy định dynamic router trong path.ts như vậy
@@ -65,6 +66,11 @@ function ProductDetail() {
   })
   console.log(productsData)
 
+  //addToCart
+  const addToCartMutation = useMutation({
+    mutationFn: (body: { product_id: string; buy_count: number }) => purchaseApi.addToCart(body)
+  })
+
   // Lúc đầu vào chưa có ảnh. Sau khi có data rồi thì sẽ luôn là bức ảnh đầu tiên
   // chứ không lẽ để defaultValue là nguyên cái chuỗi ảnh luôn thì xấu
   useEffect(() => {
@@ -121,6 +127,10 @@ function ProductDetail() {
   // Func handle remove zoom
   const handleRemoveZoom = () => {
     imageRef.current?.removeAttribute('style')
+  }
+
+  const addToCart = () => {
+    addToCartMutation.mutate({ buy_count: buyCount, product_id: product?._id as string })
   }
 
   // Giúp tránh dấu ? làm không đẹp do dữ liệu có thể underfined
