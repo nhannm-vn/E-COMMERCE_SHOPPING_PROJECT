@@ -10,6 +10,7 @@ import Product from '../ProductList/components/Product'
 import QuantityController from '../../components/QuantityController'
 import purchaseApi from '../../apis/purchase.api'
 import { purchaseStatus } from '../../constants/purchase'
+import { toast } from 'react-toastify'
 
 function ProductDetail() {
   // Biến tên nameId vì mình quy định dynamic router trong path.ts như vậy
@@ -138,7 +139,9 @@ function ProductDetail() {
       {
         // Thằng này giúp cho khi chúng ta addToCart thành công thì nó sẽ fetch lại api
         // giúp cho sản phẩm có liền trong cart
-        onSuccess: () => {
+        onSuccess: (data) => {
+          // Xaì toastify để thông báo thêm sản phẩm vào giỏ hàng thành công
+          toast.success(data.data.message)
           queryClient.invalidateQueries({ queryKey: ['purchases', { status: purchaseStatus.inCart }] })
         }
       }
