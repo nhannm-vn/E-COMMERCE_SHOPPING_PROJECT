@@ -21,6 +21,8 @@ function QuantityController({
   ...rest
 }: Props) {
   // Tạo localState để giúp cho dù người dùng không truyền gì vào cũng có thể bấm tăng giảm được
+  //mục đích giúp cho component của chúng ta flex hơn cho dù không truyền gì value vào thì cũng có thể bấm được
+  //vì có giá trị lưu vào biến state
   const [localValue, setLocalValue] = useState<number>(Number(value || 0))
 
   // Logic để tăng giảm số lượng sp đặt hàng
