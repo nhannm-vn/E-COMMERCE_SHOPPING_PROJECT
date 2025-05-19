@@ -150,7 +150,14 @@ function AsideFilter({ queryConfig, categories }: Props) {
         <div>Khoảng Giá</div>
         <form className='mt-2' onSubmit={onSubmit}>
           <div className='flex items-start'>
-            <Controller
+            <InputNumber
+              type='text'
+              className='grow'
+              placeholder='₫ TỪ'
+              classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md'
+              classNameError='hidden'
+            />
+            {/* <Controller
               control={control}
               name='price_min'
               render={({ field }) => {
@@ -170,7 +177,7 @@ function AsideFilter({ queryConfig, categories }: Props) {
                   />
                 )
               }}
-            />
+            /> */}
 
             {/* shrink để nó không co lại */}
             <div className='mx-2 mt-2 shrink-0'>-</div>
