@@ -377,3 +377,5 @@ export default ProductDetail
 // dangerouslySetInnerHTML nghĩa là những thằng trong này rất nguy hiểm dễ bị tấn công
 // ** Để khắc chế người ta chén thẻ script thì xài thư viện dompurify, nó sẽ loại bỏ js trong câu code
 //`<div onclick={alert('ok')}>hehe</div>`
+
+//keep trying
