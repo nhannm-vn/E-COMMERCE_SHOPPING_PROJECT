@@ -20,6 +20,7 @@ const InputV2 = forwardRef<HTMLInputElement, InputNumberProps>(function InputNum
     classNameError = 'mt-1 text-red-600 min-h-[1.3rem] text-sm',
     onChange,
     value = '',
+    //
     ...rest
   },
   ref
