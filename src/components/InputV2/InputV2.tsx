@@ -2,19 +2,33 @@
 //đối với thằng này sẽ dùng useController
 
 import { InputHTMLAttributes, useState } from 'react'
-import { useController, UseControllerProps } from 'react-hook-form'
+import { useController, UseControllerProps, FieldValues, FieldPath } from 'react-hook-form'
 
 // Khai báo interface cho prop
 // **Nhờ extend mà mình có thể không cần ĐỊNH NGHĨA hết các thuộc tính vd như placeholder
-export interface InputNumberProps extends InputHTMLAttributes<HTMLInputElement> {
+export type InputNumberProps<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+> = {
   // type: React.HTMLInputTypeAttribute
-  errrorMessage?: string
   classNameInput?: string
   classNameError?: string
-}
+} & InputHTMLAttributes<HTMLInputElement> &
+  UseControllerProps<TFieldValues, TName>
 
-function InputV2(props: UseControllerProps & InputNumberProps) {
-  const { type, onChange } = props
+function InputV2<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+>(props: InputNumberProps<TFieldValues, TName>) {
+  const {
+    type,
+    onChange,
+    className,
+    classNameInput = 'p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md',
+    classNameError = 'mt-1 text-red-600 min-h-[1.3rem] text-sm',
+    value = '',
+    ...rest
+  } = props
   const { field, fieldState } = useController(props)
   const [localValue, setLocalValue] = useState<string>(field.value)
   // Nghiã là khi người dùng gõ số thì onChange nó mới chạy
@@ -34,9 +48,9 @@ function InputV2(props: UseControllerProps & InputNumberProps) {
   }
   return (
     <div className={className}>
-      <input className={classNameInput} {...rest} onChange={handleChange} value={value || localValue} ref={ref} />
+      <input className={classNameInput} {...field} {...rest} onChange={handleChange} value={value || localValue} />
       {/* min-h-[1rem]: giúp luôn có chiều cao kể cả không có lỗi */}
-      <div className={classNameError}>{errrorMessage}</div>
+      <div className={classNameError}>{fieldState.error?.message}</div>
     </div>
   )
 }
