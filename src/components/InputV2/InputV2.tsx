@@ -1,7 +1,8 @@
 // Đối với phiên bản này mình chỉ dùng được với react-hook-form thôi
 //đối với thằng này sẽ dùng useController
 
-import { forwardRef, InputHTMLAttributes, useState } from 'react'
+import { InputHTMLAttributes, useState } from 'react'
+import { useController, UseControllerProps } from 'react-hook-form'
 
 // Khai báo interface cho prop
 // **Nhờ extend mà mình có thể không cần ĐỊNH NGHĨA hết các thuộc tính vd như placeholder
@@ -12,30 +13,23 @@ export interface InputNumberProps extends InputHTMLAttributes<HTMLInputElement> 
   classNameError?: string
 }
 
-const InputV2 = forwardRef<HTMLInputElement, InputNumberProps>(function InputNumberInner(
-  {
-    errrorMessage,
-    className,
-    classNameInput = 'p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-md',
-    classNameError = 'mt-1 text-red-600 min-h-[1.3rem] text-sm',
-    onChange,
-    value = '',
-    //
-    ...rest
-  },
-  ref
-) {
-  const [localValue, setLocalValue] = useState<string>(value as string)
+function InputV2(props: UseControllerProps & InputNumberProps) {
+  const { type, onChange } = props
+  const { field, fieldState } = useController(props)
+  const [localValue, setLocalValue] = useState<string>(field.value)
   // Nghiã là khi người dùng gõ số thì onChange nó mới chạy
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target
-    if (/^\d+$/.test(value) || value === '') {
+    const valueFormInput = event.target.value
+    const numberCondition = type === 'number' && (/^\d+$/.test(valueFormInput) || valueFormInput === '')
+    if (numberCondition || type !== 'number') {
+      // Cập nhật localValue state
+      setLocalValue(valueFormInput)
+      // Gọi field.onChange để cập nhật vào state react-hook-form
+      field.onChange(event)
       // Thuc thi onChange callback từ bên ngoài truyền vào props
       if (onChange) {
         onChange(event)
       }
-      // Cập nhật localValue
-      setLocalValue(value)
     }
   }
   return (
@@ -45,7 +39,7 @@ const InputV2 = forwardRef<HTMLInputElement, InputNumberProps>(function InputNum
       <div className={classNameError}>{errrorMessage}</div>
     </div>
   )
-})
+}
 
 export default InputV2
 
