@@ -258,7 +258,7 @@ function Header() {
                       </div>
                     </div>
                   ) : (
-                    <div className='flex h-[300px] w-[300px] items-center justify-center p-2'>
+                    <div className='flex h-[300px] w-[300px] flex-col items-center justify-center p-2'>
                       <img src={noproduct} alt='no purchase' className='h-25 w-20' />
                       <div className='mt-3 capitalize'> Chưa có sản phẩm</div>
                     </div>
