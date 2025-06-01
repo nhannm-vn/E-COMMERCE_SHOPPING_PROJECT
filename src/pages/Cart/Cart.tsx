@@ -118,29 +118,32 @@ function Cart() {
                 </div>
               ))}
             </div>
-            {/* Sticky */}
-            <div className='sticky bottom-0 z-10 mt-8 flex flex-col rounded-sm border border-gray-100 bg-white p-5 shadow sm:flex-row sm:items-center'>
-              <div className='flex items-center'>
-                <div className='flex flex-shrink-0 items-center justify-center pr-3'>
-                  <input type='checkbox' className='h-5 w-5 accent-orange' />
-                </div>
-                <button className='mx-3 border-none bg-none'>Chọn tất cả</button>
-                <button className='mx-3 border-none bg-none transition-colors hover:text-orange'>Xóa</button>
-              </div>
+          </div>
+        </div>
+        {/* Sticky: nếu đặt ở trong over-flow thì nó sẽ không có hiệu ứng sticky */}
+        <div className='sticky bottom-0 z-10 mt-8 flex flex-col rounded-sm border border-gray-100 bg-white p-5 shadow sm:flex-row sm:items-center'>
+          <div className='flex items-center'>
+            <div className='flex flex-shrink-0 items-center justify-center pr-3'>
+              <input type='checkbox' className='h-5 w-5 accent-orange' />
+            </div>
+            <button className='mx-3 border-none bg-none'>Chọn tất cả</button>
+            <button className='mx-3 border-none bg-none transition-colors hover:text-orange'>Xóa</button>
+          </div>
 
-              <div className='mt-5 flex flex-col sm:ml-auto sm:mt-0 sm:flex-row sm:items-center'>
-                <div>
-                  <div className='flex items-center sm:justify-end'>
-                    <div>Tổng thanh toán (0 sản phẩm):</div>
-                    <div className='ml-2 text-2xl text-orange'>₫138000</div>
-                  </div>
-                  <div className='flex items-center text-sm sm:justify-end'>
-                    <div className='text-gray-500'>Tiết kiệm</div>
-                    <div className='ml-6 text-orange'>₫138000</div>
-                  </div>
-                </div>
+          <div className='mt-5 flex flex-col sm:ml-auto sm:mt-0 sm:flex-row sm:items-center'>
+            <div>
+              <div className='flex items-center sm:justify-end'>
+                <div>Tổng thanh toán (0 sản phẩm):</div>
+                <div className='ml-2 text-2xl text-orange'>₫138000</div>
+              </div>
+              <div className='flex items-center text-sm sm:justify-end'>
+                <div className='text-gray-500'>Tiết kiệm</div>
+                <div className='ml-6 text-orange'>₫138000</div>
               </div>
             </div>
+            <Button className='ml-4 mt-5 flex h-10 w-52 items-center justify-center bg-red-500 text-sm uppercase text-white hover:bg-red-600 sm:ml-4 sm:mt-0'>
+              Mua Hàng
+            </Button>
           </div>
         </div>
       </div>
