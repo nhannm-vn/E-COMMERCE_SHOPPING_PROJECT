@@ -1,6 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import purchaseApi from '../../apis/purchase.api'
 import { purchasesStatus } from '../../constants/purchase'
+import { Link } from 'react-router-dom'
+import path from '../../constants/path'
+import { generateNameId } from '../../utils/utils'
 
 function Cart() {
   // Gọi api purchase list
@@ -40,6 +43,38 @@ function Cart() {
                   <div className='col-span-1'>Thao tác</div>
                 </div>
               </div>
+            </div>
+            {/* Body */}
+            <div className='my-3 rounded-sm bg-white p-5 shadow'>
+              {purchasesInCart?.map((purchase, index) => (
+                <div
+                  key={purchase._id}
+                  className='*:first-letter: grid grid-cols-12 rounded-sm border border-gray-200 bg-white px-4 py-5 text-center text-sm text-gray-500'
+                >
+                  <div className='col-span-6'>
+                    <div className='flex'>
+                      {/* check box */}
+                      <div className='flex flex-shrink-0 items-center justify-center pr-3'>
+                        <input type='checkbox' className='h-5 w-5 accent-orange' />
+                      </div>
+                      {/* information product */}
+                      <div className='flex-grow'>
+                        <div className='flex'>
+                          <Link
+                            className='h-20 w-20 flex-shrink-0'
+                            to={`${path.home}${generateNameId({
+                              name: purchase.product.name, //
+                              id: purchase.product._id
+                            })}`}
+                          >
+                            <img src={purchase.product.image} alt={purchase.product.name} />
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
