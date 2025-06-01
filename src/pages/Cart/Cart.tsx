@@ -4,6 +4,7 @@ import { purchasesStatus } from '../../constants/purchase'
 import { Link } from 'react-router-dom'
 import path from '../../constants/path'
 import { formatCurrency, generateNameId } from '../../utils/utils'
+import QuantityController from '../../components/QuantityController'
 
 function Cart() {
   // Gọi api purchase list
@@ -62,7 +63,7 @@ function Cart() {
                       <div className='flex-grow'>
                         <div className='flex'>
                           <Link
-                            className='h-20 w-20 flex-shrink-0'
+                            className='h-20 w-20 flex-shrink-0 overflow-hidden'
                             to={`${path.home}${generateNameId({
                               name: purchase.product.name,
                               id: purchase.product._id
@@ -95,6 +96,18 @@ function Cart() {
                           </span>
                           <span className='ml-3'>₫{formatCurrency(purchase.product.price)}</span>
                         </div>
+                      </div>
+                      <div className='col-span-1'>
+                        <QuantityController //
+                          classNameWrapper='flex items-center'
+                          max={purchase.product.quantity}
+                          value={purchase.buy_count}
+                        />
+                      </div>
+                      <div className='col-span-1'>
+                        <span className='text-orange'>
+                          ₫{formatCurrency(purchase.product.price * purchase.buy_count)}
+                        </span>
                       </div>
                     </div>
                   </div>
