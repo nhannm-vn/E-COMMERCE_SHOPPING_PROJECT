@@ -3,7 +3,7 @@ import purchaseApi from '../../apis/purchase.api'
 import { purchasesStatus } from '../../constants/purchase'
 import { Link } from 'react-router-dom'
 import path from '../../constants/path'
-import { generateNameId } from '../../utils/utils'
+import { formatCurrency, generateNameId } from '../../utils/utils'
 
 function Cart() {
   // Gọi api purchase list
@@ -46,11 +46,12 @@ function Cart() {
             </div>
             {/* Body */}
             <div className='my-3 rounded-sm bg-white p-5 shadow'>
-              {purchasesInCart?.map((purchase, index) => (
+              {purchasesInCart?.map((purchase) => (
                 <div
                   key={purchase._id}
                   className='*:first-letter: grid grid-cols-12 rounded-sm border border-gray-200 bg-white px-4 py-5 text-center text-sm text-gray-500'
                 >
+                  {/* left */}
                   <div className='col-span-6'>
                     <div className='flex'>
                       {/* check box */}
@@ -63,12 +64,36 @@ function Cart() {
                           <Link
                             className='h-20 w-20 flex-shrink-0'
                             to={`${path.home}${generateNameId({
-                              name: purchase.product.name, //
+                              name: purchase.product.name,
                               id: purchase.product._id
                             })}`}
                           >
-                            <img src={purchase.product.image} alt={purchase.product.name} />
+                            <img alt={purchase.product.name} src={purchase.product.image} />
                           </Link>
+                          <div className='flex-grow px-2 pb-2 pt-1'>
+                            <Link
+                              to={`${path.home}${generateNameId({
+                                name: purchase.product.name,
+                                id: purchase.product._id
+                              })}`}
+                              className='line-clamp-2 text-left'
+                            >
+                              {purchase.product.name}
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* right */}
+                  <div className='col-span-6'>
+                    <div className='grid grid-cols-5 items-center'>
+                      <div className='col-span-2'>
+                        <div className='flex items-center justify-center'>
+                          <span className='text-gray-300 line-through'>
+                            ₫{formatCurrency(purchase.product.price_before_discount)}
+                          </span>
+                          <span className='ml-3'>₫{formatCurrency(purchase.product.price)}</span>
                         </div>
                       </div>
                     </div>
