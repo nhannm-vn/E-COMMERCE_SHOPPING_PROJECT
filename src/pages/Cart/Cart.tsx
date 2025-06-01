@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import path from '../../constants/path'
 import { formatCurrency, generateNameId } from '../../utils/utils'
 import QuantityController from '../../components/QuantityController'
+import Button from '../../components/Button'
 
 function Cart() {
   // Gọi api purchase list
@@ -50,7 +51,7 @@ function Cart() {
               {purchasesInCart?.map((purchase) => (
                 <div
                   key={purchase._id}
-                  className='*:first-letter: grid grid-cols-12 rounded-sm border border-gray-200 bg-white px-4 py-5 text-center text-sm text-gray-500'
+                  className='mt-5 grid grid-cols-12 rounded-sm border border-gray-200 bg-white px-4 py-5 text-center text-sm text-gray-500 first:mt-0'
                 >
                   {/* left */}
                   <div className='col-span-6'>
@@ -109,10 +110,36 @@ function Cart() {
                           ₫{formatCurrency(purchase.product.price * purchase.buy_count)}
                         </span>
                       </div>
+                      <div className='col-span-1'>
+                        <button className='bg-none text-black transition-colors hover:text-orange'>Xóa</button>
+                      </div>
                     </div>
                   </div>
                 </div>
               ))}
+            </div>
+            {/* Sticky */}
+            <div className='sticky bottom-0 z-10 mt-8 flex flex-col rounded-sm border border-gray-100 bg-white p-5 shadow sm:flex-row sm:items-center'>
+              <div className='flex items-center'>
+                <div className='flex flex-shrink-0 items-center justify-center pr-3'>
+                  <input type='checkbox' className='h-5 w-5 accent-orange' />
+                </div>
+                <button className='mx-3 border-none bg-none'>Chọn tất cả</button>
+                <button className='mx-3 border-none bg-none transition-colors hover:text-orange'>Xóa</button>
+              </div>
+
+              <div className='mt-5 flex flex-col sm:ml-auto sm:mt-0 sm:flex-row sm:items-center'>
+                <div>
+                  <div className='flex items-center sm:justify-end'>
+                    <div>Tổng thanh toán (0 sản phẩm):</div>
+                    <div className='ml-2 text-2xl text-orange'>₫138000</div>
+                  </div>
+                  <div className='flex items-center text-sm sm:justify-end'>
+                    <div className='text-gray-500'>Tiết kiệm</div>
+                    <div className='ml-6 text-orange'>₫138000</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
