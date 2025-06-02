@@ -6,8 +6,18 @@ import path from '../../constants/path'
 import { formatCurrency, generateNameId } from '../../utils/utils'
 import QuantityController from '../../components/QuantityController'
 import Button from '../../components/Button'
+import { useEffect, useState } from 'react'
+import { Purchase } from '../../types/purchase.type'
+
+interface ExtendedPurchase extends Purchase {
+  disabled: boolean
+  checked: boolean
+}
 
 function Cart() {
+  // Tạo state mở rộng sẽ kế thừa kiểu của purchase và có thêm 2 prop riêng
+  const [extendedPurchases, setExetendedPuchases] = useState<ExtendedPurchase[]>([])
+
   // Gọi api purchase list
   const { data: purchasesInCartData } = useQuery({
     queryKey: ['purchases', { status: purchasesStatus.inCart }],
@@ -20,6 +30,18 @@ function Cart() {
 
   // Móc data ra
   const purchasesInCart = purchasesInCartData?.data.data
+
+  // Sau khi goi api xong thi set vao state
+  // và set lại khi giá trị của biến thay đổi
+  useEffect(() => {
+    setExetendedPuchases(
+      purchasesInCart?.map((purchase) => ({
+        ...purchase,
+        disabled: false,
+        checked: false
+      })) || []
+    )
+  }, [purchasesInCart])
 
   return (
     <div className='bg-neutral-100 py-16'>
