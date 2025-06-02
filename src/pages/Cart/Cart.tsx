@@ -70,7 +70,7 @@ function Cart() {
             </div>
             {/* Body */}
             <div className='my-3 rounded-sm bg-white p-5 shadow'>
-              {purchasesInCart?.map((purchase) => (
+              {extendedPurchases?.map((purchase) => (
                 <div
                   key={purchase._id}
                   className='mt-5 grid grid-cols-12 rounded-sm border border-gray-200 bg-white px-4 py-5 text-center text-sm text-gray-500 first:mt-0'
@@ -80,7 +80,12 @@ function Cart() {
                     <div className='flex'>
                       {/* check box */}
                       <div className='flex flex-shrink-0 items-center justify-center pr-3'>
-                        <input type='checkbox' className='h-5 w-5 accent-orange' />
+                        <input
+                          type='checkbox'
+                          className='h-5 w-5 accent-orange'
+                          checked={purchase.checked}
+                          // onChange={}
+                        />
                       </div>
                       {/* information product */}
                       <div className='flex-grow'>
