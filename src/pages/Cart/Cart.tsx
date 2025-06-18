@@ -9,13 +9,19 @@ import Button from '../../components/Button'
 import { useEffect, useState } from 'react'
 import { Purchase } from '../../types/purchase.type'
 
+// ExtendedPurchase là type định nghĩa mở rông thêm riêng biệt cho từng Purchase
 interface ExtendedPurchase extends Purchase {
+  // disabled: là thuộc tính giúp cho khi item đang thao tác hoặc gọi api thì sẽ
+  //không cho phép tăng số lượng hoặc thao tác trên UI
   disabled: boolean
+  // checked: sẽ là thuộc tính thêm vào cho mỗi thằng Purchase điều này sẽ giúp cho
+  //biết được thằng item nào đang checked
   checked: boolean
 }
 
 function Cart() {
-  // Tạo state mở rộng sẽ kế thừa kiểu của purchase và có thêm 2 prop riêng
+  // Tạo state mở rộng nó chứa danh sách các ExtendedPurchase chứa thêm hai thuộc tính
+  //mở rộng: checked, disable
   const [extendedPurchases, setExetendedPuchases] = useState<ExtendedPurchase[]>([])
 
   // Gọi api purchase list
@@ -31,8 +37,9 @@ function Cart() {
   // Móc data ra
   const purchasesInCart = purchasesInCartData?.data.data
 
-  // Sau khi goi api xong thi set vao state
-  // và set lại khi giá trị của biến thay đổi
+  // Vừa vào trang Cart sau khi useQuery nó gọi api xong thì mình sẽ set giá trị vào state
+  // Dựa vào dữ liệu đã có từ useQuery mình sẽ tiến hành mapping từng item cho có thêm 2 thuộc
+  //tính và sau đó set vào state mở rộng
   useEffect(() => {
     setExetendedPuchases(
       purchasesInCart?.map((purchase) => ({
@@ -40,8 +47,13 @@ function Cart() {
         disabled: false,
         checked: false
       })) || []
+      // Trong trường hợp mà purchasesInCart không có data thì mình sẽ lấy cái [] cho nó
     )
   }, [purchasesInCart])
+
+  // Func này sẽ nhận vào index để biết được thằng item nào đang checked để mà xử lí
+  //khi người dùng tick vào nó
+  const handleChecked = (productIndex: number) => (event: React.ChangeEvent) => {}
 
   return (
     <div className='bg-neutral-100 py-16'>
@@ -70,7 +82,7 @@ function Cart() {
             </div>
             {/* Body */}
             <div className='my-3 rounded-sm bg-white p-5 shadow'>
-              {extendedPurchases?.map((purchase) => (
+              {extendedPurchases?.map((purchase, index) => (
                 <div
                   key={purchase._id}
                   className='mt-5 grid grid-cols-12 rounded-sm border border-gray-200 bg-white px-4 py-5 text-center text-sm text-gray-500 first:mt-0'
@@ -84,7 +96,7 @@ function Cart() {
                           type='checkbox'
                           className='h-5 w-5 accent-orange'
                           checked={purchase.checked}
-                          // onChange={}
+                          onChange={}
                         />
                       </div>
                       {/* information product */}
