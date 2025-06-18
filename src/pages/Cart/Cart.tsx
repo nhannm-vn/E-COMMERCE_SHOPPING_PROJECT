@@ -69,6 +69,18 @@ function Cart() {
     )
   }
 
+  // Thuật toán nghĩa là khi check cái nút tất cả thì sẽ cho mỗi item ngược lại với thằng isAllCheck
+  //vì sau khi như vậy thì thằng isAllCheck cũng tự động được fix dựa trên tất cả các item
+  //nghĩa là từng cái purchase nó set lại checked sau đó mới set lại cho biến isAllCheck
+  const handleCheckAll = () => {
+    setExetendedPuchases((prev) =>
+      prev.map((purchase) => ({
+        ...purchase,
+        checked: !isAllChecked
+      }))
+    )
+  }
+
   return (
     <div className='bg-neutral-100 py-16'>
       <div className='container'>
@@ -85,6 +97,7 @@ function Cart() {
                       type='checkbox' //
                       className='h-5 w-5 accent-orange'
                       checked={isAllChecked}
+                      onChange={handleCheckAll}
                     />
                   </div>
                   <div className='flex-grow text-black'>Sản phẩm</div>
@@ -186,9 +199,12 @@ function Cart() {
                 type='checkbox' //
                 className='h-5 w-5 accent-orange'
                 checked={isAllChecked}
+                onChange={handleCheckAll}
               />
             </div>
-            <button className='mx-3 border-none bg-none'>Chọn tất cả ({extendedPurchases.length})</button>
+            <button className='mx-3 border-none bg-none' onClick={handleCheckAll}>
+              Chọn tất cả ({extendedPurchases.length})
+            </button>
             <button className='mx-3 border-none bg-none transition-colors hover:text-orange'>Xóa</button>
           </div>
 
