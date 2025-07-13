@@ -9,6 +9,7 @@ import Button from '../../components/Button'
 import { useEffect, useState } from 'react'
 import { Purchase } from '../../types/purchase.type'
 import { produce } from 'immer'
+import { keyBy } from 'lodash'
 
 // ExtendedPurchase là type định nghĩa mở rông thêm riêng biệt cho từng Purchase
 interface ExtendedPurchase extends Purchase {
@@ -26,7 +27,7 @@ function Cart() {
   const [extendedPurchases, setExetendedPuchases] = useState<ExtendedPurchase[]>([])
 
   // Gọi api purchase list
-  const { data: purchasesInCartData } = useQuery({
+  const { data: purchasesInCartData, refetch } = useQuery({
     queryKey: ['purchases', { status: purchasesStatus.inCart }],
     queryFn: () => purchaseApi.getPurchases({ status: purchasesStatus.inCart })
     // Khi chưa có login vào thì đừng gọi api của purchase
@@ -38,7 +39,10 @@ function Cart() {
   const updatePurchaseMutation = useMutation({
     mutationFn: purchaseApi.updatePurchase,
     // Sau khi cập nhật thành công thì chúng ta phải gọi lại getList để nó cập nhật lại
-    onSuccess: () => {}
+    //nghĩa là cho thằng disable thành false lại nếu không thì nó sẽ không bấm được
+    onSuccess: () => {
+      refetch()
+    }
   })
 
   // Móc data ra
@@ -53,11 +57,20 @@ function Cart() {
   //tính và sau đó set vào state mở rộng
   useEffect(() => {
     setExetendedPuchases(
-      purchasesInCart?.map((purchase) => ({
-        ...purchase,
-        disabled: false,
-        checked: false
-      })) || []
+      (prev) => {
+        //*Biến các prev thành các object có _id làm key các props còn lại là value
+        const extendedPurchasesObject = keyBy(prev, '_id')
+        // console.log(extendedPurchasesObject)
+        return (
+          purchasesInCart?.map((purchase) => ({
+            ...purchase,
+            disabled: false,
+            //*Tìm được chính xác thằng nào có checked thì giữa nguyên cho nó
+            //sau khi reset disable thì checked vẫn giữ nguyên
+            checked: Boolean(extendedPurchasesObject[purchase._id]?.checked)
+          })) || []
+        )
+      }
       // Trong trường hợp mà purchasesInCart không có data thì mình sẽ lấy cái [] cho nó
     )
   }, [purchasesInCart])
@@ -195,6 +208,11 @@ function Cart() {
                           classNameWrapper='flex items-center'
                           max={purchase.product.quantity}
                           value={purchase.buy_count}
+                          onIncrease={(value) => handleQuantity(index, value)}
+                          onDecrease={(value) => handleQuantity(index, value)}
+                          //**Thuộc tính này mình thêm vào để mục đích nó disable trên UI không cho chỉnh sửa khi đang
+                          //fetch api. Nghĩa là thằng nào đang fetch thì sẽ có thuộc tính đó để disable
+                          disabled={purchase.disabled}
                         />
                       </div>
                       <div className='col-span-1'>
