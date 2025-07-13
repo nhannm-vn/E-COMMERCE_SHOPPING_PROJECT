@@ -225,6 +225,15 @@ function Cart() {
                           disabled={purchase.disabled}
                           //**Thằng này giúp cho chúng ta thay đổi số lượng của sản phẩm
                           onType={handleTypeQuantity(index)}
+                          onFocusOut={(value) =>
+                            handleQuantity(
+                              index,
+                              value,
+                              value >= 1 &&
+                                value <= purchase.product.quantity &&
+                                value !== (purchasesInCart as Purchase[])[index].buy_count
+                            )
+                          }
                         />
                       </div>
                       <div className='col-span-1'>
