@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import purchaseApi from '../../apis/purchase.api'
 import { purchasesStatus } from '../../constants/purchase'
 import { Link } from 'react-router-dom'
@@ -35,6 +35,12 @@ function Cart() {
     // enabled: isAuthenticated
   })
 
+  const updatePurchaseMutation = useMutation({
+    mutationFn: purchaseApi.updatePurchase,
+    // Sau khi cập nhật thành công thì chúng ta phải gọi lại getList để nó cập nhật lại
+    onSuccess: () => {}
+  })
+
   // Móc data ra
   const purchasesInCart = purchasesInCartData?.data.data
 
@@ -58,13 +64,13 @@ function Cart() {
 
   // Func này sẽ nhận vào index để biết được thằng item nào đang checked để mà xử lí
   //khi người dùng tick vào nó
-  const handleCheck = (productIndex: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCheck = (purchaseIndex: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
     // **Cách đơn giản để set lại cho 1 thằng item mà không cần phải dùng map cho phức tạp
     //nghĩa là không cần check qua từng thằng là dùng produce của immer
     setExetendedPuchases(
       produce((draft) => {
         //draft: đại diện cho exetendedPuchases nghĩa là giá trị previos
-        draft[productIndex].checked = event.target.checked
+        draft[purchaseIndex].checked = event.target.checked
       })
     )
   }
@@ -79,6 +85,21 @@ function Cart() {
         checked: !isAllChecked
       }))
     )
+  }
+
+  const handleQuantity = (purchaseIndex: number, value: number) => {
+    // Đầu tiên lấy ra được thằng purchase ở vị trí purchaseIndex trước
+    const purchase = extendedPurchases[purchaseIndex]
+    // **Cách đơn giản để set lại cho 1 thằng item mà không cần phải dùng map cho phức tạp
+    //nghĩa là không cần check qua từng thằng là dùng produce của immer
+    setExetendedPuchases(
+      produce((draft) => {
+        //*Khi mà mình bắt đầu gọi api change cái purchase thì mình phải disable cái thằng input không
+        //cho người dùng tăng nữa. Sau khi gọi xong thì mình sẽ mở nó ra
+        draft[purchaseIndex].disabled = true
+      })
+    )
+    updatePurchaseMutation.mutate({ product_id: purchase.product._id, buy_count: value })
   }
 
   return (
