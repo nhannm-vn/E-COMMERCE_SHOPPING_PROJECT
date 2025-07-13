@@ -100,19 +100,29 @@ function Cart() {
     )
   }
 
-  const handleQuantity = (purchaseIndex: number, value: number) => {
-    // Đầu tiên lấy ra được thằng purchase ở vị trí purchaseIndex trước
-    const purchase = extendedPurchases[purchaseIndex]
-    // **Cách đơn giản để set lại cho 1 thằng item mà không cần phải dùng map cho phức tạp
-    //nghĩa là không cần check qua từng thằng là dùng produce của immer
+  const handleTypeQuantity = (purchaseIndex: number) => (value: number) => {
     setExetendedPuchases(
       produce((draft) => {
-        //*Khi mà mình bắt đầu gọi api change cái purchase thì mình phải disable cái thằng input không
-        //cho người dùng tăng nữa. Sau khi gọi xong thì mình sẽ mở nó ra
-        draft[purchaseIndex].disabled = true
+        draft[purchaseIndex].buy_count = value
       })
     )
-    updatePurchaseMutation.mutate({ product_id: purchase.product._id, buy_count: value })
+  }
+
+  const handleQuantity = (purchaseIndex: number, value: number, enable: boolean) => {
+    if (enable) {
+      // Đầu tiên lấy ra được thằng purchase ở vị trí purchaseIndex trước
+      const purchase = extendedPurchases[purchaseIndex]
+      // **Cách đơn giản để set lại cho 1 thằng item mà không cần phải dùng map cho phức tạp
+      //nghĩa là không cần check qua từng thằng là dùng produce của immer
+      setExetendedPuchases(
+        produce((draft) => {
+          //*Khi mà mình bắt đầu gọi api change cái purchase thì mình phải disable cái thằng input không
+          //cho người dùng tăng nữa. Sau khi gọi xong thì mình sẽ mở nó ra
+          draft[purchaseIndex].disabled = true
+        })
+      )
+      updatePurchaseMutation.mutate({ product_id: purchase.product._id, buy_count: value })
+    }
   }
 
   return (
@@ -208,11 +218,13 @@ function Cart() {
                           classNameWrapper='flex items-center'
                           max={purchase.product.quantity}
                           value={purchase.buy_count}
-                          onIncrease={(value) => handleQuantity(index, value)}
-                          onDecrease={(value) => handleQuantity(index, value)}
+                          onIncrease={(value) => handleQuantity(index, value, value <= purchase.product.quantity)}
+                          onDecrease={(value) => handleQuantity(index, value, value >= 1)}
                           //**Thuộc tính này mình thêm vào để mục đích nó disable trên UI không cho chỉnh sửa khi đang
                           //fetch api. Nghĩa là thằng nào đang fetch thì sẽ có thuộc tính đó để disable
                           disabled={purchase.disabled}
+                          //**Thằng này giúp cho chúng ta thay đổi số lượng của sản phẩm
+                          onType={handleTypeQuantity(index)}
                         />
                       </div>
                       <div className='col-span-1'>
