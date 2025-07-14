@@ -45,6 +45,22 @@ function Cart() {
     }
   })
 
+  // *Buy hay Delete thì cũng phải refresh sau khi thực hiện thành công
+
+  const buyProductsMutation = useMutation({
+    mutationFn: purchaseApi.buyProducts,
+    onSuccess: () => {
+      refetch()
+    }
+  })
+
+  const deletePurchasesMutation = useMutation({
+    mutationFn: purchaseApi.deletePurchase,
+    onSuccess: () => {
+      refetch()
+    }
+  })
+
   // Móc data ra
   const purchasesInCart = purchasesInCartData?.data.data
 
@@ -161,7 +177,7 @@ function Cart() {
               {extendedPurchases?.map((purchase, index) => (
                 <div
                   key={purchase._id}
-                  className='mt-5 grid grid-cols-12 rounded-sm border border-gray-200 bg-white px-4 py-5 text-center text-sm text-gray-500 first:mt-0'
+                  className='mt-5 grid grid-cols-12 items-center rounded-sm border border-gray-200 bg-white px-4 py-5 text-center text-sm text-gray-500 first:mt-0'
                 >
                   {/* left */}
                   <div className='col-span-6'>
