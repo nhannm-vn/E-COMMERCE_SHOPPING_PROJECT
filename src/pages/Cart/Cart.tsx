@@ -68,6 +68,11 @@ function Cart() {
   //==> nó chọn tất cả khi mỗi thằng trong extendedPurchases nó phải checked = true
   const isAllChecked = extendedPurchases.every((purchase) => purchase.checked)
 
+  //* Biến dùng để lưu các thằng bị checked vào trong một mảng
+  //==> nhằm biết được thằng nào đang check để xóa một lần được nhiều thằng
+  const checkedPurchases = extendedPurchases.filter((purchase) => purchase.checked)
+  const checkedPurchasesCount = checkedPurchases.length
+
   // Vừa vào trang Cart sau khi useQuery nó gọi api xong thì mình sẽ set giá trị vào state
   // Dựa vào dữ liệu đã có từ useQuery mình sẽ tiến hành mapping từng item cho có thêm 2 thuộc
   //tính và sau đó set vào state mở rộng
@@ -139,6 +144,18 @@ function Cart() {
       )
       updatePurchaseMutation.mutate({ product_id: purchase.product._id, buy_count: value })
     }
+  }
+
+  // *Handle delete dành cho có thể xóa 1 hoặc check và xóa nhiều item
+  const handleDelete = (purchaseIndex: number) => () => {
+    const purchaseId = extendedPurchases[purchaseIndex]._id
+    deletePurchasesMutation.mutate([purchaseId])
+  }
+
+  const handleDeleteManyPurchases = () => {
+    // Lấy ra mảng các id
+    const purchasesIds = checkedPurchases.map((purchase) => purchase._id)
+    deletePurchasesMutation.mutate(purchasesIds)
   }
 
   return (
@@ -258,7 +275,12 @@ function Cart() {
                         </span>
                       </div>
                       <div className='col-span-1'>
-                        <button className='bg-none text-black transition-colors hover:text-orange'>Xóa</button>
+                        <button
+                          onClick={handleDelete(index)}
+                          className='bg-none text-black transition-colors hover:text-orange'
+                        >
+                          Xóa
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -281,7 +303,12 @@ function Cart() {
             <button className='mx-3 border-none bg-none' onClick={handleCheckAll}>
               Chọn tất cả ({extendedPurchases.length})
             </button>
-            <button className='mx-3 border-none bg-none transition-colors hover:text-orange'>Xóa</button>
+            <button
+              onClick={handleDeleteManyPurchases}
+              className='mx-3 border-none bg-none transition-colors hover:text-orange'
+            >
+              Xóa
+            </button>
           </div>
 
           <div className='mt-5 flex flex-col sm:ml-auto sm:mt-0 sm:flex-row sm:items-center'>
