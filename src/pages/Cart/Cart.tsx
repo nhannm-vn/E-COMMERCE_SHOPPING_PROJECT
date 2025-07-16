@@ -71,7 +71,16 @@ function Cart() {
   //* Biến dùng để lưu các thằng bị checked vào trong một mảng
   //==> nhằm biết được thằng nào đang check để xóa một lần được nhiều thằng
   const checkedPurchases = extendedPurchases.filter((purchase) => purchase.checked)
+  //* Dùng để hiển thị tổng thanh toán
   const checkedPurchasesCount = checkedPurchases.length
+  //* Dùng để tính tổng thanh toán
+  const totalCheckedPurchasePrice = checkedPurchases.reduce((result, current) => {
+    return result + current.buy_count * current.product.price
+  }, 0)
+  //* Dùng để tính tổng số tiền mà chúng ta tiết kiệm được
+  const totalCheckedPurchaseSavingPrice = checkedPurchases.reduce((result, current) => {
+    return result + current.buy_count * (current.product.price_before_discount - current.product.price)
+  }, 0)
 
   // Vừa vào trang Cart sau khi useQuery nó gọi api xong thì mình sẽ set giá trị vào state
   // Dựa vào dữ liệu đã có từ useQuery mình sẽ tiến hành mapping từng item cho có thêm 2 thuộc
@@ -314,12 +323,12 @@ function Cart() {
           <div className='mt-5 flex flex-col sm:ml-auto sm:mt-0 sm:flex-row sm:items-center'>
             <div>
               <div className='flex items-center sm:justify-end'>
-                <div>Tổng thanh toán (0 sản phẩm):</div>
-                <div className='ml-2 text-2xl text-orange'>₫138000</div>
+                <div>Tổng thanh toán ({checkedPurchasesCount} sản phẩm):</div>
+                <div className='ml-2 text-2xl text-orange'>₫{formatCurrency(totalCheckedPurchasePrice)}</div>
               </div>
               <div className='flex items-center text-sm sm:justify-end'>
                 <div className='text-gray-500'>Tiết kiệm</div>
-                <div className='ml-6 text-orange'>₫138000</div>
+                <div className='ml-6 text-orange'>₫{formatCurrency(totalCheckedPurchaseSavingPrice)}</div>
               </div>
             </div>
             <Button className='ml-4 mt-5 flex h-10 w-52 items-center justify-center bg-red-500 text-sm uppercase text-white hover:bg-red-600 sm:ml-4 sm:mt-0'>
