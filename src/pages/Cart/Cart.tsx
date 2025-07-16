@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 import { Purchase } from '../../types/purchase.type'
 import { produce } from 'immer'
 import { keyBy } from 'lodash'
+import { toast } from 'react-toastify'
 
 // ExtendedPurchase là type định nghĩa mở rông thêm riêng biệt cho từng Purchase
 interface ExtendedPurchase extends Purchase {
@@ -49,8 +50,13 @@ function Cart() {
 
   const buyProductsMutation = useMutation({
     mutationFn: purchaseApi.buyProducts,
-    onSuccess: () => {
+    onSuccess: (data) => {
       refetch()
+      //* Khi mua thành công thì mình hiển thị thông báo cho nó
+      toast.success(data.data.message, {
+        position: 'top-right',
+        autoClose: 1000
+      })
     }
   })
 
@@ -167,6 +173,19 @@ function Cart() {
     deletePurchasesMutation.mutate(purchasesIds)
   }
 
+  const handleBuyPurchases = () => {
+    //* Khi mà có checked thì mình mới cho người ta mua
+    //lấy ra cái mảng đẻ truyền vào api cho chuẩn như bên kia
+    if (checkedPurchases.length > 0) {
+      const body = checkedPurchases.map((purchase) => ({
+        product_id: purchase.product._id,
+        buy_count: purchase.buy_count
+      }))
+      //* mutation
+      buyProductsMutation.mutate(body)
+    }
+  }
+
   return (
     <div className='bg-neutral-100 py-16'>
       <div className='container'>
@@ -199,103 +218,106 @@ function Cart() {
               </div>
             </div>
             {/* Body */}
-            <div className='my-3 rounded-sm bg-white p-5 shadow'>
-              {extendedPurchases?.map((purchase, index) => (
-                <div
-                  key={purchase._id}
-                  className='mt-5 grid grid-cols-12 items-center rounded-sm border border-gray-200 bg-white px-4 py-5 text-center text-sm text-gray-500 first:mt-0'
-                >
-                  {/* left */}
-                  <div className='col-span-6'>
-                    <div className='flex'>
-                      {/* check box */}
-                      <div className='flex flex-shrink-0 items-center justify-center pr-3'>
-                        <input
-                          type='checkbox'
-                          className='h-5 w-5 accent-orange'
-                          checked={purchase.checked}
-                          onChange={handleCheck(index)}
-                        />
-                      </div>
-                      {/* information product */}
-                      <div className='flex-grow'>
-                        <div className='flex'>
-                          <Link
-                            className='h-20 w-20 flex-shrink-0 overflow-hidden'
-                            to={`${path.home}${generateNameId({
-                              name: purchase.product.name,
-                              id: purchase.product._id
-                            })}`}
-                          >
-                            <img alt={purchase.product.name} src={purchase.product.image} />
-                          </Link>
-                          <div className='flex-grow px-2 pb-2 pt-1'>
+            {/* Thêm cái này để lúc có sản phầm thì mới có chứ không thì để khoảng trắng nó xấu */}
+            {extendedPurchases.length > 0 && (
+              <div className='my-3 rounded-sm bg-white p-5 shadow'>
+                {extendedPurchases?.map((purchase, index) => (
+                  <div
+                    key={purchase._id}
+                    className='mt-5 grid grid-cols-12 items-center rounded-sm border border-gray-200 bg-white px-4 py-5 text-center text-sm text-gray-500 first:mt-0'
+                  >
+                    {/* left */}
+                    <div className='col-span-6'>
+                      <div className='flex'>
+                        {/* check box */}
+                        <div className='flex flex-shrink-0 items-center justify-center pr-3'>
+                          <input
+                            type='checkbox'
+                            className='h-5 w-5 accent-orange'
+                            checked={purchase.checked}
+                            onChange={handleCheck(index)}
+                          />
+                        </div>
+                        {/* information product */}
+                        <div className='flex-grow'>
+                          <div className='flex'>
                             <Link
+                              className='h-20 w-20 flex-shrink-0 overflow-hidden'
                               to={`${path.home}${generateNameId({
                                 name: purchase.product.name,
                                 id: purchase.product._id
                               })}`}
-                              className='line-clamp-2 text-left'
                             >
-                              {purchase.product.name}
+                              <img alt={purchase.product.name} src={purchase.product.image} />
                             </Link>
+                            <div className='flex-grow px-2 pb-2 pt-1'>
+                              <Link
+                                to={`${path.home}${generateNameId({
+                                  name: purchase.product.name,
+                                  id: purchase.product._id
+                                })}`}
+                                className='line-clamp-2 text-left'
+                              >
+                                {purchase.product.name}
+                              </Link>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  {/* right */}
-                  <div className='col-span-6'>
-                    <div className='grid grid-cols-5 items-center'>
-                      <div className='col-span-2'>
-                        <div className='flex items-center justify-center'>
-                          <span className='text-gray-300 line-through'>
-                            ₫{formatCurrency(purchase.product.price_before_discount)}
-                          </span>
-                          <span className='ml-3'>₫{formatCurrency(purchase.product.price)}</span>
+                    {/* right */}
+                    <div className='col-span-6'>
+                      <div className='grid grid-cols-5 items-center'>
+                        <div className='col-span-2'>
+                          <div className='flex items-center justify-center'>
+                            <span className='text-gray-300 line-through'>
+                              ₫{formatCurrency(purchase.product.price_before_discount)}
+                            </span>
+                            <span className='ml-3'>₫{formatCurrency(purchase.product.price)}</span>
+                          </div>
                         </div>
-                      </div>
-                      <div className='col-span-1'>
-                        <QuantityController //
-                          classNameWrapper='flex items-center'
-                          max={purchase.product.quantity}
-                          value={purchase.buy_count}
-                          onIncrease={(value) => handleQuantity(index, value, value <= purchase.product.quantity)}
-                          onDecrease={(value) => handleQuantity(index, value, value >= 1)}
-                          //**Thuộc tính này mình thêm vào để mục đích nó disable trên UI không cho chỉnh sửa khi đang
-                          //fetch api. Nghĩa là thằng nào đang fetch thì sẽ có thuộc tính đó để disable
-                          disabled={purchase.disabled}
-                          //**Thằng này giúp cho chúng ta thay đổi số lượng của sản phẩm
-                          onType={handleTypeQuantity(index)}
-                          onFocusOut={(value) =>
-                            handleQuantity(
-                              index,
-                              value,
-                              value >= 1 &&
-                                value <= purchase.product.quantity &&
-                                value !== (purchasesInCart as Purchase[])[index].buy_count
-                            )
-                          }
-                        />
-                      </div>
-                      <div className='col-span-1'>
-                        <span className='text-orange'>
-                          ₫{formatCurrency(purchase.product.price * purchase.buy_count)}
-                        </span>
-                      </div>
-                      <div className='col-span-1'>
-                        <button
-                          onClick={handleDelete(index)}
-                          className='bg-none text-black transition-colors hover:text-orange'
-                        >
-                          Xóa
-                        </button>
+                        <div className='col-span-1'>
+                          <QuantityController //
+                            classNameWrapper='flex items-center'
+                            max={purchase.product.quantity}
+                            value={purchase.buy_count}
+                            onIncrease={(value) => handleQuantity(index, value, value <= purchase.product.quantity)}
+                            onDecrease={(value) => handleQuantity(index, value, value >= 1)}
+                            //**Thuộc tính này mình thêm vào để mục đích nó disable trên UI không cho chỉnh sửa khi đang
+                            //fetch api. Nghĩa là thằng nào đang fetch thì sẽ có thuộc tính đó để disable
+                            disabled={purchase.disabled}
+                            //**Thằng này giúp cho chúng ta thay đổi số lượng của sản phẩm
+                            onType={handleTypeQuantity(index)}
+                            onFocusOut={(value) =>
+                              handleQuantity(
+                                index,
+                                value,
+                                value >= 1 &&
+                                  value <= purchase.product.quantity &&
+                                  value !== (purchasesInCart as Purchase[])[index].buy_count
+                              )
+                            }
+                          />
+                        </div>
+                        <div className='col-span-1'>
+                          <span className='text-orange'>
+                            ₫{formatCurrency(purchase.product.price * purchase.buy_count)}
+                          </span>
+                        </div>
+                        <div className='col-span-1'>
+                          <button
+                            onClick={handleDelete(index)}
+                            className='bg-none text-black transition-colors hover:text-orange'
+                          >
+                            Xóa
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
         {/* Sticky: nếu đặt ở trong over-flow thì nó sẽ không có hiệu ứng sticky */}
@@ -331,7 +353,12 @@ function Cart() {
                 <div className='ml-6 text-orange'>₫{formatCurrency(totalCheckedPurchaseSavingPrice)}</div>
               </div>
             </div>
-            <Button className='ml-4 mt-5 flex h-10 w-52 items-center justify-center bg-red-500 text-sm uppercase text-white hover:bg-red-600 sm:ml-4 sm:mt-0'>
+            <Button
+              className='ml-4 mt-5 flex h-10 w-52 items-center justify-center bg-red-500 text-sm uppercase text-white hover:bg-red-600 sm:ml-4 sm:mt-0'
+              onClick={handleBuyPurchases}
+              //* Khi người dùng đang mua đồ thì không cho bấm nghĩa là đang fetch api thì không cho bấm nút tiếp
+              disabled={buyProductsMutation.isPending}
+            >
               Mua Hàng
             </Button>
           </div>
