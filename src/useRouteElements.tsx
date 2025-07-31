@@ -11,6 +11,7 @@ import { AppContext } from './contexts/app.context'
 import path from './constants/path'
 import ProductDetail from './pages/ProductDetail'
 import Cart from './pages/Cart'
+import CartLayout from './layouts/CartLayout'
 
 // custom một cái hook chuyên dùng để chia route
 // có hai cách chia phổ biến là routes và dùng hook này
@@ -75,9 +76,9 @@ function useRouteElements() {
         {
           path: path.cart,
           element: (
-            <MainLayout>
+            <CartLayout>
               <Cart />
-            </MainLayout>
+            </CartLayout>
           )
         }
       ]
