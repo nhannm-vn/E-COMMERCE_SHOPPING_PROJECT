@@ -1,43 +1,24 @@
-import { createSearchParams, Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Popover from '../Popover'
 import { useQuery } from '@tanstack/react-query'
 import { AppContext } from '../../contexts/app.context'
 import { useContext } from 'react'
 import path from '../../constants/path'
-import useQueryConfig from '../../hooks/useQueryConfig'
-import { useForm } from 'react-hook-form'
-import { schema, Schema } from '../../utils/rules'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { omit } from 'lodash'
 import { purchasesStatus } from '../../constants/purchase'
 import purchaseApi from '../../apis/purchase.api'
 import noproduct from '../../assets/images/no-product.png'
 import { formatCurrency } from '../../utils/utils'
 import NavHeader from '../NavHeader'
-
-type FormData = Pick<Schema, 'name'>
-
-const nameSchema = schema.pick(['name'])
+import useSearchProducts from '../../hooks/useSearchProducts'
 
 const MAX_PURCHASES = 5
 
 function Header() {
-  // Mục đích láy được param bên này để filter dữ liệu giữ lại các param cũ
-  const queryConfig = useQueryConfig()
-
-  // Gọi thằng này để lấy handleSubmit, và xử lí form
-  const { handleSubmit, register } = useForm<FormData>({
-    defaultValues: {
-      name: ''
-    },
-    resolver: yupResolver(nameSchema)
-  })
-
-  // Thằng này giúp chuyển trang
-  const navigate = useNavigate()
-
   // Lấy setIsAuthenticated bằng useContext
   const { isAuthenticated } = useContext(AppContext)
+
+  // Dùng custom hook để lấy hai thứ cần thiết ra
+  const { onSubmitSearch, register } = useSearchProducts()
 
   // Lấy dữ liệu để hiển thị trên header các sản phẩm trong giỏ hàng
   // Khi chúng ta chuyển trang thì Header chỉ bị re-render
@@ -52,29 +33,6 @@ function Header() {
   })
 
   const purchasesInCart = purchasesInCartData?.data.data
-
-  // Sự kiện filter bằng thanh search, mình sẽ thay đổi các param trên URL để api nó fetch lại dữ liệu mới
-  const onSubmitSearch = handleSubmit((data) => {
-    // Nghĩa là nếu có order thì sort_by sẽ là sort_by: price lúc đó mình sẽ xóa sạch và cho về mặc định
-    //còn nếu không có order thì có nghĩa là sort_by mà là cái khác lúc đó giữ nguyên không cần xóa gì hết
-    //và yên tâm rằng bên SortProductList mình đã handle nếu như sort_by: khác price thì sẽ có omit liền order
-    const config = queryConfig.order
-      ? omit(
-          {
-            ...queryConfig,
-            name: data.name
-          },
-          ['order', 'sort_by']
-        )
-      : {
-          ...queryConfig,
-          name: data.name
-        }
-    navigate({
-      pathname: path.home,
-      search: createSearchParams(config).toString()
-    })
-  })
 
   return (
     <div className='bg-[linear-gradient(-180deg,#f53d2d,#f63)] pb-5 pt-2 text-white'>
