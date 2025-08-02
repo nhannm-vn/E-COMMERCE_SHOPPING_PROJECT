@@ -150,6 +150,15 @@ function ProductDetail() {
     )
   }
 
+  // Mua hang nhanh
+  const buyNow = async () => {
+    // Đầu tiên là thêm vào cart trước bằng api
+    const res = await addToCartMutation.mutateAsync({
+      buy_count: buyCount, //
+      product_id: product?._id as string
+    })
+  }
+
   // Giúp tránh dấu ? làm không đẹp do dữ liệu có thể underfined
   if (!product) return null
   return (
