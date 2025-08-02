@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import productApi from '../../apis/product.api'
 import ProductRating from '../../components/ProductRating'
 import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from '../../utils/utils'
@@ -11,8 +11,12 @@ import QuantityController from '../../components/QuantityController'
 import purchaseApi from '../../apis/purchase.api'
 import { purchasesStatus } from '../../constants/purchase'
 import { toast } from 'react-toastify'
+import path from '../../constants/path'
 
 function ProductDetail() {
+  // Tạo cái hook navigate
+  const navigate = useNavigate()
+
   // Biến tên nameId vì mình quy định dynamic router trong path.ts như vậy
   const { nameId } = useParams()
   // Lấy ra id từ nameId rồi mới fetch được dữ liệu
@@ -156,6 +160,15 @@ function ProductDetail() {
     const res = await addToCartMutation.mutateAsync({
       buy_count: buyCount, //
       product_id: product?._id as string
+    })
+    // Lấy ra purchase
+    const purchase = res.data.data
+    // Sau khi bấm nút thì chuyển sang trang cart
+    //Lúc chuyển thì có thêm id nữa
+    navigate(path.cart, {
+      state: {
+        purchaseId: purchase._id
+      }
     })
   }
 
@@ -341,7 +354,10 @@ function ProductDetail() {
                     </svg>
                     Thêm vào giỏ hàng
                   </button>
-                  <button className='ml-4 flex h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange px-5 capitalize text-white shadow-sm outline-none hover:bg-orange/90'>
+                  <button
+                    onClick={buyNow}
+                    className='ml-4 flex h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange px-5 capitalize text-white shadow-sm outline-none hover:bg-orange/90'
+                  >
                     Mua ngay
                   </button>
                 </div>
