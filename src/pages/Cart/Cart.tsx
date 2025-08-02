@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import purchaseApi from '../../apis/purchase.api'
 import { purchasesStatus } from '../../constants/purchase'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import path from '../../constants/path'
 import { formatCurrency, generateNameId } from '../../utils/utils'
 import QuantityController from '../../components/QuantityController'
@@ -67,6 +67,11 @@ function Cart() {
     }
   })
 
+  // Dùng location để lấy dữ liệu truyền từ trang ProductDetail sang
+  const location = useLocation()
+  // Lấy Id ra. Vì nó có thể là null lên cần ?.
+  const choosenPurchaseIdFromLocation = (location.state as { purchaseId: string } | null)?.purchaseId
+
   // Móc data ra
   const purchasesInCart = purchasesInCartData?.data.data
 
@@ -98,18 +103,37 @@ function Cart() {
         const extendedPurchasesObject = keyBy(prev, '_id')
         // console.log(extendedPurchasesObject)
         return (
-          purchasesInCart?.map((purchase) => ({
-            ...purchase,
-            disabled: false,
-            //*Tìm được chính xác thằng nào có checked thì giữa nguyên cho nó
-            //sau khi reset disable thì checked vẫn giữ nguyên
-            checked: Boolean(extendedPurchasesObject[purchase._id]?.checked)
-          })) || []
+          purchasesInCart?.map((purchase) => {
+            // Nghĩa là thằng nào được truyền từ Id bên kia qua so sánh id trong list cart
+            //thằng nào có thì mình sẽ checked cho nó
+            const isChoosenPurchaseFromLocation = choosenPurchaseIdFromLocation === purchase._id
+            return {
+              ...purchase,
+              disabled: false,
+              //*Tìm được chính xác thằng nào có checked thì giữa nguyên cho nó
+              //sau khi reset disable thì checked vẫn giữ nguyên
+              //*Trường hợp đặc biệt là thằng được lấy id từ locacation cho chức năng mua hàng nhanh qua đây
+              //thì nếu thằng nào có id match với thằng item trong list thì mình cũng sẽ cho checked
+              checked: isChoosenPurchaseFromLocation || Boolean(extendedPurchasesObject[purchase._id]?.checked)
+            }
+          }) || []
         )
       }
       // Trong trường hợp mà purchasesInCart không có data thì mình sẽ lấy cái [] cho nó
     )
-  }, [purchasesInCart])
+  }, [purchasesInCart, choosenPurchaseIdFromLocation])
+
+  //**Business: khi các item checked ở bên cart thì khi qua component khác và quay lại
+  // thì nó vẫn giữ nguyên những thằng bị checked. Nó chỉ mất khi nào mà f5 lại
+  //==> mình sẽ cần lưu nhứng checked đó vào trong một cái state global
+
+  // Khi destroy thì dùng clean up function
+  //thằng này giúp cho mình có thể xóa checked của những thằng mua hàng nhanh
+  useEffect(() => {
+    return () => {
+      history.replaceState(null, '')
+    }
+  }, [])
 
   // Func này sẽ nhận vào index để biết được thằng item nào đang checked để mà xử lí
   //khi người dùng tick vào nó
