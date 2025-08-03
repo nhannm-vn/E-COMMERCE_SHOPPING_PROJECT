@@ -6,7 +6,7 @@ import path from '../../constants/path'
 import { formatCurrency, generateNameId } from '../../utils/utils'
 import QuantityController from '../../components/QuantityController'
 import Button from '../../components/Button'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useMemo } from 'react'
 import { Purchase } from '../../types/purchase.type'
 import { produce } from 'immer'
 import { keyBy } from 'lodash'
@@ -68,23 +68,40 @@ function Cart() {
   // Móc data ra
   const purchasesInCart = purchasesInCartData?.data.data
 
+  // ***Để hạn chế việc nó tính toán lặp đi lặp lại thì mình sẽ sử dụng useMemo
+  //còn đối với function thì sẽ dùng useCallback
+
   // Bien de biet khi nào chọn tất cả
   //==> nó chọn tất cả khi mỗi thằng trong extendedPurchases nó phải checked = true
-  const isAllChecked = extendedPurchases.every((purchase) => purchase.checked)
+  const isAllChecked = useMemo(
+    () => extendedPurchases.every((purchase) => purchase.checked), //
+    [extendedPurchases]
+  )
 
   //* Biến dùng để lưu các thằng bị checked vào trong một mảng
   //==> nhằm biết được thằng nào đang check để xóa một lần được nhiều thằng
-  const checkedPurchases = extendedPurchases.filter((purchase) => purchase.checked)
+  const checkedPurchases = useMemo(
+    () => extendedPurchases.filter((purchase) => purchase.checked), //
+    [extendedPurchases]
+  )
   //* Dùng để hiển thị tổng thanh toán
   const checkedPurchasesCount = checkedPurchases.length
   //* Dùng để tính tổng thanh toán
-  const totalCheckedPurchasePrice = checkedPurchases.reduce((result, current) => {
-    return result + current.buy_count * current.product.price
-  }, 0)
+  const totalCheckedPurchasePrice = useMemo(
+    () =>
+      checkedPurchases.reduce((result, current) => {
+        return result + current.buy_count * current.product.price
+      }, 0),
+    [checkedPurchases]
+  )
   //* Dùng để tính tổng số tiền mà chúng ta tiết kiệm được
-  const totalCheckedPurchaseSavingPrice = checkedPurchases.reduce((result, current) => {
-    return result + current.buy_count * (current.product.price_before_discount - current.product.price)
-  }, 0)
+  const totalCheckedPurchaseSavingPrice = useMemo(
+    () =>
+      checkedPurchases.reduce((result, current) => {
+        return result + current.buy_count * (current.product.price_before_discount - current.product.price)
+      }, 0),
+    [checkedPurchases]
+  )
 
   // Vừa vào trang Cart sau khi useQuery nó gọi api xong thì mình sẽ set giá trị vào state
   // Dựa vào dữ liệu đã có từ useQuery mình sẽ tiến hành mapping từng item cho có thêm 2 thuộc
