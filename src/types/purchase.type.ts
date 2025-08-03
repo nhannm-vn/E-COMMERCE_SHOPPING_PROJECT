@@ -22,3 +22,13 @@ export interface Purchase {
   createdAt: string
   updatedAt: string
 }
+
+// ExtendedPurchase là type định nghĩa mở rông thêm riêng biệt cho từng Purchase
+export interface ExtendedPurchase extends Purchase {
+  // disabled: là thuộc tính giúp cho khi item đang thao tác hoặc gọi api thì sẽ
+  //không cho phép tăng số lượng hoặc thao tác trên UI
+  disabled: boolean
+  // checked: sẽ là thuộc tính thêm vào cho mỗi thằng Purchase điều này sẽ giúp cho
+  //biết được thằng item nào đang checked
+  checked: boolean
+}

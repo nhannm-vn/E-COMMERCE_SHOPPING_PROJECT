@@ -6,26 +6,19 @@ import path from '../../constants/path'
 import { formatCurrency, generateNameId } from '../../utils/utils'
 import QuantityController from '../../components/QuantityController'
 import Button from '../../components/Button'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { Purchase } from '../../types/purchase.type'
 import { produce } from 'immer'
 import { keyBy } from 'lodash'
 import { toast } from 'react-toastify'
-
-// ExtendedPurchase là type định nghĩa mở rông thêm riêng biệt cho từng Purchase
-interface ExtendedPurchase extends Purchase {
-  // disabled: là thuộc tính giúp cho khi item đang thao tác hoặc gọi api thì sẽ
-  //không cho phép tăng số lượng hoặc thao tác trên UI
-  disabled: boolean
-  // checked: sẽ là thuộc tính thêm vào cho mỗi thằng Purchase điều này sẽ giúp cho
-  //biết được thằng item nào đang checked
-  checked: boolean
-}
+import { AppContext } from '../../contexts/app.context'
 
 function Cart() {
   // Tạo state mở rộng nó chứa danh sách các ExtendedPurchase chứa thêm hai thuộc tính
   //mở rộng: checked, disable
-  const [extendedPurchases, setExetendedPuchases] = useState<ExtendedPurchase[]>([])
+  // Mình sẽ sử dụng AppContext đẻ có thể quản lí state global từ đó khi chuyển component thì
+  //check state vẫn sẽ còn
+  const { extendedPurchases, setExetendedPuchases } = useContext(AppContext)
 
   // Gọi api purchase list
   const { data: purchasesInCartData, refetch } = useQuery({
