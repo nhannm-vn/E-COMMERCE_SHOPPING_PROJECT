@@ -3,14 +3,16 @@ import Popover from '../Popover'
 import { useContext } from 'react'
 import { AppContext } from '../../contexts/app.context'
 import path from '../../constants/path'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import authApi from '../../apis/auth.api'
-import { queryClient } from '../../main'
 import { purchasesStatus } from '../../constants/purchase'
 
 function NavHeader() {
   // Lấy setIsAuthenticated bằng useContext
   const { isAuthenticated, setIsAuthenticated, setProfile, profile } = useContext(AppContext)
+
+  // Mình không cần import queryClient từ main mà sẽ dung hook để lấy
+  const queryClient = useQueryClient()
 
   // ***Mình không cần navigate vì khi set về false thì nó sẽ tự chuyển cho mình về login
   const logoutMutation = useMutation({

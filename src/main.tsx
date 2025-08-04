@@ -9,7 +9,7 @@ import { AppProvider } from './contexts/app.context'
 
 //BrowserRouter: bọc app vào để chia route
 
-export const queryClient = new QueryClient({
+const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false
