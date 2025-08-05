@@ -12,7 +12,9 @@ import { AppProvider } from './contexts/app.context'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false
+      refetchOnWindowFocus: false,
+      // Để nếu có lỗi access_token hết hạn thì báo lỗi 1 lần thôi
+      retry: 0
     }
   }
 })

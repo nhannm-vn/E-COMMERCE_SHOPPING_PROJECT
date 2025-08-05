@@ -11,6 +11,7 @@ interface AppContextInterface {
   setProfile: React.Dispatch<React.SetStateAction<User | null>>
   extendedPurchases: ExtendedPurchase[]
   setExetendedPuchases: React.Dispatch<React.SetStateAction<ExtendedPurchase[]>>
+  reset: () => void
 }
 
 // initialState giúp coi ban đầu sẽ lưu gì
@@ -22,7 +23,8 @@ const initialAppContext: AppContextInterface = {
   setProfile: () => null,
   //
   extendedPurchases: [],
-  setExetendedPuchases: () => null
+  setExetendedPuchases: () => null,
+  reset: () => null
 }
 
 // <AppContextInterface>: nó quản lí kiểu dữ liệu là gì
@@ -38,6 +40,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   //mở rộng: checked, disable
   const [extendedPurchases, setExetendedPuchases] = useState<ExtendedPurchase[]>(initialAppContext.extendedPurchases)
 
+  const reset = () => {
+    setIsAuthenticated(false)
+    setExetendedPuchases([])
+    setProfile(null)
+  }
+
   // Nếu không có value thì nó sẽ lấy inititalAppContext
   return (
     <AppContext.Provider
@@ -47,7 +55,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         profile,
         setProfile,
         extendedPurchases,
-        setExetendedPuchases
+        setExetendedPuchases,
+        reset
       }}
     >
       {children}

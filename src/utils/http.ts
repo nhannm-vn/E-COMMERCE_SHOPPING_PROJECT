@@ -52,6 +52,7 @@ class Http {
         }
         return response
       },
+      // Nếu có lỗi thì nó sẽ nhảy vào khu vực này
       function (error: AxiosError) {
         // Các lỗi khác thì sẽ là object theo back-end quy định
         // Tuy nhiên đây là trường hợp các lỗi còn lại thì nó sẽ chỉ có message do axios render
@@ -62,6 +63,13 @@ class Http {
           // Nếu mà trong data không có message thì hãy hãy message ở ngoài error luôn đi
           const message = data.message || error.message
           toast.error(message)
+        }
+        // Nếu có lỗi 401 nghĩa là có lỗi hết hạn access_token
+        if (error.response?.status === HttpStatusCode.Unauthorized) {
+          // Khi đấy thì mình sẽ xóa localStorage
+          clearLS()
+          // Mình phải refresh thì context sẽ lấy ra thì lúc này sẽ hoàn chỉnh
+          // window.location.reload()
         }
         return Promise.reject(error)
       }
