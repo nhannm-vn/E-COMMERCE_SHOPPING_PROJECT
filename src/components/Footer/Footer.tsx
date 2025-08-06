@@ -8,7 +8,7 @@ import SecurityIcon from '@mui/icons-material/Security'
 
 function Footer() {
   return (
-    <footer className='bg-neutral-100 py-16'>
+    <footer className='border-t-2 border-orange bg-neutral-100 py-16'>
       <div className='container'>
         <div className='flex justify-around'>
           {/* DỊCH VỤ KHÁCH HÀNG */}
