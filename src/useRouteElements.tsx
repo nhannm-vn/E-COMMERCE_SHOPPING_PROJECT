@@ -12,6 +12,8 @@ import path from './constants/path'
 import ProductDetail from './pages/ProductDetail'
 import Cart from './pages/Cart'
 import CartLayout from './layouts/CartLayout'
+import UserLayout from './pages/User/layouts/UserLayout'
+import ChangePassword from './pages/User/pages/ChangePassword'
 
 // custom một cái hook chuyên dùng để chia route
 // có hai cách chia phổ biến là routes và dùng hook này
@@ -60,19 +62,12 @@ function useRouteElements() {
       // path: '' = không đổi đường link, chỉ chèn thêm logic bảo vệ.
       path: '',
       element: <ProtectedRoute />,
+      // Nested route
       children: [
-        {
-          // Match đường dẫn mới render ra element ở dưới
-          // Nghĩa là nếu mà thỏa element trên và có muốn vào tiếp nữa mà đường dẫn matches path thì
-          // sẽ đi render ra được Profile luôn. Còn không thì phải về lại login
-          path: path.profile,
-          element: (
-            <MainLayout>
-              <Profile />
-            </MainLayout>
-          )
-        },
-        // Khi login vao roi thi moi cho vao trang cart
+        // _Match đường dẫn mới render ra element ở dưới
+        // Nghĩa là nếu mà thỏa element trên và có muốn vào tiếp nữa mà đường dẫn matches path thì
+        // sẽ đi render ra được Profile luôn. Còn không thì phải về lại login
+        // _Khi login vao roi thi moi cho vao trang cart
         {
           path: path.cart,
           element: (
@@ -80,6 +75,33 @@ function useRouteElements() {
               <Cart />
             </CartLayout>
           )
+        },
+        // *Nested route: xài riêng biệt cho thằng route user/...children chứ nếu khai báo hết thì nhìn nó
+        //dài dòng quá
+        {
+          path: path.user,
+          children: [
+            {
+              path: path.profile,
+              element: (
+                <MainLayout>
+                  <UserLayout>
+                    <Profile />
+                  </UserLayout>
+                </MainLayout>
+              )
+            },
+            {
+              path: path.changePassword,
+              element: (
+                <MainLayout>
+                  <UserLayout>
+                    <ChangePassword />
+                  </UserLayout>
+                </MainLayout>
+              )
+            }
+          ]
         }
       ]
     },
