@@ -14,6 +14,7 @@ import Cart from './pages/Cart'
 import CartLayout from './layouts/CartLayout'
 import UserLayout from './pages/User/layouts/UserLayout'
 import ChangePassword from './pages/User/pages/ChangePassword'
+import HistoryPurchase from './pages/User/pages/HistoryPurchase'
 
 // custom một cái hook chuyên dùng để chia route
 // có hai cách chia phổ biến là routes và dùng hook này
@@ -78,28 +79,29 @@ function useRouteElements() {
         },
         // *Nested route: xài riêng biệt cho thằng route user/...children chứ nếu khai báo hết thì nhìn nó
         //dài dòng quá
+        //Mình sẽ xài element nghĩa là có dùng <outlet/> thay vì sử dụng children
+        //chứ không cần đặt cái page con ở giữa
         {
           path: path.user,
+          element: (
+            <MainLayout>
+              <UserLayout />
+            </MainLayout>
+          ),
+          // Nghĩa là nếu thằng path nào mà match trên url thì nó sẽ đưa component đó thay thế cho outlet
+          //ở bên trong UserLayout
           children: [
             {
               path: path.profile,
-              element: (
-                <MainLayout>
-                  <UserLayout>
-                    <Profile />
-                  </UserLayout>
-                </MainLayout>
-              )
+              element: <Profile />
             },
             {
               path: path.changePassword,
-              element: (
-                <MainLayout>
-                  <UserLayout>
-                    <ChangePassword />
-                  </UserLayout>
-                </MainLayout>
-              )
+              element: <ChangePassword />
+            },
+            {
+              path: path.historyPurchase,
+              element: <HistoryPurchase />
             }
           ]
         }
