@@ -70,6 +70,9 @@ class Http {
           clearLS()
           // Mình phải refresh thì context sẽ lấy ra thì lúc này sẽ hoàn chỉnh
           // window.location.reload()
+          //**Nếu xài cách này thì page sẽ refresh thêm 1 lần nó sẽ không hay
+          //==> cách khắc phục dùng event target đồng thời dùng hàm reset chuyển về default cho các thành
+          //phần trong context
         }
         return Promise.reject(error)
       }
