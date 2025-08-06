@@ -94,7 +94,7 @@ function NavHeader() {
         >
           <div className='mr-2 h-6 w-6 flex-shrink-0'>
             <img
-              src='https://media.istockphoto.com/id/858209386/vi/vec-to/bi%E1%BB%83u-t%C6%B0%E1%BB%A3ng-n.jpg?s=612x612&w=0&k=20&c=e8ZqeVFR2u7K2dymtBDfUlQIkpSZIghASpj642dFWQg='
+              src='https://images-cdn.openxcell.com/wp-content/uploads/2024/07/25085005/reactjs-inner.svg'
               alt='avatar'
               className='h-full w-full rounded-full object-cover'
             />

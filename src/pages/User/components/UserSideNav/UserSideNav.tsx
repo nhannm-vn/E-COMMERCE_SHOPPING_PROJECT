@@ -8,7 +8,7 @@ export default function UserSideNav() {
         <Link to={path.profile} className='h-12 w-12 flex-shrink-0 overflow-hidden rounded-full border border-black/10'>
           <img
             className='h-full w-full object-cover'
-            src='https://media.istockphoto.com/id/858209386/vi/vec-to/bi%E1%BB%83u-t%C6%B0%E1%BB%A3ng-n.jpg?s=612x612&w=0&k=20&c=e8ZqeVFR2u7K2dymtBDfUlQIkpSZIghASpj642dFWQg='
+            src='https://images-cdn.openxcell.com/wp-content/uploads/2024/07/25085005/reactjs-inner.svg'
             alt=''
           />
         </Link>
