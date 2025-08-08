@@ -1,3 +1,4 @@
+import Button from '../../../../components/Button'
 import Input from '../../../../components/Input'
 
 export default function Profile() {
@@ -7,8 +8,9 @@ export default function Profile() {
         <h1 className='text-lg font-medium capitalize text-gray-900'>Hồ sơ của tôi</h1>
         <div className='mt-1 text-sm text-gray-700'>Quản lý thông tin hồ sơ để bảo mật tài khoản</div>
       </div>
-      <div className='mt-8 flex max-lg:flex-col-reverse md:flex-grow md:items-start'>
-        <form className='mt-6 flex-grow md:mt-0 md:pr-14'>
+      {/* Vi khi update thì mình sẽ gửi toàn bộ lên chính vì vậy mà mình sẽ phải bọc form ở đây */}
+      <form className='mt-8 flex max-lg:flex-col-reverse md:flex-grow md:items-start'>
+        <div className='mt-6 flex-grow md:mt-0 md:pr-14'>
           <div className='flex flex-col flex-wrap sm:flex-row'>
             <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Email</div>
             <div className='sm:w-[80%] sm:pl-5'>
@@ -49,7 +51,19 @@ export default function Profile() {
               </div>
             </div>
           </div>
-        </form>
+          {/* Button */}
+          <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
+            {/* Điều này giúp cho button có thể giữ nguyên được hiện trạng và không bị chạy đi
+            đâu khi mà mình chỉnh màn hình sm: nghĩa là màn hình từ >=640 thì thực hiện */}
+            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right' />
+            <div className='sm:w-[80%] sm:pl-5'>
+              <Button className='flex h-9 items-center bg-orange px-5 text-center text-sm text-white transition-colors hover:bg-orange/80'>
+                Lưu
+              </Button>
+            </div>
+          </div>
+        </div>
+        {/* Avatar Profile */}
         <div className='flex justify-center md:w-72 md:border-l md:border-l-gray-200'>
           <div className='flex flex-col items-center'>
             <div className='my-5 h-24 w-24'>
@@ -69,7 +83,7 @@ export default function Profile() {
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   )
 }
