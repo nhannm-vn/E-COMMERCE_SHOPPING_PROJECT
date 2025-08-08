@@ -17,5 +17,16 @@ const userApi = {
   // method update profile
   updateProfile(body: BodyUpdateProfile) {
     return http.put<SuccessResponse<User>>('user', body)
+  },
+  // method upload avatar
+  //**Lưu ý khi sử dụng method update avatar thì cần truyền thêm một content-header
+  uploadAvatar(body: FormData) {
+    return http.post<SuccessResponse<string>>('user/upload-avatar', body, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
   }
 }
+
+export default userApi
