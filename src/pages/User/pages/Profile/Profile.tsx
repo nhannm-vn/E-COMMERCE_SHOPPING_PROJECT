@@ -3,11 +3,16 @@ import Button from '../../../../components/Button'
 import Input from '../../../../components/Input'
 import userApi from '../../../../apis/user.api'
 import { userSchema, UserSchema } from '../../../../utils/rules'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import InputNumber from '../../../../components/InputNumber'
+import { useEffect } from 'react'
 
 // Mình sẽ không sử dụng omit vì nếu trong tương lai nếu schema mình xài
 //omit thì nó sẽ bị lỗi giữ lại những cái không mong muốn
+
+//***Mình cần phải lấy những schema cần thiết thôi bởi vì trong schema mình còn để password...
+//để phục vụ cho change password. Tuy nhiên mình đang bên page update profile nên cần gì thì giữ cái đó thôi
 
 // type form
 type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' | 'avatar'>
@@ -24,6 +29,7 @@ export default function Profile() {
     setError
     // setError từ react-hook-form thì chúng ta sẽ set cái lỗi vào errors
     //và react-hook-form sẽ hiển thị lên cho chúng ta
+    // Mục đích giúp cho ô nó trống để chúng ta có thể truyền giá trị vào để update
   } = useForm<FormData>({
     // Giúp khi render lần đầu thì nó sẽ có giá trị này
     defaultValues: {
@@ -44,6 +50,24 @@ export default function Profile() {
   })
   const profile = profileData?.data.data
 
+  // Mình cần sử dụng useEffect để có thể setValue vào cho các fields để show ra
+  //chứ nếu lần render đầu tiên thì chắc chắn là sẽ chưa có dữ liệu để set, nên cần useEffect
+  //chứ useQuery sẽ cần vài giây để get api lúc đó nó sẽ không hợp lí logic
+  useEffect(() => {
+    // Khi có dữ liệu thì chúng ta sẽ tiến hành set vào fields
+    if (profile) {
+      setValue('name', profile.name)
+      setValue('avatar', profile.avatar)
+      setValue('phone', profile.phone)
+      setValue('address', profile.address)
+      // *Đối với dữ liệu từ api thì date_of_birth sẽ là string ISO8601 nên cần phải chuyển
+      //về Date vì ở trên mình quy định default là Date
+      // *Nếu mà date_of_birth thì mới ép kiểu vì đâu phải lúc nào mới tạo tài khoản thì
+      //cũng có date_of_birth đâu. Nếu có thì ép kiểu còn không có thì lấy giá trị mặc định
+      setValue('date_of_birth', profile.date_of_birth ? new Date(profile.date_of_birth) : new Date(1990, 0, 1))
+    }
+  }, [profile, setValue])
+
   return (
     <div className='rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20'>
       <div className='border-b border-b-gray-200 py-6'>
@@ -56,25 +80,49 @@ export default function Profile() {
           <div className='flex flex-col flex-wrap sm:flex-row'>
             <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Email</div>
             <div className='sm:w-[80%] sm:pl-5'>
-              <div className='pt-3 text-gray-700'>nhan*********@gmail.com</div>
+              <div className='pt-3 text-gray-700'>{profile?.email}</div>
             </div>
           </div>
           <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
             <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Tên</div>
             <div className='sm:w-[80%] sm:pl-5'>
-              <Input classNameInput='w-full rounded-sm border py-2 border-gray-300 px-3 outline-none focus:border-gray-500 focus:shadow-sm' />
+              <Input
+                register={register}
+                name='name'
+                placeholder='Tên'
+                errrorMessage={errors.name?.message}
+                classNameInput='w-full rounded-sm border py-2 border-gray-300 px-3 outline-none focus:border-gray-500 focus:shadow-sm'
+              />
             </div>
           </div>
           <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
             <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Số điện thoại</div>
             <div className='sm:w-[80%] sm:pl-5'>
-              <Input classNameInput='w-full rounded-sm border py-2 border-gray-300 px-3 outline-none focus:border-gray-500 focus:shadow-sm' />
+              <Controller
+                control={control} //
+                name='phone'
+                render={({ field }) => (
+                  <InputNumber
+                    placeholder='Số điện thoại'
+                    errrorMessage={errors.phone?.message}
+                    classNameInput='w-full rounded-sm border py-2 border-gray-300 px-3 outline-none focus:border-gray-500 focus:shadow-sm'
+                    {...field}
+                    onChange={field.onChange}
+                  />
+                )}
+              />
             </div>
           </div>
           <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
             <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Địa chỉ</div>
             <div className='sm:w-[80%] sm:pl-5'>
-              <Input classNameInput='w-full rounded-sm border py-2 border-gray-300 px-3 outline-none focus:border-gray-500 focus:shadow-sm' />
+              <Input
+                register={register}
+                name='address'
+                placeholder='Địa chỉ'
+                errrorMessage={errors.address?.message}
+                classNameInput='w-full rounded-sm border py-2 border-gray-300 px-3 outline-none focus:border-gray-500 focus:shadow-sm'
+              />
             </div>
           </div>
           <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
@@ -99,7 +147,10 @@ export default function Profile() {
             đâu khi mà mình chỉnh màn hình sm: nghĩa là màn hình từ >=640 thì thực hiện */}
             <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right' />
             <div className='sm:w-[80%] sm:pl-5'>
-              <Button className='flex h-9 items-center bg-orange px-5 text-center text-sm text-white transition-colors hover:bg-orange/80'>
+              <Button
+                type='submit'
+                className='flex h-9 items-center bg-orange px-5 text-center text-sm text-white transition-colors hover:bg-orange/80'
+              >
                 Lưu
               </Button>
             </div>
@@ -116,7 +167,10 @@ export default function Profile() {
               />
             </div>
             <input className='hidden' type='file' accept='.jpg,.jpeg,.png' />
-            <button className='flex h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm capitalize text-gray-600 shadow-sm'>
+            <button
+              type='button'
+              className='flex h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm capitalize text-gray-600 shadow-sm'
+            >
               Chọn ảnh
             </button>
             <div className='mt-3 text-gray-400'>

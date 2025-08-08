@@ -9,6 +9,8 @@ interface BodyUpdateProfile extends Omit<User, '_id' | 'roles' | 'createdAt' | '
   new_password?: string
 }
 
+//***Dù có gửi password lên update hay gì đi nữa thì nó cũng trả về type User thôi
+
 const userApi = {
   // method giúp lấy thông tin user về
   getProfile() {
