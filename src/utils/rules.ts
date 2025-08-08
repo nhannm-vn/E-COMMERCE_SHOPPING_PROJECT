@@ -115,6 +115,34 @@ export const schema = yup.object({
   name: yup.string().trim().required('Tên sản phẩm là bắt buộc')
 })
 
+// Tạo một cái user schema
+// Tất cả những thằng này đều không có required vì có hay không đều được
+export const userSchema = yup.object({
+  name: yup
+    .string() //
+    .max(160, 'Độ dài tối đa là 160 ký tự'),
+  phone: yup
+    .string() //
+    .max(20, 'Độ dài tối đa là 20 ký tự'),
+  avatar: yup
+    .string() //
+    .max(1000, 'Độ dài tối đa 1000 ký tự'),
+  address: yup
+    .string() //
+    .max(160, 'Độ dài tối đa là 160 ký tự'),
+  //*Nếu tách ra từng thằng để validate thì rất mệt
+  //thay vì như vậy chỉ cần xài yup.date là xong
+  //mình cho giá trị lớn nhất là giá trị hiện tại để không cho nó chọn một ngày trong tương lai
+  //*Khi gửi lên server thì phải chuyển thành ISO string
+  date_of_birth: yup.date().max(new Date(), 'Hãy chọn một ngày trong quá khứ'),
+  //*Thằng này mình sẽ kế thừa bên trên
+  password: schema.fields['password'],
+  new_password: schema.fields['password'],
+  confirm_password: schema.fields['confirm_password']
+})
+
+export type UserSchema = yup.InferType<typeof userSchema>
+
 // Trường hợp muốn tái sử dụng schema ở trên mà bỏ bớt thằng nào đó
 //const loginShema = schema.omit(['confirm_password'])
 

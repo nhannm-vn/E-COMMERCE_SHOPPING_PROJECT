@@ -6,7 +6,7 @@ import http from '../utils/http'
 //mình sẽ kế thừa tuy nhiên mình sẽ omit loại bỏ bớt những thứ không cần thiết
 interface BodyUpdateProfile extends Omit<User, '_id' | 'roles' | 'createdAt' | 'updatedAt' | 'email'> {
   password?: string
-  newPassword?: string
+  new_password?: string
 }
 
 const userApi = {
