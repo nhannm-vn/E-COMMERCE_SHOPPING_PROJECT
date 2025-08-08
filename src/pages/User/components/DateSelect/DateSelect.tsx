@@ -1,3 +1,4 @@
+import { range } from 'lodash'
 import { useState } from 'react'
 
 export default function DateSelect() {
@@ -14,12 +15,29 @@ export default function DateSelect() {
         <div className='flex justify-between'>
           <select className='h-10 w-[32%] rounded-sm border border-black/10 px-3'>
             <option disabled>Ngày</option>
+            {range(1, 32).map((item) => (
+              <option value={item} key={item}>
+                {item}
+              </option>
+            ))}
           </select>
           <select className='h-10 w-[32%] rounded-sm border border-black/10 px-3'>
             <option disabled>Tháng</option>
+            {/* Vì theo thằng newDate nó tính 0-11
+            mà range tính là từ original-->target-1 */}
+            {range(0, 12).map((item) => (
+              <option value={item} key={item}>
+                {item + 1}
+              </option>
+            ))}
           </select>
           <select className='h-10 w-[32%] rounded-sm border border-black/10 px-3'>
             <option disabled>Năm</option>
+            {range(1990, 2026).map((item) => (
+              <option value={item} key={item}>
+                {item}
+              </option>
+            ))}
           </select>
         </div>
       </div>

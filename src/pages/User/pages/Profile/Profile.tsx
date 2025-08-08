@@ -40,6 +40,7 @@ export default function Profile() {
       phone: '',
       // Luu y: tháng bắt đầu từ số 0-11
       date_of_birth: new Date(1990, 0, 1)
+      //==> 1/1/1990
     },
     resolver: yupResolver(profileSchema)
   })
