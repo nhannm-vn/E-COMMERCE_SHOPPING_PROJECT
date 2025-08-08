@@ -1,7 +1,49 @@
+import { useQuery } from '@tanstack/react-query'
 import Button from '../../../../components/Button'
 import Input from '../../../../components/Input'
+import userApi from '../../../../apis/user.api'
+import { userSchema, UserSchema } from '../../../../utils/rules'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+
+// Mình sẽ không sử dụng omit vì nếu trong tương lai nếu schema mình xài
+//omit thì nó sẽ bị lỗi giữ lại những cái không mong muốn
+
+// type form
+type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' | 'avatar'>
+// schema dùng cho form
+const profileSchema = userSchema.pick(['name', 'address', 'phone', 'date_of_birth', 'avatar'])
 
 export default function Profile() {
+  const {
+    register, //
+    control,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+    setError
+    // setError từ react-hook-form thì chúng ta sẽ set cái lỗi vào errors
+    //và react-hook-form sẽ hiển thị lên cho chúng ta
+  } = useForm<FormData>({
+    // Giúp khi render lần đầu thì nó sẽ có giá trị này
+    defaultValues: {
+      name: '',
+      address: '',
+      avatar: '',
+      phone: '',
+      // Luu y: tháng bắt đầu từ số 0-11
+      date_of_birth: new Date(1990, 0, 1)
+    },
+    resolver: yupResolver(profileSchema)
+  })
+
+  // Lấy dữ liệu để hiện thị lên form
+  const { data: profileData } = useQuery({
+    queryKey: ['profile'],
+    queryFn: userApi.getProfile
+  })
+  const profile = profileData?.data.data
+
   return (
     <div className='rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20'>
       <div className='border-b border-b-gray-200 py-6'>

@@ -1,4 +1,5 @@
 // File này sẽ dùng để chứa interface định nghĩa cho User
+// mình sẽ định nghĩa xem một user sẽ trả về những gì
 
 type Role = 'User' | 'Admin'
 export interface User {
