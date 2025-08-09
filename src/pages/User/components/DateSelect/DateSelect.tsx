@@ -8,16 +8,31 @@ interface Props {
 }
 
 export default function DateSelect({ value, onChange, errorMessage }: Props) {
+  // value được truyền từ bên component Profile sẽ được truyền làm default cho state
+  //***Lưu ý: thằng value?.getDate() nó chỉ có hiệu lực khi mà component render lần đầu
+  //còn về sau state sẽ được thay đổi mới khi mỗi lần chúng ta setState ở bên dưới
   const [date, setDate] = useState({
-    date: 1,
-    month: 0,
-    year: 1990
+    date: value?.getDate() || 1,
+    month: value?.getMonth() || 0,
+    year: value?.getFullYear() || 1990
   })
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     // Lấy value từ event// name dùng để phân biệt và viết được là select nào đang được chỉnh
     //khi đó mình mới có thể set đúng value vào cho state thằng đó
     const { value, name } = event.target
+    // Taọ cái object date chứa thông tin cũ và cập nhật thông tin mới
+    const newDate = {
+      ...date, //
+      [name]: value
+    }
+    // setState để có thông tin mới trong state
+    setDate(newDate)
+    // Nếu có method onChange thì truyền vào để cho nó thực hiện
+    //mục đích có onChange truyền vào từ bên kia để cập nhật cái defaultValue bên kia
+    if (onChange) {
+      onChange(new Date(newDate.year, newDate.month, newDate.date))
+    }
   }
 
   return (
@@ -29,6 +44,7 @@ export default function DateSelect({ value, onChange, errorMessage }: Props) {
             onChange={handleChange}
             name='date'
             className='h-10 w-[32%] cursor-pointer rounded-sm border border-black/10 px-3 hover:border-orange'
+            value={value?.getDate() || date.date}
           >
             <option disabled>Ngày</option>
             {range(1, 32).map((item) => (
@@ -40,6 +56,7 @@ export default function DateSelect({ value, onChange, errorMessage }: Props) {
           <select
             onChange={handleChange}
             name='month'
+            value={value?.getMonth() || date.month}
             className='h-10 w-[32%] cursor-pointer rounded-sm border border-black/10 px-3 hover:border-orange'
           >
             <option disabled>Tháng</option>
@@ -53,6 +70,7 @@ export default function DateSelect({ value, onChange, errorMessage }: Props) {
           </select>
           <select
             onChange={handleChange}
+            value={value?.getFullYear() || date.year}
             name='year'
             className='h-10 w-[32%] cursor-pointer rounded-sm border border-black/10 px-3 hover:border-orange'
           >
@@ -66,7 +84,7 @@ export default function DateSelect({ value, onChange, errorMessage }: Props) {
         </div>
       </div>
       {/* show error */}
-      <div className='mt-1 min-h-[1.3rem] text-sm text-red-600'>{}</div>
+      <div className='mt-1 min-h-[1.3rem] text-sm text-red-600'>{errorMessage}</div>
     </div>
   )
 }
