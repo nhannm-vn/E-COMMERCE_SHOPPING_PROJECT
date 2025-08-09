@@ -1,5 +1,5 @@
 import { range } from 'lodash'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface Props {
   onChange?: (value: Date) => void
@@ -17,14 +17,28 @@ export default function DateSelect({ value, onChange, errorMessage }: Props) {
     year: value?.getFullYear() || 1990
   })
 
+  // Mỗi lần có value mới thì mình cập nhật state lại
+  //chứ lần đầu khi mới vào component thì chỉ lấy đc value 1 lần
+  useEffect(() => {
+    if (value) {
+      setDate({
+        date: value.getDate(),
+        month: value.getMonth(),
+        year: value.getFullYear()
+      })
+    }
+  }, [value])
+
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     // Lấy value từ event// name dùng để phân biệt và viết được là select nào đang được chỉnh
     //khi đó mình mới có thể set đúng value vào cho state thằng đó
-    const { value, name } = event.target
+    const { value: valueFromSelect, name } = event.target
     // Taọ cái object date chứa thông tin cũ và cập nhật thông tin mới
     const newDate = {
-      ...date, //
-      [name]: value
+      date: value?.getDate() || date.date,
+      month: value?.getMonth() || date.month,
+      year: value?.getFullYear() || date.year,
+      [name]: Number(valueFromSelect)
     }
     // setState để có thông tin mới trong state
     setDate(newDate)
@@ -75,16 +89,16 @@ export default function DateSelect({ value, onChange, errorMessage }: Props) {
             className='h-10 w-[32%] cursor-pointer rounded-sm border border-black/10 px-3 hover:border-orange'
           >
             <option disabled>Năm</option>
-            {range(1990, 2026).map((item) => (
+            {range(1990, new Date().getFullYear() + 1).map((item) => (
               <option value={item} key={item}>
                 {item}
               </option>
             ))}
           </select>
         </div>
+        {/* show error */}
+        <div className='mt-1 min-h-[1.3rem] text-sm text-red-600'>{errorMessage}</div>
       </div>
-      {/* show error */}
-      <div className='mt-1 min-h-[1.3rem] text-sm text-red-600'>{errorMessage}</div>
     </div>
   )
 }

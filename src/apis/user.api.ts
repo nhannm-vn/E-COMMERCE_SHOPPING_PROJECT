@@ -4,7 +4,7 @@ import http from '../utils/http'
 
 // Kế thừa type user bên kia để định nghĩa cho body gửi lên giúp update user
 //mình sẽ kế thừa tuy nhiên mình sẽ omit loại bỏ bớt những thứ không cần thiết
-interface BodyUpdateProfile extends Omit<User, '_id' | 'roles' | 'createdAt' | 'updatedAt' | 'email'> {
+export interface BodyUpdateProfile extends Omit<User, '_id' | 'roles' | 'createdAt' | 'updatedAt' | 'email'> {
   password?: string
   new_password?: string
 }

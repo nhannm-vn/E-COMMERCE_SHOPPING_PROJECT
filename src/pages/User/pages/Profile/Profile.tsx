@@ -1,7 +1,7 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import Button from '../../../../components/Button'
 import Input from '../../../../components/Input'
-import userApi from '../../../../apis/user.api'
+import userApi, { BodyUpdateProfile } from '../../../../apis/user.api'
 import { userSchema, UserSchema } from '../../../../utils/rules'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -52,6 +52,10 @@ export default function Profile() {
   })
   const profile = profileData?.data.data
 
+  const updateProfileMutation = useMutation({
+    mutationFn: (body: BodyUpdateProfile) => userApi.updateProfile(body)
+  })
+
   // Mình cần sử dụng useEffect để có thể setValue vào cho các fields để show ra
   //chứ nếu lần render đầu tiên thì chắc chắn là sẽ chưa có dữ liệu để set, nên cần useEffect
   //chứ useQuery sẽ cần vài giây để get api lúc đó nó sẽ không hợp lí logic
@@ -70,6 +74,11 @@ export default function Profile() {
     }
   }, [profile, setValue])
 
+  const onSubmit = handleSubmit(async (data) => {
+    console.log(data)
+    // await updateProfileMutation.mutateAsync({})
+  })
+
   return (
     <div className='rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20'>
       <div className='border-b border-b-gray-200 py-6'>
@@ -77,7 +86,7 @@ export default function Profile() {
         <div className='mt-1 text-sm text-gray-700'>Quản lý thông tin hồ sơ để bảo mật tài khoản</div>
       </div>
       {/* Vi khi update thì mình sẽ gửi toàn bộ lên chính vì vậy mà mình sẽ phải bọc form ở đây */}
-      <form className='mt-8 flex max-lg:flex-col-reverse md:flex-grow md:items-start'>
+      <form className='mt-8 flex max-lg:flex-col-reverse md:flex-grow md:items-start' onSubmit={onSubmit}>
         <div className='mt-6 flex-grow md:mt-0 md:pr-14'>
           <div className='flex flex-col flex-wrap sm:flex-row'>
             <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Email</div>
@@ -127,7 +136,18 @@ export default function Profile() {
               />
             </div>
           </div>
-          <DateSelect />
+          {/* Vì nó không nhận vào register nên cần phải dùng Controller */}
+          <Controller
+            control={control}
+            name='date_of_birth'
+            render={({ field }) => (
+              <DateSelect
+                errorMessage={errors.date_of_birth?.message} //
+                value={field.value}
+                onChange={field.onChange}
+              />
+            )}
+          />
           {/* Button */}
           <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
             {/* Điều này giúp cho button có thể giữ nguyên được hiện trạng và không bị chạy đi
