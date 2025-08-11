@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import InputNumber from '../../../../components/InputNumber'
 import { useEffect } from 'react'
 import DateSelect from '../../components/DateSelect'
+import { toast } from 'react-toastify'
 
 // Mình sẽ không sử dụng omit vì nếu trong tương lai nếu schema mình xài
 //omit thì nó sẽ bị lỗi giữ lại những cái không mong muốn
@@ -46,7 +47,7 @@ export default function Profile() {
   })
 
   // Lấy dữ liệu để hiện thị lên form
-  const { data: profileData } = useQuery({
+  const { data: profileData, refetch } = useQuery({
     queryKey: ['profile'],
     queryFn: userApi.getProfile
   })
@@ -74,9 +75,21 @@ export default function Profile() {
     }
   }, [profile, setValue])
 
+  //**Khác nhau giữa mutaAsync và mutation
+  //một thằng cần async-await còn một thằng thì xử lý trong onSuccess
   const onSubmit = handleSubmit(async (data) => {
     console.log(data)
-    // await updateProfileMutation.mutateAsync({})
+    // Mặc định nếu người dùng mà không chỉnh gì hết thì sẽ cho là ngày 1-1-1990
+    const res = await updateProfileMutation.mutateAsync({
+      ...data, //
+      date_of_birth: data.date_of_birth?.toISOString()
+    })
+    // Sau khi update xong thì chúng ta nên refresh data lại để cập nhận data mới
+    refetch()
+    // Thông báo
+    toast.success(res.data.message, {
+      autoClose: 3000
+    })
   })
 
   return (
