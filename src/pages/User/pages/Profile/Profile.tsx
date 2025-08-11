@@ -156,7 +156,7 @@ export default function Profile() {
             <div className='sm:w-[80%] sm:pl-5'>
               <Button
                 type='submit'
-                className='flex h-9 items-center bg-orange px-5 text-center text-sm text-white transition-colors hover:bg-orange/80'
+                className='flex h-9 items-center rounded-sm bg-orange px-5 text-center text-sm text-white transition-colors hover:bg-orange/80'
               >
                 Lưu
               </Button>

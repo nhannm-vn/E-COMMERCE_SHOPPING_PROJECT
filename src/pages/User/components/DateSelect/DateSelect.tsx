@@ -19,6 +19,9 @@ export default function DateSelect({ value, onChange, errorMessage }: Props) {
 
   // Mỗi lần có value mới thì mình cập nhật state lại
   //chứ lần đầu khi mới vào component thì chỉ lấy đc value 1 lần
+  //**Bởi vì value thay đổi thường xuyên nên chúng ta không thể set một cách bthg như ở trên được
+  //mà phải thông qua useEffect
+
   useEffect(() => {
     if (value) {
       setDate({
@@ -35,6 +38,8 @@ export default function DateSelect({ value, onChange, errorMessage }: Props) {
     const { value: valueFromSelect, name } = event.target
     // Taọ cái object date chứa thông tin cũ và cập nhật thông tin mới
     const newDate = {
+      // Lấy từ value mới hoặc là lấy lại giá trị cũ
+      //để giúp cho newDate mới được đồng nhất
       date: value?.getDate() || date.date,
       month: value?.getMonth() || date.month,
       year: value?.getFullYear() || date.year,

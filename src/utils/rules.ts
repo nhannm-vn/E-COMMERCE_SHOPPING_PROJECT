@@ -134,6 +134,7 @@ export const userSchema = yup.object({
   //thay vì như vậy chỉ cần xài yup.date là xong
   //mình cho giá trị lớn nhất là giá trị hiện tại để không cho nó chọn một ngày trong tương lai
   //*Khi gửi lên server thì phải chuyển thành ISO string
+  //*Thằng date() sẽ giúp handle ngày theo đúng tháng nào thì có bao nhiêu ngày
   date_of_birth: yup.date().max(new Date(), 'Hãy chọn một ngày trong quá khứ'),
   //*Thằng này mình sẽ kế thừa bên trên
   password: schema.fields['password'],
