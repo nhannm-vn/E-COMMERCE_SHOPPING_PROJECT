@@ -6,7 +6,7 @@ import { userSchema, UserSchema } from '../../../../utils/rules'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import InputNumber from '../../../../components/InputNumber'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import DateSelect from '../../components/DateSelect'
 import { toast } from 'react-toastify'
 import { AppContext } from '../../../../contexts/app.context'
@@ -24,6 +24,9 @@ type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' 
 const profileSchema = userSchema.pick(['name', 'address', 'phone', 'date_of_birth', 'avatar'])
 
 export default function Profile() {
+  // Khai báo một cái ref dùng để điều khiển sự kiện chọn ảnh
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
   // Mình cũng cập nhật lại profile trong context
   //*thằng profile này dùng để truyền đi các component khác nhau và lấy thông tin hiển thị lên
   const { setProfile } = useContext(AppContext)
@@ -33,8 +36,8 @@ export default function Profile() {
     control,
     formState: { errors },
     handleSubmit,
-    setValue,
-    setError
+    setValue
+    //setError
     // setError từ react-hook-form thì chúng ta sẽ set cái lỗi vào errors
     //và react-hook-form sẽ hiển thị lên cho chúng ta
     // Mục đích giúp cho ô nó trống để chúng ta có thể truyền giá trị vào để update
@@ -104,6 +107,11 @@ export default function Profile() {
       autoClose: 3000
     })
   })
+
+  // Nghĩa là mình sẽ trigger khi click vào button thì mình sẽ làm cho input bị click
+  const handleUpload = () => {
+    fileInputRef.current?.click()
+  }
 
   return (
     <div className='rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20'>
@@ -199,10 +207,11 @@ export default function Profile() {
                 alt=''
               />
             </div>
-            <input className='hidden' type='file' accept='.jpg,.jpeg,.png' />
+            <input className='hidden' type='file' accept='.jpg,.jpeg,.png' ref={fileInputRef} />
             <button
               type='button'
-              className='flex h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm capitalize text-gray-600 shadow-sm'
+              className='flex h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm capitalize text-gray-600 shadow-sm transition-colors hover:bg-slate-100'
+              onClick={handleUpload}
             >
               Chọn ảnh
             </button>
