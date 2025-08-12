@@ -6,7 +6,7 @@ import { userSchema, UserSchema } from '../../../../utils/rules'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import InputNumber from '../../../../components/InputNumber'
-import { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import DateSelect from '../../components/DateSelect'
 import { toast } from 'react-toastify'
 import { AppContext } from '../../../../contexts/app.context'
@@ -23,6 +23,9 @@ type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' 
 // schema dùng cho form
 const profileSchema = userSchema.pick(['name', 'address', 'phone', 'date_of_birth', 'avatar'])
 
+// ***Cách để truyền được file ảnh vào trong url
+// URL.createObjectURL(file)
+
 export default function Profile() {
   // Khai báo một cái ref dùng để điều khiển sự kiện chọn ảnh
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -31,12 +34,22 @@ export default function Profile() {
   //*thằng profile này dùng để truyền đi các component khác nhau và lấy thông tin hiển thị lên
   const { setProfile } = useContext(AppContext)
 
+  // Tạo một cái state dùng để lưu fileImage
+  const [file, setFile] = useState<File>()
+
+  // Khi có một giá trị nó phụ thuộc vào giá trị nào khác thì chúng ta có thể dùng một cái biến
+  //khi có file thay đổi thì nó mới chạy lại
+  const previewImage = useMemo(() => {
+    return file ? URL.createObjectURL(file) : ''
+  }, [file])
+
   const {
     register, //
     control,
     formState: { errors },
     handleSubmit,
-    setValue
+    setValue,
+    watch
     //setError
     // setError từ react-hook-form thì chúng ta sẽ set cái lỗi vào errors
     //và react-hook-form sẽ hiển thị lên cho chúng ta
@@ -54,6 +67,9 @@ export default function Profile() {
     },
     resolver: yupResolver(profileSchema)
   })
+
+  // *Thằng này dùng để hiển thị dữ liệu lên form nếu không sử dụng các component như Input
+  const avatar = watch('avatar')
 
   // Lấy dữ liệu để hiện thị lên form
   const { data: profileData, refetch } = useQuery({
@@ -111,6 +127,15 @@ export default function Profile() {
   // Nghĩa là mình sẽ trigger khi click vào button thì mình sẽ làm cho input bị click
   const handleUpload = () => {
     fileInputRef.current?.click()
+  }
+
+  const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // Lấy ra được nhưng nó là Array FileLists
+    //nên chúng ta cần lấy ra thằng items đầu tiên
+    //**Tuy nhiên obj có thể null nên chúng ta cần ?.
+    const fileFromLocal = event.target.files?.[0]
+    // Mình cần setFile để có thể preview và gửi lên server
+    setFile(fileFromLocal)
   }
 
   return (
@@ -202,12 +227,12 @@ export default function Profile() {
           <div className='flex flex-col items-center'>
             <div className='my-5 h-24 w-24'>
               <img
-                className='h-full w-full rounded-full object-cover'
-                src='https://images-cdn.openxcell.com/wp-content/uploads/2024/07/25085005/reactjs-inner.svg'
+                className='h-full w-full rounded-full object-cover' //
+                src={previewImage || avatar}
                 alt=''
               />
             </div>
-            <input className='hidden' type='file' accept='.jpg,.jpeg,.png' ref={fileInputRef} />
+            <input className='hidden' type='file' accept='.jpg,.jpeg,.png' ref={fileInputRef} onChange={onFileChange} />
             <button
               type='button'
               className='flex h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm capitalize text-gray-600 shadow-sm transition-colors hover:bg-slate-100'
