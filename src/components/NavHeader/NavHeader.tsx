@@ -6,7 +6,7 @@ import path from '../../constants/path'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import authApi from '../../apis/auth.api'
 import { purchasesStatus } from '../../constants/purchase'
-import userImage from '../../assets/images/user.svg'
+import { getAvatarUrl } from '../../utils/utils'
 
 function NavHeader() {
   // Lấy setIsAuthenticated bằng useContext
@@ -95,7 +95,7 @@ function NavHeader() {
         >
           <div className='mr-2 h-6 w-6 flex-shrink-0'>
             <img
-              src={profile?.avatar || userImage} //
+              src={getAvatarUrl(profile?.avatar)} //
               alt='avatar'
               className='h-full w-full rounded-full object-cover'
             />

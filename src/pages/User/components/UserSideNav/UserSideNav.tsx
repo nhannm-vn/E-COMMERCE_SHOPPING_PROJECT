@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import path from '../../../../constants/path'
 import { useContext } from 'react'
 import { AppContext } from '../../../../contexts/app.context'
-import userImage from '../../../../assets/images/user.svg'
+import { getAvatarUrl } from '../../../../utils/utils'
 
 export default function UserSideNav() {
   const { profile } = useContext(AppContext)
@@ -10,7 +10,7 @@ export default function UserSideNav() {
     <div>
       <div className='flex items-center border-b border-b-gray-200 py-4'>
         <Link to={path.profile} className='h-12 w-12 flex-shrink-0 overflow-hidden rounded-full border border-black/10'>
-          <img className='h-full w-full object-cover' src={profile?.avatar || userImage} alt='' />
+          <img className='h-full w-full object-cover' src={getAvatarUrl(profile?.avatar)} alt='' />
         </Link>
         {/* Nếu mình nằm trong một div có display flex thì flex-grow sẽ giúp nó nở ra hết phần còn lại */}
         <div className='flex-grow pl-4'>

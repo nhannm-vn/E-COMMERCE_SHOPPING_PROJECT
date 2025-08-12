@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios'
 import HttpStatusCode from '../constants/httpStatusCode.enum'
+import userImage from '../assets/images/user.svg'
 // Type Predicate
 // utils này sẽ giúp check xem có phải lỗi của axios hay không
 // mình còn muốn sau khi chạy func này thì error của mình nó sẽ chuyển thành type nhất định
@@ -55,3 +56,8 @@ export const getIdFromNameId = (nameId: string) => {
   // Trả ra phần tử cuối cùng của mảng
   return arr[arr.length - 1]
 }
+
+// Lúc backend chưa fix thì tên tấm ảnh cần cộng thêm thành phần này ở đằng trước
+//nếu có thì đưa cho avatar nếu không có thì đưa cái icon
+// Vì có thể có avatar để truyền vào cũng có thể api trả về chưa có nên cần thêm ?
+export const getAvatarUrl = (avatarName?: string) => (avatarName ? avatarName : userImage)

@@ -11,6 +11,7 @@ import DateSelect from '../../components/DateSelect'
 import { toast } from 'react-toastify'
 import { AppContext } from '../../../../contexts/app.context'
 import { setProfileToLS } from '../../../../utils/auth'
+import { getAvatarUrl } from '../../../../utils/utils'
 
 // Mình sẽ không sử dụng omit vì nếu trong tương lai nếu schema mình xài
 //omit thì nó sẽ bị lỗi giữ lại những cái không mong muốn
@@ -19,12 +20,22 @@ import { setProfileToLS } from '../../../../utils/auth'
 //để phục vụ cho change password. Tuy nhiên mình đang bên page update profile nên cần gì thì giữ cái đó thôi
 
 // type form
-type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' | 'avatar'>
+type FormDataSchema = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' | 'avatar'>
 // schema dùng cho form
 const profileSchema = userSchema.pick(['name', 'address', 'phone', 'date_of_birth', 'avatar'])
 
 // ***Cách để truyền được file ảnh vào trong url
 // URL.createObjectURL(file)
+
+//Flow1:
+//Nhấn upload và upload lên server luôn => server trả về url ảnh
+//Nhấn submit thì gửi url ảnh cộng data lên server
+//*Nhanh nhưng dễ bị spam upload
+
+//Flow2:
+//Nhấn upload: không upload lên server
+//Nhấn submit: thì tiến hành upload lên server nếu upload thành công thì tiến hành gọi api updateProfile
+//*Chậm hơn một chút nhưng an toàn hơn
 
 export default function Profile() {
   // Khai báo một cái ref dùng để điều khiển sự kiện chọn ảnh
@@ -43,6 +54,10 @@ export default function Profile() {
     return file ? URL.createObjectURL(file) : ''
   }, [file])
 
+  const uploadAvatarMutation = useMutation({
+    mutationFn: (body: FormData) => userApi.uploadAvatar(body)
+  })
+
   const {
     register, //
     control,
@@ -54,7 +69,7 @@ export default function Profile() {
     // setError từ react-hook-form thì chúng ta sẽ set cái lỗi vào errors
     //và react-hook-form sẽ hiển thị lên cho chúng ta
     // Mục đích giúp cho ô nó trống để chúng ta có thể truyền giá trị vào để update
-  } = useForm<FormData>({
+  } = useForm<FormDataSchema>({
     // Giúp khi render lần đầu thì nó sẽ có giá trị này
     defaultValues: {
       name: '',
@@ -103,25 +118,42 @@ export default function Profile() {
   //**Khác nhau giữa mutaAsync và mutation
   //một thằng cần async-await còn một thằng thì xử lý trong onSuccess
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data)
-    // Mặc định nếu người dùng mà không chỉnh gì hết thì sẽ cho là ngày 1-1-1990
-    const res = await updateProfileMutation.mutateAsync({
-      ...data, //Khi update trên server thì mình phải chuyển về đúng dạng ISOstring từ dạng Date
-      //còn về dưới code thì chuyển dạng date cho dễ handle
-      date_of_birth: data.date_of_birth?.toISOString()
-    })
-    // Mình sẽ cập nhật cho profile trong AppContext sau khi update thành công thì res
-    //sẽ chứa data đầy đủ theo định dạng của User
-    setProfile(res.data.data)
-    // Mình cũng cần set lại localstorage bởi vì initial của profile trong appContext
-    //nó sẽ lấy từ thằng localStorage nên nếu chúng ta không cập nhật để đồng bộ thì nó sẽ bị lỗi
-    setProfileToLS(res.data.data)
-    // Sau khi update xong thì chúng ta nên refresh data lại để cập nhận data mới
-    refetch()
-    // Thông báo
-    toast.success(res.data.message, {
-      autoClose: 3000
-    })
+    try {
+      let avatarName = avatar
+      // Kiểm tra xem thử có file không
+      if (file) {
+        const form = new FormData()
+        form.append('image', file)
+        // Gọi api upload
+        const uploadRes = await uploadAvatarMutation.mutateAsync(form)
+        // Nếu như upload thành công thì chúng ta sẽ lấy ra được cái avatar
+        //nếu mà có th file thì mình sẽ cho cái avatarName = gt server trả về
+        avatarName = uploadRes.data.data
+        // Set vào trong cái form luôn cho nó đồng bộ
+        setValue('avatar', avatarName)
+      }
+      // Mặc định nếu người dùng mà không chỉnh gì hết thì sẽ cho là ngày 1-1-1990
+      const res = await updateProfileMutation.mutateAsync({
+        ...data, //Khi update trên server thì mình phải chuyển về đúng dạng ISOstring từ dạng Date
+        //còn về dưới code thì chuyển dạng date cho dễ handle
+        date_of_birth: data.date_of_birth?.toISOString(),
+        avatar: avatarName
+      })
+      // Mình sẽ cập nhật cho profile trong AppContext sau khi update thành công thì res
+      //sẽ chứa data đầy đủ theo định dạng của User
+      setProfile(res.data.data)
+      // Mình cũng cần set lại localstorage bởi vì initial của profile trong appContext
+      //nó sẽ lấy từ thằng localStorage nên nếu chúng ta không cập nhật để đồng bộ thì nó sẽ bị lỗi
+      setProfileToLS(res.data.data)
+      // Sau khi update xong thì chúng ta nên refresh data lại để cập nhận data mới
+      refetch()
+      // Thông báo
+      toast.success(res.data.message, {
+        autoClose: 3000
+      })
+    } catch (error) {
+      console.log(error)
+    }
   })
 
   // Nghĩa là mình sẽ trigger khi click vào button thì mình sẽ làm cho input bị click
@@ -228,7 +260,7 @@ export default function Profile() {
             <div className='my-5 h-24 w-24'>
               <img
                 className='h-full w-full rounded-full object-cover' //
-                src={previewImage || avatar}
+                src={previewImage || getAvatarUrl(avatar)}
                 alt=''
               />
             </div>
