@@ -6,6 +6,7 @@ import path from '../../constants/path'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import authApi from '../../apis/auth.api'
 import { purchasesStatus } from '../../constants/purchase'
+import userImage from '../../assets/images/user.svg'
 
 function NavHeader() {
   // Lấy setIsAuthenticated bằng useContext
@@ -94,7 +95,7 @@ function NavHeader() {
         >
           <div className='mr-2 h-6 w-6 flex-shrink-0'>
             <img
-              src='https://images-cdn.openxcell.com/wp-content/uploads/2024/07/25085005/reactjs-inner.svg'
+              src={profile?.avatar || userImage} //
               alt='avatar'
               className='h-full w-full rounded-full object-cover'
             />

@@ -6,9 +6,11 @@ import { userSchema, UserSchema } from '../../../../utils/rules'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import InputNumber from '../../../../components/InputNumber'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import DateSelect from '../../components/DateSelect'
 import { toast } from 'react-toastify'
+import { AppContext } from '../../../../contexts/app.context'
+import { setProfileToLS } from '../../../../utils/auth'
 
 // Mình sẽ không sử dụng omit vì nếu trong tương lai nếu schema mình xài
 //omit thì nó sẽ bị lỗi giữ lại những cái không mong muốn
@@ -22,6 +24,10 @@ type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' 
 const profileSchema = userSchema.pick(['name', 'address', 'phone', 'date_of_birth', 'avatar'])
 
 export default function Profile() {
+  // Mình cũng cập nhật lại profile trong context
+  //*thằng profile này dùng để truyền đi các component khác nhau và lấy thông tin hiển thị lên
+  const { setProfile } = useContext(AppContext)
+
   const {
     register, //
     control,
@@ -81,9 +87,16 @@ export default function Profile() {
     console.log(data)
     // Mặc định nếu người dùng mà không chỉnh gì hết thì sẽ cho là ngày 1-1-1990
     const res = await updateProfileMutation.mutateAsync({
-      ...data, //
+      ...data, //Khi update trên server thì mình phải chuyển về đúng dạng ISOstring từ dạng Date
+      //còn về dưới code thì chuyển dạng date cho dễ handle
       date_of_birth: data.date_of_birth?.toISOString()
     })
+    // Mình sẽ cập nhật cho profile trong AppContext sau khi update thành công thì res
+    //sẽ chứa data đầy đủ theo định dạng của User
+    setProfile(res.data.data)
+    // Mình cũng cần set lại localstorage bởi vì initial của profile trong appContext
+    //nó sẽ lấy từ thằng localStorage nên nếu chúng ta không cập nhật để đồng bộ thì nó sẽ bị lỗi
+    setProfileToLS(res.data.data)
     // Sau khi update xong thì chúng ta nên refresh data lại để cập nhận data mới
     refetch()
     // Thông báo
