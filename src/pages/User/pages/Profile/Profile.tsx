@@ -11,7 +11,8 @@ import DateSelect from '../../components/DateSelect'
 import { toast } from 'react-toastify'
 import { AppContext } from '../../../../contexts/app.context'
 import { setProfileToLS } from '../../../../utils/auth'
-import { getAvatarUrl } from '../../../../utils/utils'
+import { getAvatarUrl, isAxiosUnprocessableEntity } from '../../../../utils/utils'
+import { ErrorResponse } from '../../../../types/utils.type'
 
 // Mình sẽ không sử dụng omit vì nếu trong tương lai nếu schema mình xài
 //omit thì nó sẽ bị lỗi giữ lại những cái không mong muốn
@@ -21,6 +22,11 @@ import { getAvatarUrl } from '../../../../utils/utils'
 
 // type form
 type FormDataSchema = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' | 'avatar'>
+
+type FormDataError = Omit<FormDataSchema, 'date_of_birth'> & {
+  date_of_birth?: string
+}
+
 // schema dùng cho form
 const profileSchema = userSchema.pick(['name', 'address', 'phone', 'date_of_birth', 'avatar'])
 
@@ -64,8 +70,8 @@ export default function Profile() {
     formState: { errors },
     handleSubmit,
     setValue,
-    watch
-    //setError
+    watch,
+    setError
     // setError từ react-hook-form thì chúng ta sẽ set cái lỗi vào errors
     //và react-hook-form sẽ hiển thị lên cho chúng ta
     // Mục đích giúp cho ô nó trống để chúng ta có thể truyền giá trị vào để update
@@ -153,7 +159,17 @@ export default function Profile() {
         autoClose: 3000
       })
     } catch (error) {
-      console.log(error)
+      if (isAxiosUnprocessableEntity<ErrorResponse<FormDataError>>(error)) {
+        const formError = error.response?.data.data
+        if (formError) {
+          Object.keys(formError).forEach((key) => {
+            setError(key as keyof FormDataError, {
+              message: formError[key as keyof FormDataError],
+              type: 'Server'
+            })
+          })
+        }
+      }
     }
   })
 

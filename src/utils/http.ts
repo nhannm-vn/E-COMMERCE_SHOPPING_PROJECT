@@ -62,7 +62,7 @@ class Http {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const data: any | undefined = error.response?.data
           // Nếu mà trong data không có message thì hãy hãy message ở ngoài error luôn đi
-          const message = data.message || error.message
+          const message = data?.message || error.message
           toast.error(message)
         }
         // Nếu có lỗi 401 nghĩa là có lỗi hết hạn access_token
