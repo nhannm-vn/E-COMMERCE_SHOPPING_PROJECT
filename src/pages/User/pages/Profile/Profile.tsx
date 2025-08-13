@@ -128,6 +128,7 @@ export default function Profile() {
         const uploadRes = await uploadAvatarMutation.mutateAsync(form)
         // Nếu như upload thành công thì chúng ta sẽ lấy ra được cái avatar
         //nếu mà có th file thì mình sẽ cho cái avatarName = gt server trả về
+        // Nghĩa là nếu như có trả về nghĩa là upload ảnh thành công
         avatarName = uploadRes.data.data
         // Set vào trong cái form luôn cho nó đồng bộ
         setValue('avatar', avatarName)
@@ -259,7 +260,7 @@ export default function Profile() {
           <div className='flex flex-col items-center'>
             <div className='my-5 h-24 w-24'>
               <img
-                className='h-full w-full rounded-full object-cover' //
+                className='h-full w-full rounded-full object-cover' //getAvatarUrl(avatar): trường hợp form chưa có thì hiển thị ra cái svg
                 src={previewImage || getAvatarUrl(avatar)}
                 alt=''
               />
