@@ -13,6 +13,7 @@ import { AppContext } from '../../../../contexts/app.context'
 import { setProfileToLS } from '../../../../utils/auth'
 import { getAvatarUrl, isAxiosUnprocessableEntity } from '../../../../utils/utils'
 import { ErrorResponse } from '../../../../types/utils.type'
+import config from '../../../../constants/config'
 
 // Mình sẽ không sử dụng omit vì nếu trong tương lai nếu schema mình xài
 //omit thì nó sẽ bị lỗi giữ lại những cái không mong muốn
@@ -183,8 +184,17 @@ export default function Profile() {
     //nên chúng ta cần lấy ra thằng items đầu tiên
     //**Tuy nhiên obj có thể null nên chúng ta cần ?.
     const fileFromLocal = event.target.files?.[0]
-    // Mình cần setFile để có thể preview và gửi lên server
-    setFile(fileFromLocal)
+
+    //*Handle upload bức ảnh
+    //Nếu nó có uploadFile mà kích thước nó quá lớn hoặc là type của nó không phải là ảnh thì mình sẽ
+    //toast lên thông báo ngay khi set vào state không hợp lệ
+    if (fileFromLocal && (fileFromLocal.size >= config.maxSizeUploadAvatar || !fileFromLocal.type.includes('image'))) {
+      toast.error(`Dung lượng file tối đa 1 MB
+        Định dạng JPEG, PNG`)
+    } else {
+      // Mình cần setFile để có thể preview và gửi lên server
+      setFile(fileFromLocal)
+    }
   }
 
   return (
