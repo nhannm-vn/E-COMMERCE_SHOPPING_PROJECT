@@ -3,7 +3,7 @@ import Button from '../../../../components/Button'
 import Input from '../../../../components/Input'
 import userApi, { BodyUpdateProfile } from '../../../../apis/user.api'
 import { userSchema, UserSchema } from '../../../../utils/rules'
-import { Controller, useForm } from 'react-hook-form'
+import { Controller, FormProvider, useForm, useFormContext } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import InputNumber from '../../../../components/InputNumber'
 import { Fragment, useContext, useEffect, useMemo, useState } from 'react'
@@ -16,7 +16,15 @@ import { ErrorResponse } from '../../../../types/utils.type'
 import InputFile from '../../../../components/InputFile'
 
 // Chia ra để demo useFormContext
+// Sử dụng khi có quá nhiều field truyền vào component con chúng ta không truyền đi hết được
 function Info() {
+  //Lấy ra các method
+  const methods = useFormContext<FormDataSchema>()
+  const {
+    register, //
+    control,
+    formState: { errors }
+  } = methods
   return (
     <Fragment>
       <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
@@ -127,7 +135,7 @@ export default function Profile() {
   })
 
   const {
-    register, //
+    //register, //
     control,
     formState: { errors },
     handleSubmit,
@@ -270,102 +278,63 @@ export default function Profile() {
         <h1 className='text-lg font-medium capitalize text-gray-900'>Hồ sơ của tôi</h1>
         <div className='mt-1 text-sm text-gray-700'>Quản lý thông tin hồ sơ để bảo mật tài khoản</div>
       </div>
-      {/* Vi khi update thì mình sẽ gửi toàn bộ lên chính vì vậy mà mình sẽ phải bọc form ở đây */}
-      <form className='mt-8 flex max-lg:flex-col-reverse md:flex-grow md:items-start' onSubmit={onSubmit}>
-        <div className='mt-6 flex-grow md:mt-0 md:pr-14'>
-          <div className='flex flex-col flex-wrap sm:flex-row'>
-            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Email</div>
-            <div className='sm:w-[80%] sm:pl-5'>
-              <div className='pt-3 text-gray-700'>{profile?.email}</div>
+      <FormProvider {...methods}>
+        {/* Vi khi update thì mình sẽ gửi toàn bộ lên chính vì vậy mà mình sẽ phải bọc form ở đây */}
+        <form className='mt-8 flex max-lg:flex-col-reverse md:flex-grow md:items-start' onSubmit={onSubmit}>
+          <div className='mt-6 flex-grow md:mt-0 md:pr-14'>
+            <div className='flex flex-col flex-wrap sm:flex-row'>
+              <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Email</div>
+              <div className='sm:w-[80%] sm:pl-5'>
+                <div className='pt-3 text-gray-700'>{profile?.email}</div>
+              </div>
             </div>
-          </div>
-          <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
-            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Tên</div>
-            <div className='sm:w-[80%] sm:pl-5'>
-              <Input
-                register={register}
-                name='name'
-                placeholder='Tên'
-                errrorMessage={errors.name?.message}
-                classNameInput='w-full rounded-sm border py-2 border-gray-300 px-3 outline-none focus:border-gray-500 focus:shadow-sm'
-              />
-            </div>
-          </div>
-          <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
-            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Số điện thoại</div>
-            <div className='sm:w-[80%] sm:pl-5'>
-              <Controller
-                control={control} //
-                name='phone'
-                render={({ field }) => (
-                  <InputNumber
-                    placeholder='Số điện thoại'
-                    errrorMessage={errors.phone?.message}
-                    classNameInput='w-full rounded-sm border py-2 border-gray-300 px-3 outline-none focus:border-gray-500 focus:shadow-sm'
-                    {...field}
-                    onChange={field.onChange}
-                  />
-                )}
-              />
-            </div>
-          </div>
-          <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
-            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Địa chỉ</div>
-            <div className='sm:w-[80%] sm:pl-5'>
-              <Input
-                register={register}
-                name='address'
-                placeholder='Địa chỉ'
-                errrorMessage={errors.address?.message}
-                classNameInput='w-full rounded-sm border py-2 border-gray-300 px-3 outline-none focus:border-gray-500 focus:shadow-sm'
-              />
-            </div>
-          </div>
-          {/* Vì nó không nhận vào register nên cần phải dùng Controller */}
-          <Controller
-            control={control}
-            name='date_of_birth'
-            render={({ field }) => (
-              <DateSelect
-                errorMessage={errors.date_of_birth?.message} //
-                value={field.value}
-                onChange={field.onChange}
-              />
-            )}
-          />
-          {/* Button */}
-          <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
-            {/* Điều này giúp cho button có thể giữ nguyên được hiện trạng và không bị chạy đi
+            <Info />
+            {/* Vì nó không nhận vào register nên cần phải dùng Controller */}
+            <Controller
+              control={control}
+              name='date_of_birth'
+              render={({ field }) => (
+                <DateSelect
+                  errorMessage={errors.date_of_birth?.message} //
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
+            />
+            {/* Button */}
+            <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
+              {/* Điều này giúp cho button có thể giữ nguyên được hiện trạng và không bị chạy đi
             đâu khi mà mình chỉnh màn hình sm: nghĩa là màn hình từ >=640 thì thực hiện */}
-            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right' />
-            <div className='sm:w-[80%] sm:pl-5'>
-              <Button
-                type='submit'
-                className='flex h-9 items-center rounded-sm bg-orange px-5 text-center text-sm text-white transition-colors hover:bg-orange/80'
-              >
-                Lưu
-              </Button>
+              <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right' />
+              <div className='sm:w-[80%] sm:pl-5'>
+                <Button
+                  type='submit'
+                  className='flex h-9 items-center rounded-sm bg-orange px-5 text-center text-sm text-white transition-colors hover:bg-orange/80'
+                >
+                  Lưu
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-        {/* Avatar Profile */}
-        <div className='flex justify-center md:w-72 md:border-l md:border-l-gray-200'>
-          <div className='flex flex-col items-center'>
-            <div className='my-5 h-24 w-24'>
-              <img
-                className='h-full w-full rounded-full object-cover' //getAvatarUrl(avatar): trường hợp form chưa có thì hiển thị ra cái svg
-                src={previewImage || getAvatarUrl(avatar)}
-                alt=''
-              />
-            </div>
-            <InputFile onChange={handleChangeFile} />
-            <div className='mt-3 text-gray-400'>
-              <div>Dung lượng file tối đa 1 MB</div>
-              <div>Định dạng JPEG, PNG</div>
+          {/* Avatar Profile */}
+          <div className='flex justify-center md:w-72 md:border-l md:border-l-gray-200'>
+            <div className='flex flex-col items-center'>
+              <div className='my-5 h-24 w-24'>
+                <img
+                  className='h-full w-full rounded-full object-cover' //getAvatarUrl(avatar): trường hợp form chưa có thì hiển thị ra cái svg
+                  src={previewImage || getAvatarUrl(avatar)}
+                  alt=''
+                />
+              </div>
+              <InputFile onChange={handleChangeFile} />
+              <div className='mt-3 text-gray-400'>
+                <div>Dung lượng file tối đa 1 MB</div>
+                <div>Định dạng JPEG, PNG</div>
+              </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </FormProvider>
     </div>
   )
 }
