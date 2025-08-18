@@ -1,8 +1,14 @@
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import path from '../../../../constants/path'
 import { useContext } from 'react'
 import { AppContext } from '../../../../contexts/app.context'
 import { getAvatarUrl } from '../../../../utils/utils'
+import classNames from 'classnames'
+
+/**
+ * Để hiển thị active link thì mình sẽ xài NavLink thay vì sử dụng Link
+ * nó sẽ hỗ trợ giúp link active khi URL match với path của property to=""
+ */
 
 export default function UserSideNav() {
   const { profile } = useContext(AppContext)
@@ -35,7 +41,15 @@ export default function UserSideNav() {
         </div>
       </div>
       <div className='mt-7'>
-        <Link to={path.profile} className='flex items-center capitalize text-orange transition-colors'>
+        <NavLink
+          to={path.profile}
+          className={({ isActive }) =>
+            classNames('flex items-center capitalize transition-colors', {
+              'text-orange': isActive,
+              'text-gray-600': !isActive
+            })
+          }
+        >
           <div className='mr-2 h-[22px] w-[22px]'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -53,10 +67,18 @@ export default function UserSideNav() {
             </svg>
           </div>
           Tài khoản của tôi
-        </Link>
+        </NavLink>
       </div>
       <div className='mt-7'>
-        <Link to={path.changePassword} className='flex items-center capitalize text-gray-600 transition-colors'>
+        <NavLink
+          to={path.changePassword}
+          className={({ isActive }) =>
+            classNames('flex items-center capitalize transition-colors', {
+              'text-orange': isActive,
+              'text-gray-600': !isActive
+            })
+          }
+        >
           <div className='mr-2 h-[22px] w-[22px]'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -74,10 +96,18 @@ export default function UserSideNav() {
             </svg>
           </div>
           Đổi mật khẩu
-        </Link>
+        </NavLink>
       </div>
       <div className='mt-7'>
-        <Link to={path.historyPurchase} className='flex items-center capitalize text-gray-600 transition-colors'>
+        <NavLink
+          to={path.historyPurchase}
+          className={({ isActive }) =>
+            classNames('flex items-center capitalize transition-colors', {
+              'text-orange': isActive,
+              'text-gray-600': !isActive
+            })
+          }
+        >
           <div className='mr-2 h-[22px] w-[22px]'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -95,7 +125,7 @@ export default function UserSideNav() {
             </svg>
           </div>
           Đơn mua
-        </Link>
+        </NavLink>
       </div>
     </div>
   )
