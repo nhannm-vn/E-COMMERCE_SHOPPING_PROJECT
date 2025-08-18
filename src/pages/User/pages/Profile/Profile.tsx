@@ -6,14 +6,14 @@ import { userSchema, UserSchema } from '../../../../utils/rules'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import InputNumber from '../../../../components/InputNumber'
-import { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import DateSelect from '../../components/DateSelect'
 import { toast } from 'react-toastify'
 import { AppContext } from '../../../../contexts/app.context'
 import { setProfileToLS } from '../../../../utils/auth'
 import { getAvatarUrl, isAxiosUnprocessableEntity } from '../../../../utils/utils'
 import { ErrorResponse } from '../../../../types/utils.type'
-import config from '../../../../constants/config'
+import InputFile from '../../../../components/InputFile'
 
 // Mình sẽ không sử dụng omit vì nếu trong tương lai nếu schema mình xài
 //omit thì nó sẽ bị lỗi giữ lại những cái không mong muốn
@@ -45,9 +45,6 @@ const profileSchema = userSchema.pick(['name', 'address', 'phone', 'date_of_birt
 //*Chậm hơn một chút nhưng an toàn hơn
 
 export default function Profile() {
-  // Khai báo một cái ref dùng để điều khiển sự kiện chọn ảnh
-  const fileInputRef = useRef<HTMLInputElement>(null)
-
   // Mình cũng cập nhật lại profile trong context
   //*thằng profile này dùng để truyền đi các component khác nhau và lấy thông tin hiển thị lên
   const { setProfile } = useContext(AppContext)
@@ -174,40 +171,46 @@ export default function Profile() {
     }
   })
 
+  //*Khi chúng ta có một thao tác change file thì hàm này sẽ gọi và sẽ set lại cho chúng ta
+  //mình phải cần cái onChange để setFile cho state vì mình đã tách component
+  const handleChangeFile = (file?: File) => {
+    setFile(file)
+  }
+
   // Nghĩa là mình sẽ trigger khi click vào button thì mình sẽ làm cho input bị click
-  const handleUpload = () => {
-    fileInputRef.current?.click()
-  }
+  // const handleUpload = () => {
+  //   fileInputRef.current?.click()
+  // }
 
-  const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // Lấy ra được nhưng nó là Array FileLists
-    //nên chúng ta cần lấy ra thằng items đầu tiên
-    //**Tuy nhiên obj có thể null nên chúng ta cần ?.
-    const fileFromLocal = event.target.files?.[0]
-    //*Handle upload bức ảnh
-    //Nếu nó có uploadFile mà kích thước nó quá lớn hoặc là type của nó không phải là ảnh thì mình sẽ
-    //toast lên thông báo ngay khi set vào state không hợp lệ
-    if (fileFromLocal && (fileFromLocal.size >= config.maxSizeUploadAvatar || !fileFromLocal.type.includes('image'))) {
-      toast.error(
-        `Dung lượng file tối đa 1 MB
-        Định dạng JPEG, PNG`,
-        {
-          autoClose: 3000,
-          position: 'top-center'
-        }
-      )
-    } else {
-      // Mình cần setFile để có thể preview và gửi lên server
-      setFile(fileFromLocal)
-    }
+  // const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   // Lấy ra được nhưng nó là Array FileLists
+  //   //nên chúng ta cần lấy ra thằng items đầu tiên
+  //   //**Tuy nhiên obj có thể null nên chúng ta cần ?.
+  //   const fileFromLocal = event.target.files?.[0]
+  //   //*Handle upload bức ảnh
+  //   //Nếu nó có uploadFile mà kích thước nó quá lớn hoặc là type của nó không phải là ảnh thì mình sẽ
+  //   //toast lên thông báo ngay khi set vào state không hợp lệ
+  //   if (fileFromLocal && (fileFromLocal.size >= config.maxSizeUploadAvatar || !fileFromLocal.type.includes('image'))) {
+  //     toast.error(
+  //       `Dung lượng file tối đa 1 MB
+  //       Định dạng JPEG, PNG`,
+  //       {
+  //         autoClose: 3000,
+  //         position: 'top-center'
+  //       }
+  //     )
+  //   } else {
+  //     // Mình cần setFile để có thể preview và gửi lên server
+  //     setFile(fileFromLocal)
+  //   }
 
-    //Reset File input value
-    //Nghĩa là nó giúp khi upload trùng tấm ảnh vẫn handle được
-    //nếu không reset thì thằng input nó sẽ giữa hoài value cũ
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ''
-    }
-  }
+  //   //Reset File input value
+  //   //Nghĩa là nó giúp khi upload trùng tấm ảnh vẫn handle được
+  //   //nếu không reset thì thằng input nó sẽ giữa hoài value cũ
+  //   if (fileInputRef.current) {
+  //     fileInputRef.current.value = ''
+  //   }
+  // }
 
   return (
     <div className='rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20'>
@@ -303,14 +306,7 @@ export default function Profile() {
                 alt=''
               />
             </div>
-            <input className='hidden' type='file' accept='.jpg,.jpeg,.png' ref={fileInputRef} onChange={onFileChange} />
-            <button
-              type='button'
-              className='flex h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm capitalize text-gray-600 shadow-sm transition-colors hover:bg-slate-100'
-              onClick={handleUpload}
-            >
-              Chọn ảnh
-            </button>
+            <InputFile onChange={handleChangeFile} />
             <div className='mt-3 text-gray-400'>
               <div>Dung lượng file tối đa 1 MB</div>
               <div>Định dạng JPEG, PNG</div>
