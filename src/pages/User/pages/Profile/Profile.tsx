@@ -6,7 +6,7 @@ import { userSchema, UserSchema } from '../../../../utils/rules'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import InputNumber from '../../../../components/InputNumber'
-import { useContext, useEffect, useMemo, useState } from 'react'
+import { Fragment, useContext, useEffect, useMemo, useState } from 'react'
 import DateSelect from '../../components/DateSelect'
 import { toast } from 'react-toastify'
 import { AppContext } from '../../../../contexts/app.context'
@@ -14,6 +14,56 @@ import { setProfileToLS } from '../../../../utils/auth'
 import { getAvatarUrl, isAxiosUnprocessableEntity } from '../../../../utils/utils'
 import { ErrorResponse } from '../../../../types/utils.type'
 import InputFile from '../../../../components/InputFile'
+
+// Chia ra để demo useFormContext
+function Info() {
+  return (
+    <Fragment>
+      <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
+        <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Tên</div>
+        <div className='sm:w-[80%] sm:pl-5'>
+          <Input
+            register={register}
+            name='name'
+            placeholder='Tên'
+            errrorMessage={errors.name?.message}
+            classNameInput='w-full rounded-sm border py-2 border-gray-300 px-3 outline-none focus:border-gray-500 focus:shadow-sm'
+          />
+        </div>
+      </div>
+      <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
+        <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Số điện thoại</div>
+        <div className='sm:w-[80%] sm:pl-5'>
+          <Controller
+            control={control} //
+            name='phone'
+            render={({ field }) => (
+              <InputNumber
+                placeholder='Số điện thoại'
+                errrorMessage={errors.phone?.message}
+                classNameInput='w-full rounded-sm border py-2 border-gray-300 px-3 outline-none focus:border-gray-500 focus:shadow-sm'
+                {...field}
+                onChange={field.onChange}
+              />
+            )}
+          />
+        </div>
+      </div>
+      <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
+        <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Địa chỉ</div>
+        <div className='sm:w-[80%] sm:pl-5'>
+          <Input
+            register={register}
+            name='address'
+            placeholder='Địa chỉ'
+            errrorMessage={errors.address?.message}
+            classNameInput='w-full rounded-sm border py-2 border-gray-300 px-3 outline-none focus:border-gray-500 focus:shadow-sm'
+          />
+        </div>
+      </div>
+    </Fragment>
+  )
+}
 
 // Mình sẽ không sử dụng omit vì nếu trong tương lai nếu schema mình xài
 //omit thì nó sẽ bị lỗi giữ lại những cái không mong muốn
@@ -62,18 +112,7 @@ export default function Profile() {
     mutationFn: (body: FormData) => userApi.uploadAvatar(body)
   })
 
-  const {
-    register, //
-    control,
-    formState: { errors },
-    handleSubmit,
-    setValue,
-    watch,
-    setError
-    // setError từ react-hook-form thì chúng ta sẽ set cái lỗi vào errors
-    //và react-hook-form sẽ hiển thị lên cho chúng ta
-    // Mục đích giúp cho ô nó trống để chúng ta có thể truyền giá trị vào để update
-  } = useForm<FormDataSchema>({
+  const methods = useForm<FormDataSchema>({
     // Giúp khi render lần đầu thì nó sẽ có giá trị này
     defaultValues: {
       name: '',
@@ -86,6 +125,19 @@ export default function Profile() {
     },
     resolver: yupResolver(profileSchema)
   })
+
+  const {
+    register, //
+    control,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+    watch,
+    setError
+    // setError từ react-hook-form thì chúng ta sẽ set cái lỗi vào errors
+    //và react-hook-form sẽ hiển thị lên cho chúng ta
+    // Mục đích giúp cho ô nó trống để chúng ta có thể truyền giá trị vào để update
+  } = methods
 
   // *Thằng này dùng để hiển thị dữ liệu lên form nếu không sử dụng các component như Input
   const avatar = watch('avatar')
