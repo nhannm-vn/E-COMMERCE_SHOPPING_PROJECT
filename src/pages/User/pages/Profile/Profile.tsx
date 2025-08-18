@@ -184,16 +184,28 @@ export default function Profile() {
     //nên chúng ta cần lấy ra thằng items đầu tiên
     //**Tuy nhiên obj có thể null nên chúng ta cần ?.
     const fileFromLocal = event.target.files?.[0]
-
     //*Handle upload bức ảnh
     //Nếu nó có uploadFile mà kích thước nó quá lớn hoặc là type của nó không phải là ảnh thì mình sẽ
     //toast lên thông báo ngay khi set vào state không hợp lệ
     if (fileFromLocal && (fileFromLocal.size >= config.maxSizeUploadAvatar || !fileFromLocal.type.includes('image'))) {
-      toast.error(`Dung lượng file tối đa 1 MB
-        Định dạng JPEG, PNG`)
+      toast.error(
+        `Dung lượng file tối đa 1 MB
+        Định dạng JPEG, PNG`,
+        {
+          autoClose: 3000,
+          position: 'top-center'
+        }
+      )
     } else {
       // Mình cần setFile để có thể preview và gửi lên server
       setFile(fileFromLocal)
+    }
+
+    //Reset File input value
+    //Nghĩa là nó giúp khi upload trùng tấm ảnh vẫn handle được
+    //nếu không reset thì thằng input nó sẽ giữa hoài value cũ
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
     }
   }
 
