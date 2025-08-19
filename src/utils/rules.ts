@@ -82,6 +82,23 @@ function testPriceMinMax(this: yup.TestContext<yup.AnyObject>) {
   return price_min !== '' || price_max !== ''
 }
 
+// Mình sẽ tách hẵn method handle Confirm này ra
+//để khi trường hợp có nhiều ô xác nhận mật khẩu thì phải xử lí khác nhau
+//nó sẽ bug chỗ confirm khác giống nhau ô trên ô dưới
+
+const handleConfirmPasswordYup = (refString: string) => {
+  return (
+    yup
+      .string()
+      .required('Nhập lại password là bắt buộc')
+      .min(6, 'Độ dài từ 6 - 160 ký tự')
+      .max(160, 'Độ dài từ 6 - 160 ký tự')
+      // Một cái giá trị mà nó matches với một giá trị nào đó: xài oneOf
+      //cái array nghĩa là một trong những cái giá trị này
+      .oneOf([yup.ref(refString)], 'Nhập lại password không khớp')
+  )
+}
+
 export const schema = yup.object({
   email: yup
     .string()
@@ -94,14 +111,7 @@ export const schema = yup.object({
     .required('Password là bắt buộc')
     .max(160, 'Độ dài từ 6 - 160 ký tự')
     .min(6, 'Độ dài từ 6 - 160 ký tự'),
-  confirm_password: yup
-    .string() //
-    .required('Nhập lại password là bắt buộc')
-    .max(160, 'Độ dài từ 6 - 160 ký tự')
-    .min(6, 'Độ dài từ 6 - 160 ký tự')
-    .oneOf([yup.ref('password')], 'Nhập lại password không khớp'),
-  // Một cái giá trị mà nó matches với một giá trị nào đó: xài oneOf
-  //cái array nghĩa là một trong những cái giá trị này
+  confirm_password: handleConfirmPasswordYup('password'),
   price_min: yup.string().test({
     name: 'price-not-allowed',
     message: 'Giá không phù hợp',
@@ -139,7 +149,8 @@ export const userSchema = yup.object({
   //*Thằng này mình sẽ kế thừa bên trên
   password: schema.fields['password'] as yup.StringSchema<string | undefined, yup.AnyObject, undefined, ''>,
   new_password: schema.fields['password'] as yup.StringSchema<string | undefined, yup.AnyObject, undefined, ''>,
-  confirm_password: schema.fields['confirm_password'] as yup.StringSchema<
+  //Method handleConfirmPasswordYup sẽ giúp nó bắt nhập đúng với thằng new_password
+  confirm_password: handleConfirmPasswordYup('new_password') as yup.StringSchema<
     string | undefined,
     yup.AnyObject,
     undefined,
