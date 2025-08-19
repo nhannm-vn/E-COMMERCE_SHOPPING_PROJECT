@@ -41,6 +41,16 @@ export default function Input({
     setOpenEye((prev) => !prev)
   }
 
+  const handleType = () => {
+    //  Chỉ có mấy thằng password mới có chuyện đóng mở mắt
+    //nên nếu type là password thì mới làm gì đó
+    if (rest.type === 'password') {
+      return openEye ? 'text' : 'password'
+    }
+    //  Còn nếu type là thằng nào khác thì cứ giữ nguyên
+    return rest.type
+  }
+
   return (
     <div className={className}>
       <input
@@ -49,8 +59,10 @@ export default function Input({
         //Có thằng này thì xóa cái name đi bởi vì thằng register sẽ trả về cho một thuộc tính name
         {...registerResult}
         {...rest}
+        type={handleType()}
       />
-      {openEye && (
+      {/* Nâng cao chặt chẽ lên nếu type của thằng iput nào là password thì mới làm */}
+      {rest.type === 'password' && openEye && (
         <svg
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
@@ -68,7 +80,7 @@ export default function Input({
           <path strokeLinecap='round' strokeLinejoin='round' d='M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z' />
         </svg>
       )}
-      {!openEye && (
+      {rest.type === 'password' && !openEye && (
         <svg
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
