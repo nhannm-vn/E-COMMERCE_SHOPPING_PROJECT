@@ -4,10 +4,11 @@ import Input from '../../../../components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { userSchema, UserSchema } from '../../../../utils/rules'
 import { useMutation } from '@tanstack/react-query'
-import userApi from '../../../../apis/user.api'
+import userApi, { BodyUpdateProfile } from '../../../../apis/user.api'
 import { toast } from 'react-toastify'
 import { omit } from 'lodash'
 import { isAxiosUnprocessableEntity } from '../../../../utils/utils'
+import { ErrorResponse } from '../../../../types/utils.type'
 
 export default function ChangePassword() {
   // type form
@@ -18,11 +19,8 @@ export default function ChangePassword() {
 
   const {
     register, //
-    control,
     formState: { errors },
     handleSubmit,
-    setValue,
-    watch,
     setError
   } = useForm<FormDataSchema>({
     // Giúp khi render lần đầu thì nó sẽ có giá trị này
@@ -35,24 +33,25 @@ export default function ChangePassword() {
   })
 
   const updateProfileMutation = useMutation({
-    mutationFn: (body: BodyUpdatePassword) => userApi.updateProfile(body)
+    mutationFn: (body: BodyUpdateProfile) => userApi.updateProfile(body)
   })
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      // Mặc định nếu người dùng mà không chỉnh gì hết thì sẽ cho là ngày 1-1-1990
+      // Mình sẽ truyền lên server chỉ password và new_password
+      //còn thằng confirm_password chỉ có nghĩa trên UI
       const res = await updateProfileMutation.mutateAsync(omit(data, ['confirm_password']))
       // Thông báo
       toast.success(res.data.message, {
         autoClose: 3000
       })
     } catch (error) {
-      if (isAxiosUnprocessableEntity<ErrorResponse<FormDataError>>(error)) {
+      if (isAxiosUnprocessableEntity<ErrorResponse<FormDataSchema>>(error)) {
         const formError = error.response?.data.data
         if (formError) {
           Object.keys(formError).forEach((key) => {
-            setError(key as keyof FormDataError, {
-              message: formError[key as keyof FormDataError],
+            setError(key as keyof FormDataSchema, {
+              message: formError[key as keyof FormDataSchema],
               type: 'Server'
             })
           })
@@ -68,7 +67,7 @@ export default function ChangePassword() {
         <div className='mt-1 text-sm text-gray-700'>Quản lý thông tin hồ sơ để bảo mật tài khoản</div>
       </div>
       {/* Vi khi update thì mình sẽ gửi toàn bộ lên chính vì vậy mà mình sẽ phải bọc form ở đây */}
-      <form className='mt-8 flex max-lg:flex-col-reverse md:flex-grow md:items-start' onSubmit={onSubmit}>
+      <form className='mr-auto mt-8 max-w-2xl' onSubmit={onSubmit}>
         <div className='mt-6 flex-grow md:mt-0 md:pr-14'>
           <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
             <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Mật khẩu cũ</div>
@@ -103,7 +102,7 @@ export default function ChangePassword() {
                 register={register}
                 name='confirm_password'
                 type='password'
-                placeholder='Mật khẩu mới'
+                placeholder='Nhập lại mật khẩu'
                 errrorMessage={errors.confirm_password?.message}
                 classNameInput='w-full rounded-sm border py-2 border-gray-300 px-3 outline-none focus:border-gray-500 focus:shadow-sm'
               />

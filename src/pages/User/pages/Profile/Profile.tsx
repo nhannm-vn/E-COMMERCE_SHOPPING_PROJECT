@@ -82,6 +82,7 @@ function Info() {
 // type form
 type FormDataSchema = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' | 'avatar'>
 
+//*Thay kiểu cho thằng date_of_birth trước khi gửi lên server cho phù hợp dạng dữ liệu
 type FormDataError = Omit<FormDataSchema, 'date_of_birth'> & {
   date_of_birth?: string
 }

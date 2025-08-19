@@ -139,7 +139,12 @@ export const userSchema = yup.object({
   //*Thằng này mình sẽ kế thừa bên trên
   password: schema.fields['password'] as yup.StringSchema<string | undefined, yup.AnyObject, undefined, ''>,
   new_password: schema.fields['password'] as yup.StringSchema<string | undefined, yup.AnyObject, undefined, ''>,
-  confirm_password: schema.fields['confirm_password']
+  confirm_password: schema.fields['confirm_password'] as yup.StringSchema<
+    string | undefined,
+    yup.AnyObject,
+    undefined,
+    ''
+  >
 })
 
 export type UserSchema = yup.InferType<typeof userSchema>
