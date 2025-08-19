@@ -81,6 +81,7 @@ export default function ChangePassword() {
                 type='password'
                 placeholder='Mật khẩu cũ'
                 errrorMessage={errors.password?.message}
+                className='relative'
                 classNameInput='w-full rounded-sm border py-2 border-gray-300 px-3 outline-none focus:border-gray-500 focus:shadow-sm'
               />
             </div>
@@ -94,6 +95,7 @@ export default function ChangePassword() {
                 type='password'
                 placeholder='Mật khẩu mới'
                 errrorMessage={errors.new_password?.message}
+                className='relative'
                 classNameInput='w-full rounded-sm border py-2 border-gray-300 px-3 outline-none focus:border-gray-500 focus:shadow-sm'
               />
             </div>
@@ -107,6 +109,7 @@ export default function ChangePassword() {
                 type='password'
                 placeholder='Nhập lại mật khẩu'
                 errrorMessage={errors.confirm_password?.message}
+                className='relative'
                 classNameInput='w-full rounded-sm border py-2 border-gray-300 px-3 outline-none focus:border-gray-500 focus:shadow-sm'
               />
             </div>
