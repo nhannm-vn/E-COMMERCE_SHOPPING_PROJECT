@@ -3,16 +3,21 @@ import Button from '../../../../components/Button'
 import Input from '../../../../components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { userSchema, UserSchema } from '../../../../utils/rules'
+import { useMutation } from '@tanstack/react-query'
+import userApi from '../../../../apis/user.api'
+import { toast } from 'react-toastify'
+import { omit } from 'lodash'
+import { isAxiosUnprocessableEntity } from '../../../../utils/utils'
 
 export default function ChangePassword() {
   // type form
   type FormDataSchema = Pick<UserSchema, 'password' | 'confirm_password' | 'new_password'>
 
   // schema dùng cho form
-  const profileSchema = userSchema.pick(['password', 'confirm_password', 'new_password'])
+  const passwordSchema = userSchema.pick(['password', 'confirm_password', 'new_password'])
 
   const {
-    //register, //
+    register, //
     control,
     formState: { errors },
     handleSubmit,
@@ -22,15 +27,38 @@ export default function ChangePassword() {
   } = useForm<FormDataSchema>({
     // Giúp khi render lần đầu thì nó sẽ có giá trị này
     defaultValues: {
-      name: '',
-      address: '',
-      avatar: '',
-      phone: '',
-      // Luu y: tháng bắt đầu từ số 0-11
-      date_of_birth: new Date(1990, 0, 1)
-      //==> 1/1/1990
+      password: '',
+      confirm_password: '',
+      new_password: ''
     },
-    resolver: yupResolver(profileSchema)
+    resolver: yupResolver(passwordSchema)
+  })
+
+  const updateProfileMutation = useMutation({
+    mutationFn: (body: BodyUpdatePassword) => userApi.updateProfile(body)
+  })
+
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      // Mặc định nếu người dùng mà không chỉnh gì hết thì sẽ cho là ngày 1-1-1990
+      const res = await updateProfileMutation.mutateAsync(omit(data, ['confirm_password']))
+      // Thông báo
+      toast.success(res.data.message, {
+        autoClose: 3000
+      })
+    } catch (error) {
+      if (isAxiosUnprocessableEntity<ErrorResponse<FormDataError>>(error)) {
+        const formError = error.response?.data.data
+        if (formError) {
+          Object.keys(formError).forEach((key) => {
+            setError(key as keyof FormDataError, {
+              message: formError[key as keyof FormDataError],
+              type: 'Server'
+            })
+          })
+        }
+      }
+    }
   })
 
   return (

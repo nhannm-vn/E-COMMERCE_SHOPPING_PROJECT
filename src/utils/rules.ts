@@ -137,8 +137,8 @@ export const userSchema = yup.object({
   //*Thằng date() sẽ giúp handle ngày theo đúng tháng nào thì có bao nhiêu ngày
   date_of_birth: yup.date().max(new Date(), 'Hãy chọn một ngày trong quá khứ'),
   //*Thằng này mình sẽ kế thừa bên trên
-  password: schema.fields['password'],
-  new_password: schema.fields['password'],
+  password: schema.fields['password'] as yup.StringSchema<string | undefined, yup.AnyObject, undefined, ''>,
+  new_password: schema.fields['password'] as yup.StringSchema<string | undefined, yup.AnyObject, undefined, ''>,
   confirm_password: schema.fields['confirm_password']
 })
 
