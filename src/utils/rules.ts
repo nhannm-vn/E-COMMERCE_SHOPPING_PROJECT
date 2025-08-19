@@ -83,8 +83,7 @@ function testPriceMinMax(this: yup.TestContext<yup.AnyObject>) {
 }
 
 // Mình sẽ tách hẵn method handle Confirm này ra
-//để khi trường hợp có nhiều ô xác nhận mật khẩu thì phải xử lí khác nhau
-//nó sẽ bug chỗ confirm khác giống nhau ô trên ô dưới
+//đại khái là phải làm vậy để cái tham chiếu của nó đúng
 
 const handleConfirmPasswordYup = (refString: string) => {
   return (

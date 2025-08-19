@@ -21,7 +21,8 @@ export default function ChangePassword() {
     register, //
     formState: { errors },
     handleSubmit,
-    setError
+    setError,
+    reset
   } = useForm<FormDataSchema>({
     // Giúp khi render lần đầu thì nó sẽ có giá trị này
     defaultValues: {
@@ -45,6 +46,8 @@ export default function ChangePassword() {
       toast.success(res.data.message, {
         autoClose: 3000
       })
+      // Reset form cho sạch sẽ
+      reset()
     } catch (error) {
       if (isAxiosUnprocessableEntity<ErrorResponse<FormDataSchema>>(error)) {
         const formError = error.response?.data.data
