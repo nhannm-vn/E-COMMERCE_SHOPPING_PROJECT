@@ -1,7 +1,6 @@
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 import ProductList from './pages/ProductList'
 import Login from './pages/Login'
-
 import RegisterLayout from './layouts/RegisterLayout'
 import Register from './pages/Register'
 import MainLayout from './layouts/MainLayout'
@@ -15,6 +14,7 @@ import CartLayout from './layouts/CartLayout'
 import UserLayout from './pages/User/layouts/UserLayout'
 import ChangePassword from './pages/User/pages/ChangePassword'
 import HistoryPurchase from './pages/User/pages/HistoryPurchase'
+import NotFound from './pages/NotFound'
 
 // custom một cái hook chuyên dùng để chia route
 // có hai cách chia phổ biến là routes và dùng hook này
@@ -130,6 +130,14 @@ function useRouteElements() {
           )
         }
       ]
+    },
+    {
+      path: '*',
+      element: (
+        <MainLayout>
+          <NotFound />
+        </MainLayout>
+      )
     }
   ])
   return routeElements
