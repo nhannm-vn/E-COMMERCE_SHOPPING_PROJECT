@@ -19,6 +19,7 @@ function ProductDetail() {
 
   // Biến tên nameId vì mình quy định dynamic router trong path.ts như vậy
   const { nameId } = useParams()
+
   // Lấy ra id từ nameId rồi mới fetch được dữ liệu
   const id = getIdFromNameId(nameId as string)
   const { data: productDetailData } = useQuery({
