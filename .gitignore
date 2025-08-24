@@ -22,5 +22,6 @@ dist-ssr
 *.sln
 *.sw?
 
+# Gai bug hehehe
 src/apis/*
-
+src/constants/config.ts
