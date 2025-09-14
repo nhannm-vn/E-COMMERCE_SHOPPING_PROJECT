@@ -132,7 +132,7 @@ function Cart() {
       }
       // Trong trường hợp mà purchasesInCart không có data thì mình sẽ lấy cái [] cho nó
     )
-  }, [purchasesInCart, choosenPurchaseIdFromLocation])
+  }, [purchasesInCart, choosenPurchaseIdFromLocation, setExetendedPuchases])
 
   //**Business: khi các item checked ở bên cart thì khi qua component khác và quay lại
   // thì nó vẫn giữ nguyên những thằng bị checked. Nó chỉ mất khi nào mà f5 lại
