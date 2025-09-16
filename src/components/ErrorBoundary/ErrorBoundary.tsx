@@ -1,5 +1,4 @@
 import { Component, ErrorInfo, ReactNode } from 'react'
-import { Link } from 'react-router-dom'
 
 // Nếu mà có lỗi thì thằng component này có thể
 //return về cho chúng ta một UI dự phòng
@@ -17,6 +16,7 @@ export default class ErrorBoundary extends Component<Props, State> {
     hasError: false
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public static getDerivedStateFromError(_: Error): State {
     // Update state so the next render will show the fallback UI.
     return { hasError: true }
