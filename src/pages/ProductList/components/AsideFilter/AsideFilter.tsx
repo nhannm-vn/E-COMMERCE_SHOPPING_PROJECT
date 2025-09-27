@@ -12,7 +12,7 @@ import { ObjectSchema } from 'yup'
 import RatingStars from '../RatingStars'
 import { omit } from 'lodash'
 import { QueryConfig } from '../../../../hooks/useQueryConfig'
-
+import { useTranslation } from 'react-i18next'
 interface Props {
   queryConfig: QueryConfig
   categories: Category[]
@@ -30,6 +30,9 @@ type FormData = NoUndefinedField<Pick<Schema, 'price_max' | 'price_min'>>
 const priceSchema = schema.pick(['price_min', 'price_max'])
 
 function AsideFilter({ queryConfig, categories }: Props) {
+  //i18n
+  const { t } = useTranslation()
+
   // Lấy categoryId trên url
   const { category } = queryConfig
 
@@ -91,7 +94,7 @@ function AsideFilter({ queryConfig, categories }: Props) {
             </g>
           </g>
         </svg>
-        Tất Cả Danh Mục
+        {t('all categories')}
       </Link>
       <div className='my-4 h-[1px] bg-gray-300' />
       <ul>
