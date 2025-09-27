@@ -145,7 +145,7 @@ function AsideFilter({ queryConfig, categories }: Props) {
             />
           </g>
         </svg>
-        Bộ lọc tìm kiếm
+        {t('filter search')}
       </Link>
       <div className='my-4 h-[1px] bg-gray-300' />
       {/* Khoang gia */}
