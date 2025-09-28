@@ -12,8 +12,12 @@ import purchaseApi from '../../apis/purchase.api'
 import { purchasesStatus } from '../../constants/purchase'
 import { toast } from 'react-toastify'
 import path from '../../constants/path'
+import { useTranslation } from 'react-i18next'
 
 function ProductDetail() {
+  //i18n
+  const { t } = useTranslation(['product'])
+
   // Tạo cái hook navigate
   const navigate = useNavigate()
 
@@ -314,7 +318,9 @@ function ProductDetail() {
                     max={product.quantity}
                   />
                   {/* So luong sp co san */}
-                  <div className='ml-6 text-sm text-gray-500'>{product.quantity} sản phẩm có sẵn</div>
+                  <div className='ml-6 text-sm text-gray-500'>
+                    {product.quantity} {t('available')}
+                  </div>
                 </div>
                 {/* Button dat hang */}
                 <div className='mt-8 flex items-center'>
