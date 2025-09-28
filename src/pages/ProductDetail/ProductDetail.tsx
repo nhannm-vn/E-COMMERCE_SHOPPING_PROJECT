@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next'
 
 function ProductDetail() {
   //i18n
-  const { t } = useTranslation(['product'])
+  const { t } = useTranslation('product')
 
   // Tạo cái hook navigate
   const navigate = useNavigate()

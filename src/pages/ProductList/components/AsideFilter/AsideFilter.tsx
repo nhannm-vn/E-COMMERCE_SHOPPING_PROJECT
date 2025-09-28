@@ -31,7 +31,7 @@ const priceSchema = schema.pick(['price_min', 'price_max'])
 
 function AsideFilter({ queryConfig, categories }: Props) {
   //i18n
-  const { t } = useTranslation(['home'])
+  const { t } = useTranslation('home')
 
   // Lấy categoryId trên url
   const { category } = queryConfig

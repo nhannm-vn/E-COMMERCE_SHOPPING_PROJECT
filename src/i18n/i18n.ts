@@ -8,9 +8,9 @@ import PRODUCT_VI from '../locales/vi/product.json'
 export const locales = {
   en: 'English',
   vi: 'Tiếng Việt'
-}
+} as const
 
-const resources = {
+export const resources = {
   en: {
     //Khai bao namspace
     home: HOME_EN,
@@ -20,9 +20,9 @@ const resources = {
     home: HOME_VI,
     product: PRODUCT_VI
   }
-}
+} as const
 
-const defaultNS = 'home'
+export const defaultNS = 'home'
 
 i18n.use(initReactI18next).init({
   resources,
